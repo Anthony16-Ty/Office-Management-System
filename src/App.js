@@ -1,40 +1,33 @@
-import "./App.css";
+import React from 'react';
+import './App.css';
+import Navbar from './components/Navbar';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Reports from './pages/Reports';
+import Tasks from './pages/Tasks';
+import Staff from './pages/Staff';
+import Leave from './pages/Leave';
+import Projects from './pages/Projects';
+import LeaveRequest from './pages/LeaveRequest';
+import LeaveForm from './pages/LeaveForm';
 
 function App() {
   return (
-    <div className="App">
-      <div className="loginContainer">
-        <h1>Staff Login</h1>
-
-        <div className="input-container">
-          <label>Username </label>
-          <input type="text" name="uname" required />
-          {/* {renderErrorMessage("uname")} */}
-        </div>
-        <div className="input-container">
-          <label>Password </label>
-          <input type="password" name="pass" required />
-          {/* {renderErrorMessage("pass")} */}
-        </div>
-
-        <a href="#">Forgot password?</a>
-        <a href="#">Create a new account</a>
-
-        <button className="loginBut">
-          <p>Login</p>
-        </button>
-
-        <button className="siG">
-          <img
-            src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png"
-            alt="Trees"
-            height="30"
-          />
-          <p>Sign in with Google</p>
-          
-        </button>
-      </div>
-    </div>
+    <>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path='/' exact element={<Home/>} />
+          <Route path='/reports' element={<Reports/>} />
+          <Route path='/tasks' element={<Tasks/>} />
+          <Route path='/staff' element={<Staff/>} />
+          <Route path='/leave' element={<Leave/>} />
+          <Route path='/projects' element={<Projects/>} />
+          <Route path='/leave-request' element={<LeaveRequest/>} />
+          <Route path='/leave-form' element={<LeaveForm/>} />
+        </Routes>
+      </Router>
+    </>
   );
 }
 
