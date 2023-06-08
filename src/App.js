@@ -14,6 +14,7 @@ import { LeaveType } from './pages/LeaveType';
 import Client from './pages/Client';
 import TimeSheets from './pages/TimeSheets';
 import Login from './pages/Login';
+import Signup from './pages/Signup'
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Routes>
           <Route path='/' exact element={<Home/>} />
           <Route path='/login' element={<Login/>} />
+          <Route path='/signup' element={<Signup/>} />
           <Route path='/tasks' element={<Tasks/>} />
           <Route path='/staff' element={<Staff/>} />
           <Route path='/leave' element={<Leave/>} />
