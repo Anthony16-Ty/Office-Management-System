@@ -12,6 +12,7 @@ import LeaveRequest from './pages/LeaveRequest';
 import LeaveForm from './pages/LeaveForm';
 import { LeaveType } from './pages/LeaveType';
 import Client from './pages/Client';
+import TimeSheets from './pages/TimeSheets';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path='/leave-form' element={<LeaveForm/>} />
           <Route path='/leave-type' element={<LeaveType/>} />
           <Route path='/client' element={<Client/>} />
+          <Route path='/timesheets' element={<TimeSheets/>} />
         </Routes>
       </Router>
     </>
