@@ -3,7 +3,7 @@ import './App.css';
 import Navbar from './components/Navbar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import Reports from './pages/Reports';
+// import Reports from './pages/Reports';
 import Tasks from './pages/Tasks';
 import Staff from './pages/Staff';
 import Leave from './pages/Leave';
@@ -13,6 +13,7 @@ import LeaveForm from './pages/LeaveForm';
 import { LeaveType } from './pages/LeaveType';
 import Client from './pages/Client';
 import TimeSheets from './pages/TimeSheets';
+import Login from './pages/Login';
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path='/' exact element={<Home/>} />
-          <Route path='/reports' element={<Reports/>} />
+          <Route path='/login' element={<Login/>} />
           <Route path='/tasks' element={<Tasks/>} />
           <Route path='/staff' element={<Staff/>} />
           <Route path='/leave' element={<Leave/>} />
