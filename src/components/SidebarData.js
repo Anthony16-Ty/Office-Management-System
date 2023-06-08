@@ -53,6 +53,12 @@ export const SidebarData = [
     cName: 'nav-text'
   },
   {
+    title: 'Leave Type ',
+    path: '/leave-type ',
+    icon: <FaIcons.FaEnvelopeOpenText />,
+    cName: 'nav-text'
+  },
+  {
     title: 'Support',
     path: '/support',
     icon: <IoIcons.IoMdHelpCircle />,

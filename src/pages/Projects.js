@@ -18,7 +18,7 @@ function Projects() {
            <div class="col-sm-3 mt-5 mb-4 text-gred">
               <div className="search">
                 <form class="form-inline">
-                 <input class="form-control mr-sm-2" type="search" placeholder="Search Student" aria-label="Search"/>
+                 <input class="form-control mr-sm-2" type="search" placeholder="Search Project" aria-label="Search"/>
                 
                 </form>
               </div>    
@@ -138,24 +138,24 @@ function Projects() {
         keyboard={false}
       >
         <Modal.Header closeButton>
-          <Modal.Title>Add Record</Modal.Title>
+          <Modal.Title>Add Project</Modal.Title>
         </Modal.Header>
             <Modal.Body>
             <form>
                 <div class="form-group">
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name"/>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Project Id"/>
                 </div>
                 <div class="form-group mt-3">
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Country"/>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Project Name"/>
                 </div>
                 <div class="form-group mt-3">
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter City"/>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Client"/>
                 </div>
                 <div class="form-group mt-3">
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Country"/>
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Description"/>
                 </div>
                 
-                  <button type="submit" class="btn btn-success mt-4">Add Record</button>
+                  <button type="submit" class="btn btn-success mt-4">Add </button>
                 </form>
             </Modal.Body>
  

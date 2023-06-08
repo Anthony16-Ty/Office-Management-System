@@ -10,6 +10,8 @@ import Leave from './pages/Leave';
 import Projects from './pages/Projects';
 import LeaveRequest from './pages/LeaveRequest';
 import LeaveForm from './pages/LeaveForm';
+import { LeaveType } from './pages/LeaveType';
+import Client from './pages/Client';
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
           <Route path='/projects' element={<Projects/>} />
           <Route path='/leave-request' element={<LeaveRequest/>} />
           <Route path='/leave-form' element={<LeaveForm/>} />
+          <Route path='/leave-type' element={<LeaveType/>} />
+          <Route path='/client' element={<Client/>} />
         </Routes>
       </Router>
     </>

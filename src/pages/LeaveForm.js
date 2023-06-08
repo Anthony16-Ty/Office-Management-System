@@ -1,123 +1,159 @@
-import React from "react";
-import DatePicker from 'react-datepicker';
-import { Select, Option } from "@material-tailwind/react";
-import "react-datepicker/dist/react-datepicker.css";
-import { useState } from 'react'
-import  "../components/LeaveRequestForm.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Box, Button, FormControl, FormHelperText, Input, InputLabel } from '@mui/material';
+import React, { useEffect,useState } from 'react'
+import { Container } from '@mui/system';
 
-export default function LeaveForm() {
-    const [ requestId, setRequestId ] = useState('')
-    const [ staffId, setStaffId] = useState('')
-    const [ leaveType, setLeaveType ] = useState('')
-    const [ leaveReason, setLeaveReason ] = useState('')
-    const [dateFrom, setDateFrom] = useState(new Date());
-    const [dateTo, setDateTo] = useState(new Date());
 
-    // const handleChange = (event) => {
-    //   setGender(event.target.value)
-    //   setJobType(event.target.value)
-    // }
+const LeaveForm = ({ handlePosting}) => {
+ 
+
+
+  // const [tech, setTech] = useFetchData()
+  // const deleteTech = ()=>{
+  //   fetch(`http://localhost:9292/technicians/${id}`, {
+  //     method: "DELETE",
+  //     headers: {
+  //       "Content-Type":"application/json"
+  //     }
+  //   })
+  //   .then(res=>res.json())
+  //   .then(data => console.log(data))
+  //   .catch(err=>console.log(err))
+
+  //   fetch("http://localhost:9292/technicians")
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       setTech(data)
+  //       console.log(data)
+  //     })
+  //     .catch(err => console.log(err))
+  // }
+
+
+
+    const [formData, setFormData] = useState({
+      request_id: '',
+      staff_id: '',
+     date_from: '',
+      date_to: '',
+      reason_for_leave: '',
+      leave_type: '',
     
+    })
+    
+
+      
+    const [leaveForm, setLeaveForm] = useState([])
+    useEffect( () => {
+      fetch("")
+      .then(res => res.json())
+      .then(data => setLeaveForm(data))
+    },[])
+
     function handleSubmit(e){
-      e.preventDefault()
-      fetch("", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          request_id: requestId,
-          staff_id: staffId,
-          date_from: dateFrom,
-          date_to: dateTo,
-          leave_reason: leaveReason,
-          leave_type: leaveType,
+        e.preventDefault();
+        fetch(``,{
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(r => r.json())
+        .then(data => {
+            handlePosting(data)
+        })
+
+        setFormData({
+          request_id: '',
+          staff_id: '',
+         date_from: '',
+          date_to: '',
+          reason_for_leave: '',
+          leave_type: '',
           
         })
-      })
-      .then(res=> res.json())
-      .then(data => {
-        console.log(data)
-        
-        setRequestId('')
-        setStaffId('')
-        setLeaveType('')
-        setLeaveReason ('')
-        setDateFrom('')
-        setDateTo('')
-        
-      })
-      .catch(err => err.message)
+    }
 
-      document.querySelector('form').reset() }
-    return (
-    <div className="container">
-      <div className="contact-box">
-        <div className="left"></div>
-        <div className="right">
-          <h2> Leave Application Form💡</h2>
-          <form onSubmit={handleSubmit}>
+    function handleChange(e){
+        setFormData({
+            ...formData, [e.target.name]: e.target.value,
+        });
+    }  
+
+  return (
+    <div>
+      <div>
+        <Container className='formContainer'>
+    <div 
+    style={{ fontSize: "20px", fontWeight: "bold" }}
+    >
+        Request Leave 
+    </div>
+    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
       
-            <input
-              type='integer'
-              required
-              className ="field"
-              placeholder='Request Id'
-              value={ requestId }
-              onChange={(e) => setRequestId(e.target.value)}
-            ></input>
-            <input
-              type='integer'
-              required
-              className ="field"
-              placeholder='Staff Id'
-              value={ staffId}
-              onChange={(e) => setStaffId(e.target.value)}
-            ></input>
-            <br />
-            
-            <input
-              type='text'
-              required
-              className ="field"
-              placeholder='Leave Type'
-              value={ leaveType}
-              onChange={(e) => setLeaveType(e.target.value)}
-            ></input>
-            <br />
-          
-          <textarea placeholder="Leave Reason" className="field" value={ leaveReason }
-               onChange={(e) => setLeaveReason(e.target.value)}></textarea>
-          <br />
-         
-          <div class="flex items-center justify-center">
-          <label className='name1'>Date From:</label>
-          <br />
-          <DatePicker
-            selected={dateFrom}
-            onChange={(date) => setDateFrom(date)}
-            isClearable
-            placeholderText="Date From"
-          />
-          </div>
-          <div class="flex items-center justify-center">
-          <label className='name1'>Date To:</label>
-          <br />
-          <DatePicker
-            selected={dateTo}
-            onChange={(date) => setDateTo(date)}
-            isClearable
-            placeholderText="Date To"
-          />
-          </div>
-          
-
-          <button className="btn2">Apply</button>
-          </form>
-        </div>
+      <div>
+        <FormControl sx={{ m: 1, width: '35ch' }}>
+            <InputLabel>Request Id</InputLabel>
+            <Input name="request_id" value={formData.first_name} onChange={handleChange}/>
+            <FormHelperText>Please Enter Request Id</FormHelperText>
+        </FormControl>
       </div>
-	  </div>
+
+      <div>
+        <FormControl sx={{ m: 2, width: '35ch' }}>
+            <InputLabel>Staff Id</InputLabel>
+            <Input name="lstaff_id" value={formData.last_name} onChange={handleChange}/>
+            <FormHelperText>Please Enter Staff Id</FormHelperText>
+        </FormControl>
+      </div>
+      
+      <div>
+        <FormControl sx={{ m: 1, width: '35ch' }}>
+            <InputLabel>Date From</InputLabel>
+            <Input name="date_from" value={formData.email} onChange={handleChange}/>
+            <FormHelperText>Please Enter Date From</FormHelperText>
+        </FormControl>
+      </div>
+      
+      <div>
+        <FormControl sx={{ m: 1, width: '35ch' }}>
+            <InputLabel>Date To</InputLabel>
+            <Input name="date_to" value={formData.phone} onChange={handleChange}/>
+            <FormHelperText>Please Enter Date To</FormHelperText>
+        </FormControl>
+      </div>
+      
+      <div>
+        <FormControl sx={{ m: 1, width: '35ch' }}>
+            <InputLabel>Reason For Leave</InputLabel>
+            <Input name="leave_for_leave" value={formData.town} onChange={handleChange}/>
+            <FormHelperText>Please Enter Reason For Leave</FormHelperText>
+        </FormControl>
+      </div>
+      <div>
+        <FormControl sx={{ m: 1, width: '35ch' }}>
+            <InputLabel>Leave Type</InputLabel>
+            <Input name="leave_type" value={formData.job_type} onChange={handleChange}/>
+            <FormHelperText>Please Enter Type of Leave</FormHelperText>
+        </FormControl>
+      </div>
+      
     
-    );
+    </Box>
+    <div>
+        <FormControl sx={{ display: "flex", flexWrap: "wrap", m: 1, width: '10ch' }}>
+            <Button variant='outlined' type='submit' onClick={handleSubmit}>
+                Submit
+            </Button>
+        </FormControl>
+      </div>
+    </Container>
+    </div>
+    
+    </div>
+
+    
+  );
 }
+
+export default LeaveForm;

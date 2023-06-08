@@ -18,7 +18,7 @@ function Staff() {
            <div class="col-sm-3 mt-5 mb-4 text-gred">
               <div className="search">
                 <form class="form-inline">
-                 <input class="form-control mr-sm-2" type="search" placeholder="Search Student" aria-label="Search"/>
+                 <input class="form-control mr-sm-2" type="search" placeholder="Search Staff" aria-label="Search"/>
                 
                 </form>
               </div>    
