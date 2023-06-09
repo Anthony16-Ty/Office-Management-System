@@ -4,6 +4,8 @@ import { Container } from '@mui/system';
 
 
 const LeaveForm = ({ handlePosting}) => {
+    const [fromDate, setFromDate] = useState('');
+    const [toDate, setToDate] = useState('')
     const [leaveForm, setLeaveForm] = useState([])
     const [formData, setFormData] = useState({
       request_id: '',
@@ -76,14 +78,14 @@ const LeaveForm = ({ handlePosting}) => {
       <div>
         <FormControl sx={{ m: 1, width: '30ch' }}>
             <FormHelperText style={{ fontSize: "12px", fontWeight: "bold"}}>Please Enter Date From</FormHelperText>
-            <Input name="date_from" value={formData.date_from} onChange={handleChange}/>
+            <Input type='date' id="fromDate" value={fromDate} onChange={(e) => setFromDate(e.target.value)} />
         </FormControl>
       </div>
       
       <div>
         <FormControl sx={{ m: 1, width: '30ch' }}>
             <FormHelperText style={{ fontSize: "12px", fontWeight: "bold"}}>Please Enter Date To</FormHelperText>
-            <Input name="date_to" value={formData.date_to} onChange={handleChange}/>
+            <Input type='date' id="toDate" value={toDate} onChange={(e) => setToDate(e.target.value)} />
             
         </FormControl>
       </div>

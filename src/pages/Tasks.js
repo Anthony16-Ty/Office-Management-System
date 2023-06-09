@@ -146,13 +146,13 @@ function Projects() {
                     <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Project Id"/>
                 </div>
                 <div class="form-group mt-3">
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Project Name"/>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Task Name"/>
                 </div>
                 <div class="form-group mt-3">
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Client"/>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Assigned to Staff"/>
                 </div>
                 <div class="form-group mt-3">
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Description"/>
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Managed by Staff Id"/>
                 </div>
                 
                   <button type="submit" class="btn btn-success mt-4">Add </button>

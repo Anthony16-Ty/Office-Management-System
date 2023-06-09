@@ -7,9 +7,14 @@ import { Button,Modal,Input } from 'react-bootstrap';
 
 function Staff() {
   const [show, setShow] = useState(false);
+  const [selectedDate, setSelectedDate] = useState('')
  
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  function handleChange(e) {
+    setSelectedDate(e.target.value);
+  }
     return (
        <div class="container ">
           <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded"> 
@@ -143,20 +148,20 @@ function Staff() {
         </Modal.Header>
             <Modal.Body>
             <form>
-                <div class="form-group">
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name"/>
+            <div class="form-group">
+                    <input type="name" class="form-control" name='text' placeholder="Enter Staff Name"/>
                 </div>
                 <div class="form-group mt-3">
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Country"/>
+                    <input type="date" class="datePicker" value={selectedDate} onChange={handleChange} placeholder="Enter Joining Date"/>
                 </div>
                 <div class="form-group mt-3">
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter City"/>
+                    <input type="text" class="form-control" name='text'  placeholder="Reporting To"/>
                 </div>
                 <div class="form-group mt-3">
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Country"/>
+                    <input type="text" class="form-control" name='text' placeholder="Enter Your Stack Details"/>
                 </div>
                 
-                  <button type="submit" class="btn btn-success mt-4">Add Record</button>
+                  <button type="submit" class="btn btn-success mt-4">Add Staff</button>
                 </form>
             </Modal.Body>
  
