@@ -4,32 +4,7 @@ import { Container } from '@mui/system';
 
 
 const LeaveForm = ({ handlePosting}) => {
- 
-
-
-  // const [tech, setTech] = useFetchData()
-  // const deleteTech = ()=>{
-  //   fetch(`http://localhost:9292/technicians/${id}`, {
-  //     method: "DELETE",
-  //     headers: {
-  //       "Content-Type":"application/json"
-  //     }
-  //   })
-  //   .then(res=>res.json())
-  //   .then(data => console.log(data))
-  //   .catch(err=>console.log(err))
-
-  //   fetch("http://localhost:9292/technicians")
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       setTech(data)
-  //       console.log(data)
-  //     })
-  //     .catch(err => console.log(err))
-  // }
-
-
-
+    const [leaveForm, setLeaveForm] = useState([])
     const [formData, setFormData] = useState({
       request_id: '',
       staff_id: '',
@@ -40,9 +15,6 @@ const LeaveForm = ({ handlePosting}) => {
     
     })
     
-
-      
-    const [leaveForm, setLeaveForm] = useState([])
     useEffect( () => {
       fetch("")
       .then(res => res.json())
@@ -83,66 +55,57 @@ const LeaveForm = ({ handlePosting}) => {
   return (
     <div>
       <div>
-        <Container className='formContainer'>
-    <div 
-    style={{ fontSize: "20px", fontWeight: "bold" }}
-    >
-        Request Leave 
-    </div>
-    <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-      
-      <div>
-        <FormControl sx={{ m: 1, width: '35ch' }}>
-            <InputLabel>Request Id</InputLabel>
-            <Input name="request_id" value={formData.first_name} onChange={handleChange}/>
-            <FormHelperText>Please Enter Request Id</FormHelperText>
-        </FormControl>
-      </div>
+        <Container className='leave-form'>
+          <h5 style={{ fontSize: "20px", fontWeight: "bold", textAlign: "center", marginTop: "10px" }}>
+            Request Leave 
+          </h5>
+          <Box style={{marginLeft: "6rem"}}>
+            <FormControl sx={{ m: 1, width: '30ch' }}>
+              <FormHelperText style={{ fontSize: "12px", fontWeight: "bold"}}>Please Enter Request Id</FormHelperText>
+              <Input name="request_id" value={formData.request_id} onChange={handleChange}/>
+            </FormControl>
 
       <div>
-        <FormControl sx={{ m: 2, width: '35ch' }}>
-            <InputLabel>Staff Id</InputLabel>
-            <Input name="lstaff_id" value={formData.last_name} onChange={handleChange}/>
-            <FormHelperText>Please Enter Staff Id</FormHelperText>
+        <FormControl sx={{ m: 2, width: '30ch' }}>
+            <FormHelperText style={{ fontSize: "12px", fontWeight: "bold"}}>Please Enter Staff Id</FormHelperText>
+            <Input name="staff_id" value={formData.staff_id} onChange={handleChange}/>
+            
         </FormControl>
       </div>
       
       <div>
-        <FormControl sx={{ m: 1, width: '35ch' }}>
-            <InputLabel>Date From</InputLabel>
-            <Input name="date_from" value={formData.email} onChange={handleChange}/>
-            <FormHelperText>Please Enter Date From</FormHelperText>
+        <FormControl sx={{ m: 1, width: '30ch' }}>
+            <FormHelperText style={{ fontSize: "12px", fontWeight: "bold"}}>Please Enter Date From</FormHelperText>
+            <Input name="date_from" value={formData.date_from} onChange={handleChange}/>
         </FormControl>
       </div>
       
       <div>
-        <FormControl sx={{ m: 1, width: '35ch' }}>
-            <InputLabel>Date To</InputLabel>
-            <Input name="date_to" value={formData.phone} onChange={handleChange}/>
-            <FormHelperText>Please Enter Date To</FormHelperText>
+        <FormControl sx={{ m: 1, width: '30ch' }}>
+            <FormHelperText style={{ fontSize: "12px", fontWeight: "bold"}}>Please Enter Date To</FormHelperText>
+            <Input name="date_to" value={formData.date_to} onChange={handleChange}/>
+            
         </FormControl>
       </div>
       
       <div>
-        <FormControl sx={{ m: 1, width: '35ch' }}>
-            <InputLabel>Reason For Leave</InputLabel>
-            <Input name="leave_for_leave" value={formData.town} onChange={handleChange}/>
-            <FormHelperText>Please Enter Reason For Leave</FormHelperText>
+        <FormControl sx={{ m: 1, width: '30ch' }}>
+            <FormHelperText style={{ fontSize: "12px", fontWeight: "bold"}}>Please Enter Reason For Leave</FormHelperText>
+            <Input name="reason_for_leave" value={formData.reason_for_leave} onChange={handleChange}/>
+           
         </FormControl>
       </div>
       <div>
-        <FormControl sx={{ m: 1, width: '35ch' }}>
-            <InputLabel>Leave Type</InputLabel>
-            <Input name="leave_type" value={formData.job_type} onChange={handleChange}/>
-            <FormHelperText>Please Enter Type of Leave</FormHelperText>
+        <FormControl sx={{ m: 1, width: '30ch' }}>
+            <FormHelperText style={{ fontSize: "12px", fontWeight: "bold"}}>Please Enter Type of Leave</FormHelperText>
+            <Input name="leave_type" value={formData.leave_type} onChange={handleChange}/>
         </FormControl>
       </div>
-      
-    
-    </Box>
-    <div>
+      </Box>
+      <div>
         <FormControl sx={{ display: "flex", flexWrap: "wrap", m: 1, width: '10ch' }}>
-            <Button variant='outlined' type='submit' onClick={handleSubmit}>
+            <Button variant='outlined' type='submit' onClick={handleSubmit} 
+            style={{color: 'white', backgroundColor: "blue", marginTop: "10px", marginLeft: "12rem"}}>
                 Submit
             </Button>
         </FormControl>
@@ -150,7 +113,7 @@ const LeaveForm = ({ handlePosting}) => {
     </Container>
     </div>
     
-    </div>
+  </div>
 
     
   );

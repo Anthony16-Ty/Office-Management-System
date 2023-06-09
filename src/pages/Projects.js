@@ -12,7 +12,7 @@ function Projects() {
   const handleShow = () => setShow(true);
     return (
        <div class="container ">
-          <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded"> 
+          <div className="main"> 
           <div class="row ">
            
            <div class="col-sm-3 mt-5 mb-4 text-gred">
@@ -23,7 +23,7 @@ function Projects() {
                 </form>
               </div>    
               </div>  
-              <div class="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred" style={{color:"green"}}><h2><b>Projects Details</b></h2></div>
+              <div class="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred" style={{color:"green"}}><h5><b>Projects Details</b></h5></div>
               <div class="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
               <Button variant="primary" onClick={handleShow}>
                 Add New Project
@@ -32,7 +32,7 @@ function Projects() {
            </div>  
             <div class="row">
                 <div class="table-responsive " >
-                 <table class="table table-striped table-hover table-bordered">
+                 <table class="table table-striped table-hover table-bordered table-sm">
                     <thead>
                         <tr>
                             <th>Project Id</th>
@@ -176,5 +176,4 @@ function Projects() {
  
 export default Projects;
  
-
 

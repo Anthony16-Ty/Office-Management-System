@@ -40,12 +40,7 @@ export const SidebarData = [
     icon: <IoIcons.IoMdPeople />,
     cName: 'nav-text'
   },
-  {
-    title: 'Leave ',
-    path: '/leave ',
-    icon: <FaIcons.FaEnvelopeOpenText />,
-    cName: 'nav-text'
-  },
+  
   {
     title: 'Leave Form ',
     path: '/leave-form ',
