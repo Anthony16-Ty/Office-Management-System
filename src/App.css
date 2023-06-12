@@ -227,19 +227,6 @@ a{
   display: flex;
 }
 
-.leaveForm{
-  border: 1px solid;
-  border-radius: 5px;
-  border-color: white;
-  width: 35%;
-  margin-left: 20rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-bottom: 8rem;
-  margin-top: 2rem;
-  margin-bottom: 5px;
-}
-
 .nameInput{
   width: 5%;
   margin-bottom: 18px;
