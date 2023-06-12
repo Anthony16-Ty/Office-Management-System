@@ -38,13 +38,15 @@ const Timesheet = () => {
   };
 
   return (
-    <div>
-      <h1>Timesheets</h1>
-
-      {/* Button to open the modal */}
-      <Button variant="primary" onClick={() => setShowModal(true)}>
-        Add Entry
-      </Button>
+    <div className='timesheets'>
+      <div style={{display: "flex", justifyContent: "space-between"}}>
+        <div> <h1>Timesheets</h1></div>
+        <div>
+          <Button variant="primary" onClick={() => setShowModal(true)} style={{marginTop: "10px"}}>
+            Add Entry
+          </Button>
+        </div>
+      </div>
 
       {/* Modal for adding timesheet entry */}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
@@ -98,7 +100,7 @@ const Timesheet = () => {
                 onChange={handleChange}
               />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" style={{marginTop: "9px"}}>
               Add Entry
             </Button>
           </Form>
