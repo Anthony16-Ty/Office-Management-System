@@ -12,7 +12,7 @@ function Projects() {
   const handleShow = () => setShow(true);
     return (
        <div class="container ">
-          <div className="main"> 
+          <div className="taskss"> 
           <div class="row ">
            
            <div class="col-sm-3 mt-5 mb-4 text-gred">
@@ -176,4 +176,3 @@ function Projects() {
  
 export default Projects;
  
-
