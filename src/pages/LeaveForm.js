@@ -55,7 +55,7 @@ const LeaveForm = ({ handlePosting}) => {
     }  
 
   return (
-    <div>
+    <div className='container'>
       <div>
         <Container className='leave-form'>
           <h5 style={{ fontSize: "20px", fontWeight: "bold", textAlign: "center", marginTop: "10px" }}>
@@ -107,7 +107,7 @@ const LeaveForm = ({ handlePosting}) => {
       <div>
         <FormControl sx={{ display: "flex", flexWrap: "wrap", m: 1, width: '10ch' }}>
             <Button variant='outlined' type='submit' onClick={handleSubmit} 
-            style={{color: 'white', backgroundColor: "blue", marginTop: "10px", marginLeft: "12rem"}}>
+            style={{color: 'white', backgroundColor: "blue", marginTop: "10px", marginLeft: "10.5rem"}}>
                 Submit
             </Button>
         </FormControl>
