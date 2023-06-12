@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, Container, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { Link } from 'react-router-dom'
 
 
 const useStyles = makeStyles({
@@ -9,7 +8,18 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: '50px',
+    marginTop: '1rem',
+    border: "1px solid",
+    borderRadius: "5px",
+    overflow: "hidden",
+    backgroundColor: "white",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+    borderColor: "rgb(245, 242, 242)",
+    paddingLeft: "2rem",
+    paddingTop: "3.2rem",
+    paddingBottom: "3rem",
+    maxWidth: "40%",
+    minWidth: "30%",
   },
   form: {
     display: 'flex',
@@ -72,6 +82,15 @@ const SignUp = () => {
         <TextField
           className={classes.textField}
           label="Password"
+          variant="outlined"
+          type="password"
+          value={password}
+          onChange={handlePasswordChange}
+          required
+        />
+        <TextField
+          className={classes.textField}
+          label="Confirm Password"
           variant="outlined"
           type="password"
           value={password}
