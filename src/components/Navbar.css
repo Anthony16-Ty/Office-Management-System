@@ -14,10 +14,10 @@
 
 .nav-menu {
   background-color: #060b26;
-  width: 220px;
+  width: 250px;
   height: 100%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   position: fixed;
   top: 0;
   right: -100%;

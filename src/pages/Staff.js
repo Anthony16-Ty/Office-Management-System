@@ -17,7 +17,7 @@ function Staff() {
   }
     return (
        <div class="container ">
-          <div className="crud shadow-lg p-3 mb-5 mt-5 bg-body rounded"> 
+          <div className="staff-details"> 
           <div class="row ">
            
            <div class="col-sm-3 mt-5 mb-4 text-gred">
@@ -37,7 +37,7 @@ function Staff() {
            </div>  
             <div class="row">
                 <div class="table-responsive " >
-                 <table class="table table-striped table-hover table-bordered">
+                 <table class="table table-striped table-hover table-bordered table-sm">
                     <thead>
                         <tr>
                             <th>Staff Id</th>
@@ -182,5 +182,4 @@ function Staff() {
  
 export default Staff;
  
-
 
