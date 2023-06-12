@@ -15,7 +15,7 @@ function LeaveRequest() {
           <div className="requests"> 
           <div class="row ">
 
-              <div class="col-sm-3 offset-sm-2 mt-3 mb-4 text-gred" style={{color:"green"}}><h6><b>Leave Request Details</b></h6></div>
+              <div class="col-sm-3 offset-sm-2 mt-3 mb-4 text-gred" style={{color:"green"}}><h5><b>Leave Request Details</b></h5></div>
               <div class="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
              </div>
            </div>  
@@ -168,4 +168,3 @@ function LeaveRequest() {
  
 export default LeaveRequest;
  
-
