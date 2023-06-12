@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import Layout from './Layout';
 import Navbar from './components/Navbar';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
@@ -16,9 +16,10 @@ import Signup from './pages/Signup'
 
 function App() {
   return (
-    <>
+    <div>
       <Router>
         <Navbar />
+        <Layout>
         <Routes>
           <Route path='/' exact element={<Home/>} />
           <Route path='/login' element={<Login/>} />
@@ -32,8 +33,11 @@ function App() {
           <Route path='/client' element={<Client/>} />
           <Route path='/timesheets' element={<TimeSheets/>} />
         </Routes>
+        </Layout>
       </Router>
-    </>
+        
+        
+    </div>
   );
 }
 
