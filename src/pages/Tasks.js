@@ -5,14 +5,14 @@ import { Button,Modal,Input } from 'react-bootstrap';
 
 
 
-function Projects() {
+function Tasks() {
   const [show, setShow] = useState(false);
  
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
     return (
        <div class="container ">
-          <div className="taskss"> 
+          <div className="tasks"> 
           <div class="row ">
            
            <div class="col-sm-3 mt-5 mb-4 text-gred">
@@ -174,5 +174,5 @@ function Projects() {
   );
 }
  
-export default Projects;
+export default Tasks;
  
