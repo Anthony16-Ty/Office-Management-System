@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'
 
 import {
   makeStyles,
@@ -13,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: '100vh',
+    height: '60vh',
   },
   paper: {
     padding: theme.spacing(4),
@@ -76,9 +77,12 @@ const Login = () => {
           <Button variant="contained" color="primary" onClick={handleLogin}>
             Login
           </Button>
-          <Button variant="outlined" color="primary" onClick={handleSignUp}>
-            Sign Up
-          </Button>
+          <div style={{border: "1px solid", borderColor: "lightBlue", textDecoration: "none", 
+           borderRadius: "3px", backgroundColor: "transparent", paddingTop: "3px", paddingBottom: "3px",
+           color: "blue", textAlign :"center"}} 
+           onClick={handleSignUp}>
+            <Link to='/signup'>{'Sign Up'}</Link>
+          </div>
         </form>
       </Paper>
     </div>
