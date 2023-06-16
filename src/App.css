@@ -12,7 +12,7 @@
 }
 
 .app-background{
-  background-color: rgb(245, 245, 245);
+  background-color: rgb(34, 220, 170);
   background-size: cover;
   height: 100vh;
 }
@@ -63,7 +63,7 @@
   min-width: 70%;
   float: right;
   margin-top: 2rem;
-  /* margin-right: 0.3rem; */
+  margin-right: 0.3rem;
   padding-right: 2rem;
   padding-bottom: 4rem;
 }
@@ -158,7 +158,7 @@
   padding:10px;
   font-size: 20px;
 }
-input:focus{   
+input:focus{
   box-shadow: 0 1px 1px rgba(229, 103, 23, 0.075) inset, 0 0 16px rgb(125, 115, 255);
   outline: 0 none;
 }

@@ -3,7 +3,6 @@ import React, { useEffect,useState } from 'react'
 import { Container } from '@mui/system';
 
 
-
 const LeaveForm = ({ handlePosting}) => {
     const [fromDate, setFromDate] = useState('');
     const [toDate, setToDate] = useState('')

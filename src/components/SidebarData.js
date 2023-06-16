@@ -13,13 +13,13 @@ export const SidebarData = [
   {
     title: 'Projects',
     path: '/projects',
-    icon: <IoIcons.IoIosPaper />,
+    icon: <AiIcons.AiFillProject />,
     cName: 'nav-text'
   },
   {
     title: 'Login',
     path: '/login',
-    icon: <IoIcons.IoIosPaper />,
+    icon:<AiIcons.AiOutlineLogin/>,
     cName: 'nav-text'
   },
   {
@@ -31,7 +31,7 @@ export const SidebarData = [
   {
     title: 'Tasks',
     path: '/tasks',
-    icon: <FaIcons.FaCartPlus />,
+    icon: <FaIcons.FaTasks />,
     cName: 'nav-text'
   },
   {
@@ -40,11 +40,11 @@ export const SidebarData = [
     icon: <IoIcons.IoMdPeople />,
     cName: 'nav-text'
   },
-  
+
   {
     title: 'Leave Form ',
     path: '/leave-form ',
-    icon: <FaIcons.FaEnvelopeOpenText />,
+    icon: <AiIcons.AiOutlineForm />,
     cName: 'nav-text'
   },
   {
@@ -66,3 +66,9 @@ export const SidebarData = [
     cName: 'nav-text'
   }
 ];
+
+
+
+
+
+
