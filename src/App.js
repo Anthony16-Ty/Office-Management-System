@@ -12,7 +12,7 @@ import { LeaveType } from './pages/LeaveType';
 import Client from './pages/Client';
 import TimeSheets from './pages/TimeSheets';
 import Login from './pages/Login';
-import Signup from './pages/Signup'
+import Signup from './pages/Signup';
 
 function App() {
   return (
@@ -35,8 +35,8 @@ function App() {
         </Routes>
         </Layout>
       </Router>
-        
-        
+
+
     </div>
   );
 }

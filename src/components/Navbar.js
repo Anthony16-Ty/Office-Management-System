@@ -41,7 +41,7 @@ function Navbar() {
           </div>
           <div style={{float: "right"}}>
             <Link to='/login' style={{textDecoration: "none"}}>
-              <Button variant='contained' color='primary' 
+              <Button variant='contained' color='primary'
                 className={classes.buttonOne}>
                 {'Login'}
                </Button>
@@ -49,7 +49,7 @@ function Navbar() {
           </div>
           <div>
             <Link to='/signup' style={{textDecoration: "none"}}>
-              <Button variant='contained' color='secondary' 
+              <Button variant='contained' color='secondary'
                 className={classes.buttonTwo}>
                 {'Sign Up'}
                </Button>

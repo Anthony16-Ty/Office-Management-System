@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Table, Button, Modal, Form } from 'react-bootstrap';
+import axios from 'axios';
 
-const Timesheet = () => {
-  const [timesheets, setTimesheets] = useState([]);
+const Timesheet = ({onUpdateSheet, sheets, deleteSheet, updateSheet}) => {
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
     date: '',
@@ -12,15 +12,16 @@ const Timesheet = () => {
     progress: '',
   });
 
-  // Handle form field changes
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  // Handle form submission
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
     e.preventDefault();
-    setTimesheets([...timesheets, formData]);
+    try {
+      if(!formData.date || !formData.startTime || !formData.endTime || !formData.taskId || !formData.progress){
+        console.log('Please fill out all the form fields.');
+        return;
+    }
+    const response = await axios.post('https://jsonplaceholder.typicode.com/users', formData);
+    const data = response.data
+    onUpdateSheet(data);
     setFormData({
       date: '',
       startTime: '',
@@ -28,14 +29,19 @@ const Timesheet = () => {
       taskId: '',
       progress: '',
     });
-    setShowModal(false);
+    console.log(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
-  // Handle timesheet deletion
-  const handleDelete = (index) => {
-    const updatedTimesheets = timesheets.filter((_, i) => i !== index);
-    setTimesheets(updatedTimesheets);
-  };
 
   return (
     <div className='timesheets'>
@@ -106,9 +112,9 @@ const Timesheet = () => {
           </Form>
         </Modal.Body>
       </Modal>
-      
 
-      
+
+
       {/* Table to display timesheet entries */}
       <Table striped bordered hover>
         <thead>
@@ -122,23 +128,11 @@ const Timesheet = () => {
           </tr>
         </thead>
         <tbody>
-          {timesheets.map((entry, index) => (
-            <tr key={index}>
-              <td>{entry.date}</td>
-              <td>{entry.startTime}</td>
-              <td>{entry.endTime}</td>
-              <td>{entry.taskId}</td>
-              <td>{entry.progress}</td>
-              <td>
-                <Button
-                  variant="danger"
-                  onClick={() => handleDelete(index)}
-                >
-                  Delete
-                </Button>
-              </td>
-            </tr>
-          ))}
+            <Button
+              variant="danger"
+            >
+              Delete
+            </Button>
         </tbody>
       </Table>
     </div>
