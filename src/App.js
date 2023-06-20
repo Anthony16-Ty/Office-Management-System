@@ -13,6 +13,8 @@ import Client from './pages/Client';
 import TimeSheets from './pages/TimeSheets';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Roles  from './pages/Roles';
+
 
 function App() {
   return (
@@ -26,6 +28,7 @@ function App() {
           <Route path='/signup' element={<Signup/>} />
           <Route path='/tasks' element={<Tasks/>} />
           <Route path='/staff' element={<Staff/>} />
+           <Route path='/roles' element={<Roles/>} />
           <Route path='/projects' element={<Projects/>} />
           <Route path='/leave-request' element={<LeaveRequest/>} />
           <Route path='/leave-form' element={<LeaveForm/>} />

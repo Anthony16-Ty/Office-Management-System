@@ -29,6 +29,12 @@ export const SidebarData = [
     icon: <SiIcons.SiGnuprivacyguard />,
     cName: 'nav-text'
   },
+   {
+    title: 'Roles',
+    path: '/roles',
+    icon: <FaIcons.FaTasks />,
+    cName: 'nav-text'
+  },
   {
     title: 'Tasks',
     path: '/tasks',
