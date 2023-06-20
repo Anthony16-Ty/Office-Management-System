@@ -1,5 +1,7 @@
 import React from 'react';
 
+
+
 function Reports() {
   return (
     <div className='reports'>
@@ -7,8 +9,6 @@ function Reports() {
     </div>
   );
 }
-
-
 
 
 export default Reports;
