@@ -1,28 +1,30 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
-import { Form, FormGroup, Label, Input, Button } from "reactstrap";
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-export const LeaveType = ({leaves, onUpdateLeave, deleteLeave, updateLeave}) => {
+export const LeaveType = ({ leaves, onUpdateLeave, deleteLeave, updateLeave }) => {
   const [formData, setFormData] = useState({
-    name: "",
-    days: "",
+    name: '',
+    days_allowed: '',
   });
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      if(!formData.name || !formData.days){
+      if (!formData.name || !formData.days_allowed) {
         console.log('Please fill out all the form fields.');
         return;
-    }
-    const response = await axios.post('https://jsonplaceholder.typicode.com/users', formData);
-    const data = response.data
-    onUpdateLeave(data);
-    setFormData({name: "", days: ""});
-    console.log(data)
+      }
+      const response = await axios.post(
+        'https://jsonplaceholder.typicode.com/users',
+        formData
+      );
+      const data = response.data;
+      onUpdateLeave(data);
+      setFormData({ name: '', days_allowed: '' });
+      console.log(data);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
@@ -34,20 +36,44 @@ export const LeaveType = ({leaves, onUpdateLeave, deleteLeave, updateLeave}) => 
   };
 
   return (
-    <Form onSubmit={handleSubmit} className='form-type'>
-      <FormGroup style={{marginLeft: "2rem"}}>
-        <div style={{marginTop: "10px", display: "flex", marginBottom: "10px"}}>
-          <Label style={{fontWeight: "bold", fontSize: "18px", marginRight: "5px"}}>Name: </Label>
-          <Input type="text" name="text" placeholder="Enter Name" style={{width: "55%"}} onChnage={handleChange} required></Input>
+    <form onSubmit={handleSubmit} className='form-type'>
+      <div className='ml-8'>
+        <div className='mt-4 flex mb-4'>
+          <label className='font-bold text-xl mr-2'>Name:</label>
+          <input
+            type='text'
+            name='name'
+            placeholder='Enter Name'
+            className='border border-gray-400 rounded-md p-2 w-2/3'
+            onChange={handleChange}
+            required
+          />
         </div>
-        <div style={{marginTop: "10px", display: "flex"}}>
-          <Label style={{fontWeight: "bold", fontSize: "18px", marginRight: "14px"}}>Days: </Label>
-          <Input type="text" name='text' placeholder="Enter Days Allowed" style={{width: "55%"}} onChange={handleChange} required></Input>
+        <div className='flex'>
+          <label className='font-bold text-xl mr-2'>Days:</label>
+          <input
+            type='text'
+            name='days_allowed'
+            placeholder='Enter Days Allowed'
+            className='border border-gray-400 rounded-md p-2 w-2/3'
+            onChange={handleChange}
+            required
+          />
         </div>
+      </div>
 
-      </FormGroup>
-      <Button type="submit" style={{marginLeft: "5.5rem", backgroundColor: "blue", color: "white"}}>Submit</Button>
-      <Link to="/" className="btn btn-danger ml-2">Cancel</Link>
-    </Form>
-  )
-}
+      <button
+        type='submit'
+        className='bg-blue-500 text-white font-bold py-2 px-4 mt-4 ml-40 rounded-md'
+        style={{ marginLeft: '5.5rem' }}
+      >
+        Submit
+      </button>
+      <Link to='/' className='btn btn-danger ml-2'>
+        Cancel
+      </Link>
+    </form>
+  );
+};
+
+export default LeaveType;

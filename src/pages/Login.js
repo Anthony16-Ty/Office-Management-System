@@ -1,92 +1,73 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-import {
-  makeStyles,
-  Paper,
-  Typography,
-  TextField,
-  Button,
-} from '@material-ui/core';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '60vh',
-  },
-  paper: {
-    padding: theme.spacing(4),
-    width: 400,
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: theme.spacing(2),
-  },
-  
-  
-  
-}));
-
-const Login = () => {
-  const classes = useStyles();
+const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
+  const [error, setError] = useState('');
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post('http://127.0.0.1:3000/login', {
+        email,
+        password,
+      });
+      const { data } = response;
+
+      // Check if login was successful
+      if (data.success) {
+        // Call the onLogin function passed from parent component to update login state
+        onLogin();
+      } else {
+        setError(data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      setError('Incorrect Email or Password. Please try again.');
+    }
   };
-  
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-  
-  const handleLogin = () => {
-    // Handle login logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
-  };
-  
-  const handleSignUp = () => {
-    // Handle sign-up logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
-  };
-  
+
   return (
-    <div className={classes.root}>
-      <Paper elevation={3} className={classes.paper}>
-        <Typography variant="h5" component="h1" align="center">
-          Login
-        </Typography>
-        <form className={classes.form}>
-          <TextField
-            label="Email"
+    <div className="flex justify-center items-center h-60vh">
+      <div className="p-8 bg-white shadow-md rounded-md w-72">
+        <h1 className="text-2xl text-center">Login</h1>
+        {error && <div className="error">{error}</div>}
+        <form className="flex flex-col gap-2" onSubmit={handleLogin}>
+          <input
             type="email"
+            placeholder="Email"
             value={email}
-            onChange={handleEmailChange}
+            onChange={(e) => setEmail(e.target.value)}
+            className="border border-gray-400 rounded-md p-2"
+            required
           />
-          <TextField
-            label="Password"
+          <input
             type="password"
+            placeholder="Password"
             value={password}
-            onChange={handlePasswordChange}
+            onChange={(e) => setPassword(e.target.value)}
+            className="border border-gray-400 rounded-md p-2"
+            required
           />
-          <Button variant="contained" color="primary" onClick={handleLogin}>
+          <button
+            type="submit"
+            className="bg-blue-500 text-white font-bold py-2 px-4 rounded-md"
+            onClick={handleLogin}
+          >
             Login
-          </Button>
-          <div style={{border: "1px solid", borderColor: "lightBlue", textDecoration: "none", 
-           borderRadius: "3px", backgroundColor: "transparent", paddingTop: "3px", paddingBottom: "3px",
-           color: "blue", textAlign :"center"}} 
-           onClick={handleSignUp}>
-            <Link to='/signup'>{'Sign Up'}</Link>
+          </button>
+          <div className="border border-lightBlue rounded-md bg-transparent py-1 px-2 text-blue-500 text-center">
+            <Link to="/signup">Sign Up</Link>
           </div>
         </form>
-      </Paper>
+      </div>
     </div>
   );
 };
 
 export default Login;
+
+

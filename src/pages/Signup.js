@@ -1,41 +1,6 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography } from '@mui/material';
-import { makeStyles } from '@mui/styles';
-
-
-const useStyles = makeStyles({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    marginTop: '1rem',
-    border: "1px solid",
-    borderRadius: "5px",
-    overflow: "hidden",
-    backgroundColor: "white",
-    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-    borderColor: "rgb(245, 242, 242)",
-    paddingLeft: "2rem",
-    paddingTop: "3.2rem",
-    paddingBottom: "3rem",
-    maxWidth: "40%",
-    minWidth: "30%",
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '300px',
-  },
-  textField: {
-    marginBottom: '20px',
-  },
-  button: {
-    marginTop: '20px',
-  },
-});
 
 const SignUp = () => {
-  const classes = useStyles();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -58,55 +23,49 @@ const SignUp = () => {
   };
 
   return (
-    <Container className={classes.container}>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Sign Up
-      </Typography>
-      <form className={classes.form} onSubmit={handleSubmit}>
-        <TextField
-          className={classes.textField}
-          label="Name"
-          variant="outlined"
+    <div className="flex flex-col items-center mt-4 border rounded-md overflow-hidden bg-white shadow-md w-2/5 min-w-[300px] max-w-[40%]">
+      <h1 className="text-2xl mb-4">Sign Up</h1>
+      <form className="flex flex-col w-2/3" onSubmit={handleSubmit}>
+        <input
+          className="mb-4 border border-gray-400 rounded-md p-2"
+          type="text"
+          placeholder="Name"
           value={name}
           onChange={handleNameChange}
           required
         />
-        <TextField
-          className={classes.textField}
-          label="Email"
-          variant="outlined"
+        <input
+          className="mb-4 border border-gray-400 rounded-md p-2"
+          type="email"
+          placeholder="Email"
           value={email}
           onChange={handleEmailChange}
           required
         />
-        <TextField
-          className={classes.textField}
-          label="Password"
-          variant="outlined"
+        <input
+          className="mb-4 border border-gray-400 rounded-md p-2"
           type="password"
+          placeholder="Password"
           value={password}
           onChange={handlePasswordChange}
           required
         />
-        <TextField
-          className={classes.textField}
-          label="Confirm Password"
-          variant="outlined"
+        <input
+          className="mb-4 border border-gray-400 rounded-md p-2"
           type="password"
+          placeholder="Confirm Password"
           value={password}
           onChange={handlePasswordChange}
           required
         />
-        <Button
-          className={classes.button}
-          variant="contained"
-          color="primary"
+        <button
+          className="mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded-md"
           type="submit"
         >
           Sign Up
-        </Button>
+        </button>
       </form>
-    </Container>
+    </div>
   );
 };
 
