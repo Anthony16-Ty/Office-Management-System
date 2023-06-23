@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-
+import * as FaIcons from 'react-icons/fa';
+import * as AiIcons from 'react-icons/ai';
+import * as IoIcons from 'react-icons/io';
+import * as SiIcons from 'react-icons/si';
 import { BsArrowLeftCircle } from 'react-icons/bs'
 import { AiFillPieChart } from 'react-icons/ai'
 import { SiFuturelearn } from 'react-icons/si'
@@ -15,16 +18,16 @@ const Sidebar = () => {
   const location = useLocation()
 
   const Menus = [
-    { title: 'Home', path: '/', src: <AiFillPieChart /> },
-    { title: 'Projects', path: '/projects', src: <SiFuturelearn /> },
-    { title: 'Tasks', path: '/tasks', src: <CgProfile /> },
-    { title: 'Staffs', path: '/staff', src: <CgProfile /> },
-    { title: 'TimeSheets', path: '/timesheets', src: <CgProfile /> },
-    { title: 'Leave Requests', path: '/leave-request', src: <CgProfile /> },
-    { title: 'Leave Types', path: '/leave-type', src: <CgProfile /> },
-    { title: 'Login', path: '/login', src: <CgProfile /> },
-    { title: 'SignUp', path: '/signup', src: <CgProfile /> },
-    { title: 'Leave Forms', path: '/leave-form', src: <SiOpenaccess /> },
+    { title: 'Home', path: '/', src: <AiIcons.AiFillHome /> },
+    { title: 'Projects', path: '/projects', src: <AiIcons.AiFillProject /> },
+    { title: 'Tasks', path: '/tasks', src: <FaIcons.FaTasks /> },
+    { title: 'Staffs', path: '/staff', src: <IoIcons.IoMdPeople /> },
+    { title: 'TimeSheets', path: '/timesheets', src: <AiIcons.AiOutlineFieldTime /> },
+    { title: 'Leave Requests', path: '/leave-request', src: <FaIcons.FaEnvelopeOpenText /> },
+    { title: 'Leave Types', path: '/leave-type', src: <FaIcons.FaEnvelopeOpenText /> },
+    { title: 'Login', path: '/login', src: <AiIcons.AiOutlineLogin/> },
+    { title: 'SignUp', path: '/signup', src: <SiIcons.SiGnuprivacyguard /> },
+    { title: 'Leave Forms', path: '/leave-form', src: <AiIcons.AiOutlineForm /> },
 
   ]
 
@@ -46,7 +49,7 @@ const Sidebar = () => {
             <img src={Logo} alt='' className='pl-2' />
             {open && (
               <span className='text-xl font-medium whitespace-nowrap dark:text-white'>
-                Goal Quest
+                OMS
               </span>
             )}
           </div>
