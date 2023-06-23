@@ -10,21 +10,22 @@ function Projects({onUpdateProject, projects, deleteData, updateData}) {
   const [formData, setFormData] = useState({
     id: "",
     name: "",
-    client: "",
+    client_name: "",
     description: "",
+    client_id: "",
   });
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      if(!formData.id || !formData.name || !formData.client || !formData.description){
+      if(!formData.id || !formData.name || !formData.client_name || !formData.description || !formData.client_id){
         console.log('Please fill out all the form fields.');
         return;
     }
-    const response = await axios.post('https://jsonplaceholder.typicode.com/users', formData);
+    const response = await axios.post('http://localhost:3000/projects', formData);
     const data = response.data
     onUpdateProject(data);
-    setFormData({id: "", name: "", client: "", description: ""});
+    setFormData({id: "", name: "", client_name: "", description: "", client_id: ""});
     console.log(data)
     } catch (error) {
       console.log(error)
@@ -86,17 +87,14 @@ function Projects({onUpdateProject, projects, deleteData, updateData}) {
             </Modal.Header>
             <Modal.Body>
                 <form onSubmit={handleSubmit}>
-                    <div class="form-group">
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Project Id" onChange={handleChange} />
-                    </div>
                    <div class="form-group mt-3">
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Project Name" onChange={handleChange}/>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Project Name" value={formData.name} onChange={handleChange}/>
                     </div>
                     <div class="form-group mt-3">
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Client" onChange={handleChange}/>
+                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Client" value={formData.client} onChange={handleChange}/>
                     </div>
                     <div class="form-group mt-3">
-                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Description" onChange={handleChange}/>
+                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Description" value={formData.description} onChange={handleChange}/>
                     </div>
 
                     <button type="submit" class="btn btn-success mt-4">Add </button>
