@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-export const LeaveType = ({ leaves, onUpdateLeave, deleteLeave, updateLeave }) => {
+export const LeaveType = ({ leaveTypes, onUpdateLeave, deleteLeave, updateLeave }) => {
   const [formData, setFormData] = useState({
     name: '',
     days_allowed: '',
