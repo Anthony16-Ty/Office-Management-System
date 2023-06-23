@@ -3,17 +3,28 @@ import axios from 'axios'
 import LeaveForm from '../pages/LeaveForm';
 
 const LeaveFormDashboard = () => {
-    const [leaveForm, setLeaveForm] = useState([]);
+    const [forms, setForms] = useState([]);
 
     useEffect(() => {
         fetchForms();
     });
 
+    useEffect(() => {
+      const storedForms = localStorage.getItem('forms');
+      if(storedForms) {
+        setForms(JSON.parse(storedForms))
+      }
+    }, []);
+
+    useEffect(() => {
+      localStorage.setItem('forms', JSON.stringify(forms))
+    }, [forms]);
+
     async function fetchForms() {
     try {
-      const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+      const response = await axios.get('http://localhost:3000/forms');
       const data = response.data;
-      setLeaveForm(data);
+      setForms(data);
     } catch (error) {
       console.log(error);
     }
@@ -21,9 +32,9 @@ const LeaveFormDashboard = () => {
 
   async function updateForm(id, newData) {
     try {
-      const response = await axios.put(`https://jsonplaceholder.typicode.com/users/${id}`, newData);
+      const response = await axios.put(`http://localhost:3000/forms/${id}`, newData);
       const data = response.data;
-      setLeaveForm(data);
+      setForms(data);
     } catch (error) {
       console.error('Errror updating data:', error);
     }
@@ -31,20 +42,20 @@ const LeaveFormDashboard = () => {
 
   async function deleteData(id) {
     try {
-      const response = await axios.delete(`https://jsonplaceholder.typicode.com/users${id}`);
-      const data = response.data;
-      setLeaveForm(data);
+      await axios.delete(`http://localhost:3000/forms/${id}`);
+      setForms(forms.filter(form => form.id !== id));
     } catch (error) {
       console.error('Error Deleting data:', error);
     }
   }
 
   function handleUpdateForm(newForm) {
-    setLeaveForm([...leaveForm, newForm])
+    setForms([...forms, newForm])
   }
   return (
     <div>
-      <LeaveForm leave={leaveForm} onUpdateForm={handleUpdateForm} deleteForm={deleteData} updateForm={updateForm} />
+      <LeaveForm onUpdateForm={handleUpdateForm}   />
+      <LeaveRequest forms={forms} updateForm={updateForm} deleteData={deleteData} />
     </div>
   )
 }

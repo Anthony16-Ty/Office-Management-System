@@ -8,9 +8,20 @@ const TaskDashboard = () => {
         fetchTasks();
     })
 
+    useEffect(() => {
+      const storedTasks = localStorage.getItem('tasks');
+      if (storedTasks) {
+        setTasks(JSON.parse(storedTasks));
+      }
+    }, []);
+
+    useEffect(() => {
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }, [tasks]);
+
     async function fetchTasks() {
         try {
-            const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+            const response = await axios.get('http://localhost:3000/tasks');
             const data = response.data;
             setTasks(data);
         } catch (error) {
@@ -20,7 +31,7 @@ const TaskDashboard = () => {
 
     async function updateTasks(id, newData) {
       try {
-        const response = await axios.put(`https://jsonplaceholder.typicode.com/users/${id}`, newData);
+        const response = await axios.put(`http://localhost:3000/tasks/${id}`, newData);
         const data = response.data;
         setTasks(data);
       } catch (error) {
@@ -30,9 +41,8 @@ const TaskDashboard = () => {
 
     async function deleteData(id) {
       try {
-        const response = await axios.delete(`https://jsonplaceholder.typicode.com/users${id}`);
-        const data = response.data;
-        setTasks(data);
+        await axios.delete(`http://localhost:3000/tasks/${id}`);
+        setTasks(tasks.filter(task => task.id !== id));
       } catch (error) {
         console.error('Error Deleting data:', error);
       }
@@ -44,7 +54,7 @@ const TaskDashboard = () => {
 
   return (
     <div>
-      <Tasks onUpdateTask={handleUpdateTask} tasks={tasks} onDelete={deleteData} onUpdate={updateTasks} />
+      <Tasks onUpdateTask={handleUpdateTask} tasks={tasks} deleteData={deleteData} onUpdate={updateTasks} />
     </div>
   )
 }

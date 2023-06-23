@@ -9,9 +9,20 @@ const ProjectDashboard = () => {
         fetchProjects();
     })
 
+    useEffect(() => {
+      const storedProjects = localStorage.getItem('projects');
+      if(storedProjects){
+        setProjects(JSON.parse(storedProjects))
+      }
+    }, []);
+
+    useEffect(() => {
+      localStorage.setItem('projects', JSON.stringify(projects));
+    }, [projects]);
+
     async function fetchProjects() {
         try {
-          const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+          const response = await axios.get('http://localhost:3000/projects');
           const data = response.data;
           setProjects(data);
         } catch (error) {
@@ -21,7 +32,7 @@ const ProjectDashboard = () => {
 
     async function updateProjects(id, newData) {
       try {
-        const response = await axios.put(`https://jsonplaceholder.typicode.com/users/${id}`, newData);
+        const response = await axios.put(`http://localhost:3000/projects/${id}`, newData);
         const data = response.data;
         setProjects(data);
       } catch (error) {
@@ -31,9 +42,8 @@ const ProjectDashboard = () => {
 
     async function deleteData(id) {
       try {
-        const response = await axios.delete(`https://jsonplaceholder.typicode.com/users${id}`);
-        const data = response.data;
-        setProjects(data);
+        await axios.delete(`http://localhost:3000/projects/${id}`);
+        setProjects(projects.filter(project => project.id !== id));
       } catch (error) {
         console.error('Error Deleting data:', error);
       }

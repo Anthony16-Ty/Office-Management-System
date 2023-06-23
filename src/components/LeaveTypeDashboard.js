@@ -3,26 +3,37 @@ import axios from 'axios';
 import { LeaveType } from '../pages/LeaveType';
 
 const LeaveTypeDashboard = () => {
-    const [leaveType, setLeaveType] = useState([]);
+    const [leaveTypes, setLeaveTypes] = useState([]);
 
     useEffect(() => {
         fetchLeaveTypes();
     })
 
+    useEffect(() => {
+      const storedLeaves = localStorage.getItem('leaveTypes')
+      if(storedLeaves){
+        setLeaveTypes(JSON.parse(storedLeaves))
+      }
+    }, []);
+
+    useEffect(() => {
+      localStorage.setItem('leaveTypes', JSON.stringify(leaveTypes))
+    }, [leaveTypes])
+
     async function fetchLeaveTypes() {
         try {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+        const response = await axios.get('http://localhost:3000/leave_types');
         const data = response.data;
-        setLeaveType(data);
+        setLeaveTypes(data);
     } catch (error) {
         console.log(error);
     }}
 
     async function updateLeave(id, newData) {
       try {
-        const response = await axios.put(`https://jsonplaceholder.typicode.com/users/${id}`, newData);
+        const response = await axios.put(`http://localhost:3000/leave_types/${id}`, newData);
         const data = response.data;
-        setLeaveType(data);
+        setLeaveTypes(data);
       } catch (error) {
         console.error('Errror updating data:', error);
       }
@@ -30,20 +41,19 @@ const LeaveTypeDashboard = () => {
 
     async function deleteData(id) {
       try {
-        const response = await axios.delete(`https://jsonplaceholder.typicode.com/users${id}`);
-        const data = response.data;
-        setLeaveType(data);
+        await axios.delete(`http://localhost:3000/leave_types/${id}`);
+        setLeaveTypes(leaveTypes.filter(leaveType => leaveType.id !== id));
       } catch (error) {
         console.error('Error Deleting data:', error);
       }
     }
 
     function handleUpdateLeaveType(newLeaveType) {
-        setLeaveType([...leaveType, newLeaveType])
+        setLeaveTypes([...leaveTypes, newLeaveType])
     }
   return (
     <div>
-      <LeaveType onUpdateLeave={handleUpdateLeaveType} leaves={leaveType} deleteLeave={deleteData} updateLeave={updateLeave} />
+      <LeaveType onUpdateLeave={handleUpdateLeaveType} leaveTypes={leaveTypes} deleteLeave={deleteData} updateLeave={updateLeave} />
     </div>
   )
 }

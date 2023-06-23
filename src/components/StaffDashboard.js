@@ -3,16 +3,28 @@ import axios from 'axios'
 import Staff from '../pages/Staff'
 
 const StaffDashboard = () => {
-    const [staff, setStaff] = useState([]);
+    const [staffs, setStaffs] = useState([]);
 
     useEffect(() => {
         fetchStaffs();
     })
+
+    useEffect(() => {
+      const storedStaffs = localStorage.getItem('staffs');
+      if (storedStaffs) {
+        setStaffs(JSON.parse(storedStaffs));
+      }
+    }, []);
+
+    useEffect(() => {
+      localStorage.setItem('staffs', JSON.stringify(staffs));
+    }, [staffs]);
+
     async function fetchStaffs() {
         try {
-            const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+            const response = await axios.get('http://localhost:3000/staffs');
             const data = response.data;
-            setStaff(data);
+            setStaffs(data);
         } catch (error) {
             console.log(error);
         }
@@ -20,9 +32,9 @@ const StaffDashboard = () => {
 
     async function updateStaffs(id, newData) {
       try {
-        const response = await axios.put(`https://jsonplaceholder.typicode.com/users/${id}`, newData);
+        const response = await axios.put(`http://localhost:3000/staffs/${id}`, newData);
         const data = response.data;
-        setStaff(data);
+        setStaffs(data);
       } catch (error) {
         console.error('Errror updating data:', error);
       }
@@ -30,20 +42,19 @@ const StaffDashboard = () => {
 
     async function deleteData(id) {
       try {
-        const response = await axios.delete(`https://jsonplaceholder.typicode.com/users${id}`);
-        const data = response.data;
-        setStaff(data);
+        await axios.delete(`http://localhost:3000/staffs/${id}`);
+        setStaffs(staffs.filter(staff => staff.id !== id));
       } catch (error) {
         console.error('Error Deleting data:', error);
       }
     }
 
     function handleUpdateStaff(newStaff){
-        setStaff([...staff, newStaff])
+        setStaffs([...staffs, newStaff])
     }
   return (
     <div>
-      <Staff staffs={staff} onUpdateStaff={handleUpdateStaff} deleteStaff={deleteData} onUpdate={updateStaffs} />
+      <Staff staffs={staffs} onUpdateStaff={handleUpdateStaff} deleteData={deleteData} onUpdate={updateStaffs} />
     </div>
   )
 }
