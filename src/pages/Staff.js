@@ -6,8 +6,7 @@ import axios from 'axios';
 
 
 
-
-function Staff({onUpdateStaff, staffs, deleteStaff, onUpdate}) {
+function Staff({onUpdateStaff, staffs, deleteData, onUpdate}) {
   const [show, setShow] = useState(false);
   // const [selectedDate, setSelectedDate] = useState('')
 
@@ -18,20 +17,25 @@ function Staff({onUpdateStaff, staffs, deleteStaff, onUpdate}) {
     name: "",
     joining_date: "",
     reporting_to: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
     tech_stack: "",
+    isStaff: "",
+    admin_id: "",
   });
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      if(!formData.id || !formData.name || !formData.joining_date || !formData.reporting_to || !formData.tech_stack){
+      if(!formData.id || !formData.name || !formData.joining_date || !formData.reporting_to || !formData.email || !formData.password || !formData.password_confirmation || !formData.tech_stack || !formData.isStaff || !formData.admin_id){
         console.log('Please fill out all the form fields.');
         return;
     }
     const response = await axios.post('https://jsonplaceholder.typicode.com/users', formData);
     const data = response.data
     onUpdateStaff(data);
-    setFormData({id: "", name: "", joining_date: "", reporting_to: "", tech_stack: ""});
+    setFormData({id: "", name: "", joining_date: "", reporting_to: "", email: "", password: "", password_confirmation: "", tech_stack: "", isStaff: "", admin_id: ""});
     console.log(data)
     } catch (error) {
       console.log(error)
@@ -98,17 +102,32 @@ function Staff({onUpdateStaff, staffs, deleteStaff, onUpdate}) {
         </Modal.Header>
             <Modal.Body>
             <form onSubmit={handleSubmit}>
-            <div class="form-group">
-                    <input type="name" class="form-control" name='text' placeholder="Enter Staff Name" onChange={handleChange} />
+              <div class="form-group">
+                    <input type="name" class="form-control" name='text' placeholder="Enter Staff Name" value={formData.name} onChange={handleChange} />
+              </div>
+                <div class="form-group mt-3">
+                    <input type="date" class="datePicker" placeholder="Enter Joining Date" value={formData.joining_date} onChange={handleChange} />
                 </div>
                 <div class="form-group mt-3">
-                    <input type="date" class="datePicker" placeholder="Enter Joining Date" onChange={handleChange} />
+                    <input type="text" class="form-control" name='text'  placeholder="Reporting To" value={formData.reporting_to} onChange={handleChange} />
                 </div>
                 <div class="form-group mt-3">
-                    <input type="text" class="form-control" name='text'  placeholder="Reporting To" onChange={handleChange} />
+                    <input type="text" class="form-control" name='text'  placeholder="Enter Email" value={formData.email} onChange={handleChange} />
                 </div>
                 <div class="form-group mt-3">
-                    <input type="text" class="form-control" name='text' placeholder="Enter Your Stack Details" onChange={handleChange} />
+                    <input type="password" class="password" placeholder="Create Password" value={formData.password} onChange={handleChange} />
+                </div>
+                <div class="form-group mt-3">
+                    <input type="password" class="password_confirmation" placeholder="Confirm Password" value={formData.password_confirmation} onChange={handleChange} />
+                </div>
+                <div class="form-group mt-3">
+                    <input type="text" class="form-control" name='text' placeholder="Enter Your Stack Details" value={formData.tech_stack} onChange={handleChange} />
+                </div>
+                <div class="form-group mt-3">
+                    <input type="text" class="form-control" name='text' placeholder="isStaff" value={formData.isStaff} onChange={handleChange} />
+                </div>
+                <div class="form-group mt-3">
+                    <input type="text" class="form-control" name='text' placeholder="Admin ID" value={formData.admin_id} onChange={handleChange} />
                 </div>
 
                   <button type="submit" class="btn btn-success mt-4">Add Staff</button>
