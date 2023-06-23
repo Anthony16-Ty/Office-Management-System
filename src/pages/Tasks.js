@@ -6,7 +6,7 @@ import axios from 'axios';
 
 
 
-function Projects({onUpdateTask, tasks, onDelete, onUpdate}) {
+function Tasks({onUpdateTask, tasks, deleteData, onUpdate}) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -14,21 +14,22 @@ function Projects({onUpdateTask, tasks, onDelete, onUpdate}) {
   const [formData, setFormData] = useState({
     id: "",
     name: "",
-    assigned: "",
-    managed: "",
+    assigned_to: "",
+    managed_by: "",
+    project_id: "",
   });
 
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      if(!formData.id || !formData.name || !formData.assigned || !formData.managed){
+      if(!formData.id || !formData.name || !formData.assigned_to || !formData.managed_by || !formData.project_id){
         console.log('Please fill out all the form fields.');
         return;
     }
-    const response = await axios.post('https://jsonplaceholder.typicode.com/users', formData);
+    const response = await axios.post('http://localhost:3000/tasks', formData);
     const data = response.data
     onUpdateTask(data);
-    setFormData({id: "", name: "", assigned: "", managed: ""});
+    setFormData({id: "", name: "", assigned_to: "", managed_by: "", project_id: ""});
     console.log(data)
     } catch (error) {
       console.log(error)
@@ -66,11 +67,12 @@ function Projects({onUpdateTask, tasks, onDelete, onUpdate}) {
                  <table class="table table-striped table-hover table-bordered table-sm">
                     <thead>
                         <tr>
-                            <th>Project Id</th>
                             <th>Task Name </th>
                             <th>Assigned to Staff</th>
-                            <th>Managed by Staff Id</th>
+                            <th>Managed by</th>
+                            <th>Project Id</th>
                             <th>Actions</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -93,17 +95,17 @@ function Projects({onUpdateTask, tasks, onDelete, onUpdate}) {
         </Modal.Header>
             <Modal.Body>
             <form onSubmit={handleSubmit}>
+                <div class="form-group mt-3">
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={formData.name} placeholder="Enter Task Name" onChange={handleChange} />
+                </div>
+                <div class="form-group mt-3">
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={formData.assigned} placeholder="Enter Assigned to Staff" onChange={handleChange} />
+                </div>
+                <div class="form-group mt-3">
+                    <input type="password" class="form-control" id="exampleInputPassword1" value={formData.managed} placeholder="Enter Managed by Staff Id" onChange={handleChange} />
+                </div>
                 <div class="form-group">
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Project Id" onChange={handleChange} />
-                </div>
-                <div class="form-group mt-3">
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Task Name" onChange={handleChange} />
-                </div>
-                <div class="form-group mt-3">
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Assigned to Staff" onChange={handleChange} />
-                </div>
-                <div class="form-group mt-3">
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter Managed by Staff Id" onChange={handleChange} />
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={formData.id} placeholder="Enter Project Id" onChange={handleChange} />
                 </div>
 
                   <button type="submit" class="btn btn-success mt-4">Add </button>
@@ -125,7 +127,5 @@ function Projects({onUpdateTask, tasks, onDelete, onUpdate}) {
   );
 }
 
-export default Projects;
-
-
+export default Tasks;
 
