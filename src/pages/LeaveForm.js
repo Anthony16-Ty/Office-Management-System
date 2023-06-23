@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const LeaveForm = ({ onUpdateForm, leave, deleteForm, updateForm }) => {
+const LeaveForm = ({ onUpdateForm }) => {
+  const navigate = useNavigate();
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [formData, setFormData] = useState({
-    request_id: '',
+    id: '',
     staff_id: '',
     date_from: '',
     date_to: '',
@@ -17,29 +19,30 @@ const LeaveForm = ({ onUpdateForm, leave, deleteForm, updateForm }) => {
     e.preventDefault();
     try {
       if (
-        !formData.request_id ||
-        !formData.staff_id ||
+        !formData.id ||
         !formData.date_from ||
         !formData.date_to ||
         !formData.reason_for_leave ||
-        formData.leave_type
+        !formData.leave_type ||
+        !formData.staff_id
       ) {
         console.log('Please fill out all the form fields.');
         return;
       }
       const response = await axios.post(
-        'https://jsonplaceholder.typicode.com/users',
+        'http://localhost:3000/forms',
         formData
       );
       const data = response.data;
       onUpdateForm(data);
+      navigate('/leave-request')
       setFormData({
-        request_id: '',
-        staff_id: '',
+        id: '',
         date_from: '',
         date_to: '',
         reason_for_leave: '',
         leave_type: '',
+        staff_id: '',
       });
       console.log(data);
     } catch (error) {
@@ -68,19 +71,7 @@ const LeaveForm = ({ onUpdateForm, leave, deleteForm, updateForm }) => {
               </label>
               <input
                 name='request_id'
-                value={formData.request_id}
-                onChange={handleChange}
-                className='border border-gray-400 rounded-md p-2 w-full'
-              />
-            </div>
-
-            <div className='m-2 w-80'>
-              <label className='block text-sm font-bold mb-1'>
-                Please Enter Staff Id
-              </label>
-              <input
-                name='staff_id'
-                value={formData.staff_id}
+                value={formData.id}
                 onChange={handleChange}
                 className='border border-gray-400 rounded-md p-2 w-full'
               />
@@ -131,6 +122,18 @@ const LeaveForm = ({ onUpdateForm, leave, deleteForm, updateForm }) => {
               <input
                 name='leave_type'
                 value={formData.leave_type}
+                onChange={handleChange}
+                className='border border-gray-400 rounded-md p-2 w-full'
+              />
+            </div>
+
+            <div className='m-2 w-80'>
+              <label className='block text-sm font-bold mb-1'>
+                Please Enter Staff Id
+              </label>
+              <input
+                name='staff_id'
+                value={formData.staff_id}
                 onChange={handleChange}
                 className='border border-gray-400 rounded-md p-2 w-full'
               />
