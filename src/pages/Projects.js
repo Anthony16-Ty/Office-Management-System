@@ -3,13 +3,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Button,Modal } from 'react-bootstrap';
 import axios from 'axios';
 
-function Projects({onUpdateProject, projects, deleteData, updateData}) {
+function Projects({handleAddProject, projects, deleteData, updateData}) {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [formData, setFormData] = useState({
-    id: "",
-    name: "",
+    project_name: "",
     client_name: "",
     description: "",
     client_id: "",
@@ -18,14 +17,14 @@ function Projects({onUpdateProject, projects, deleteData, updateData}) {
   async function handleSubmit(e) {
     e.preventDefault();
     try {
-      if(!formData.id || !formData.name || !formData.client_name || !formData.description || !formData.client_id){
+      if( !formData.project_name || !formData.client_name || !formData.description || !formData.client_id){
         console.log('Please fill out all the form fields.');
         return;
     }
     const response = await axios.post('http://localhost:3000/projects', formData);
     const data = response.data
-    onUpdateProject(data);
-    setFormData({id: "", name: "", client_name: "", description: "", client_id: ""});
+    handleAddProject(data);
+    setFormData({project_name: "", client_name: "", description: "", client_id: ""});
     console.log(data)
     } catch (error) {
       console.log(error)
@@ -69,7 +68,19 @@ function Projects({onUpdateProject, projects, deleteData, updateData}) {
                         </tr>
                     </thead>
                     <tbody>
-
+                    {projects.map((project) => (
+  <tr key={project.id}>
+    <td>{project.id}</td>
+    <td>{project.project_name}</td>
+    <td>{project.client_name}</td>
+    <td>{project.description}</td>
+    <td>
+      <Button variant="danger" onClick={() => deleteData(project.id)}>
+        Delete
+      </Button>
+    </td>
+  </tr>
+))}
                     </tbody>
                 </table>
             </div>
@@ -88,13 +99,16 @@ function Projects({onUpdateProject, projects, deleteData, updateData}) {
             <Modal.Body>
                 <form onSubmit={handleSubmit}>
                    <div class="form-group mt-3">
-                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Project Name" value={formData.name} onChange={handleChange}/>
+                        <input type="text" class="form-control" name='project_name' placeholder="Enter Project Name" value={formData.project_name} onChange={handleChange} />
                     </div>
                     <div class="form-group mt-3">
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Client" value={formData.client} onChange={handleChange}/>
+                        <input type="text" class="form-control" name='client_name' placeholder="Enter Client" value={formData.client_name} onChange={handleChange} />
                     </div>
                     <div class="form-group mt-3">
-                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Enter Description" value={formData.description} onChange={handleChange}/>
+                        <input type="text" class="form-control" name='description' placeholder="Enter Description" value={formData.description} onChange={handleChange}/>
+                    </div>
+                    <div class="form-group mt-3">
+                        <input type="text" class="form-control" name='client_id' placeholder="Enter Client_Id" value={formData.client_id} onChange={handleChange}/>
                     </div>
 
                     <button type="submit" class="btn btn-success mt-4">Add </button>
@@ -113,4 +127,5 @@ function Projects({onUpdateProject, projects, deleteData, updateData}) {
 }
 
 export default Projects;
+
 

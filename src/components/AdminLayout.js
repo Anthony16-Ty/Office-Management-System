@@ -1,12 +1,12 @@
 import React from 'react'
 import Navbar from './Navbar'
-import StaffSide from './StaffSide'
+import Sidebar from './Sidebar'
 
-const Layout = ({ children }) => {
+const AdminLayout = ({ children }) => {
     return (
         <>
             <div className='flex flex-auto h-screen'>
-                <StaffSide />
+                <Sidebar />
                 <div className='grow'>
                     <Navbar />
                     <div className='m-5'>{children}</div>
@@ -16,4 +16,4 @@ const Layout = ({ children }) => {
     )
 }
 
-export default Layout
+export default AdminLayout

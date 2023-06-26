@@ -8,7 +8,7 @@ import { CgProfile } from 'react-icons/cg'
 import Logo from '../assets/images/logo.svg'
 import HamburgerButton from './HamburgerMenuButton/HamburgerButton'
 
-const Sidebar = () => {
+const StaffSide = () => {
   const [open, setOpen] = useState(true)
   const [mobileMenu, setMobileMenu] = useState(false)
   const location = useLocation()
@@ -16,12 +16,9 @@ const Sidebar = () => {
   const Menus = [
     { title: 'Projects', path: '/projects', src: <SiFuturelearn /> },
     { title: 'Tasks', path: '/tasks', src: <CgProfile /> },
-    { title: 'Staffs', path: '/staff', src: <CgProfile /> },
     { title: 'TimeSheets', path: '/timesheets', src: <CgProfile /> },
     { title: 'Leave Requests', path: '/leave-request', src: <CgProfile /> },
     { title: 'Leave Types', path: '/leave-type', src: <CgProfile /> },
-    { title: 'Login', path: '/', src: <CgProfile /> },
-    { title: 'SignUp', path: '/signup', src: <CgProfile /> },
     { title: 'Leave Forms', path: '/leave-form', src: <SiOpenaccess /> },
 
   ]
@@ -108,4 +105,4 @@ const Sidebar = () => {
   )
 }
 
-export default Sidebar
+export default StaffSide;

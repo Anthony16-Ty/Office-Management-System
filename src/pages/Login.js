@@ -1,47 +1,61 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-const Login = ({ onLogin }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+const Login = ({ onLogin, loggedIn }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+  async function handleSubmit(event) {
+    event.preventDefault();
 
     try {
-      const response = await axios.post('http://127.0.0.1:3000/login', {
-        email,
-        password,
+      // Make an API request to validate the login credentials
+      const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
       });
-      const { data } = response;
 
-      // Check if login was successful
-      if (data.success) {
-        // Call the onLogin function passed from parent component to update login state
-        onLogin();
+      if (response.ok) {
+        const user = await response.json();
+        onLogin(user); // Pass the user object to the onLogin callback
+
+        // Redirect the user based on their role
+        if (user.isadmin) {
+          navigate("/admindashboard");
+        } else if (user.isStaff) {
+          navigate("/stdashboard");
+        }
       } else {
-        setError(data.message);
+        throw new Error("Invalid email or password");
       }
     } catch (error) {
-      console.log(error);
-      setError('Incorrect Email or Password. Please try again.');
+      setError(error.message);
     }
-  };
+  }
 
   return (
-    <div className="flex justify-center items-center h-60vh">
-      <div className="p-8 bg-white shadow-md rounded-md w-72">
+    <div
+      className="flex justify-center items-center h-screen bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage:
+          'url("https://as1.ftcdn.net/v2/jpg/03/70/92/84/1000_F_370928450_R6g8c0j5cey86PUXE32W7KMiqIUe1fOI.jpg")',
+      }}
+    >
+      <div className="p-8 bg-white shadow-md rounded-md w-120">
         <h1 className="text-2xl text-center">Login</h1>
         {error && <div className="error">{error}</div>}
-        <form className="flex flex-col gap-2" onSubmit={handleLogin}>
+        <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
           <input
             type="email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="border border-gray-400 rounded-md p-2"
+            className="border border-gray-400 rounded-md p-3"
             required
           />
           <input
@@ -49,13 +63,12 @@ const Login = ({ onLogin }) => {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="border border-gray-400 rounded-md p-2"
+            className="border border-gray-400 rounded-md p-3"
             required
           />
           <button
             type="submit"
             className="bg-blue-500 text-white font-bold py-2 px-4 rounded-md"
-            onClick={handleLogin}
           >
             Login
           </button>
@@ -69,5 +82,3 @@ const Login = ({ onLogin }) => {
 };
 
 export default Login;
-
-
