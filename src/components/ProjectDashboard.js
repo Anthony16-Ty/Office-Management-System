@@ -7,7 +7,7 @@ const ProjectDashboard = () => {
 
     useEffect(() => {
         fetchProjects();
-    })
+    }, []);
 
     useEffect(() => {
       const storedProjects = localStorage.getItem('projects');
@@ -36,7 +36,7 @@ const ProjectDashboard = () => {
         const data = response.data;
         setProjects(data);
       } catch (error) {
-        console.error('Errror updating data:', error);
+        console.error('Error updating data:', error);
       }
     }
 
@@ -67,6 +67,7 @@ const ProjectDashboard = () => {
 }
 
 export default ProjectDashboard
+
 
 
 

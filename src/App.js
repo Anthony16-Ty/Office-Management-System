@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
-import Home from './pages/Home';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Tasks from './pages/Tasks';
 import Staff from './pages/Staff';
 import Projects from './pages/Projects';
@@ -12,10 +10,16 @@ import Client from './pages/Client';
 import TimeSheets from './pages/TimeSheets';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import AdminDashboard from './components/AdminDashboard';
+import StDashboard from './components/StDashboard';
+import ProjectDashboard from './components/ProjectDashboard';
 import axios from 'axios';
 
 function App() {
   const [timesheets, setTimesheets] = useState([]);
+  const [isloggedIn, setIsLoggedIn] = useState(false);
+  const [isadmin, setIsAdmin] = useState(false);
+  const [isStaff, setIsStaff] = useState(false);
 
   useEffect(() => {
     fetchTimesheets();
@@ -65,25 +69,34 @@ function App() {
     setTimesheets([...timesheets, newSheet]);
   }
 
+  function handleLogin(user) {
+    setIsLoggedIn(true);
+    setIsAdmin(user.isadmin);
+    setIsStaff(user.isStaff);
+  }
+
+
   return (
-    <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path='/' element={<Home />} />
-            <Route path='/tasks' element={<Tasks />} />
-            <Route path='/projects' element={<Projects />} />
-            <Route path='/staff' element={<Staff />} />
-            <Route path='/timesheets' element={<TimeSheets timesheets={timesheets} onUpdateSheet={handleUpdateSheet} deleteData={deleteData} />} updateSheet={updateSheet} />
-            <Route path='/client' element={<Client />} />
-            <Route path='/leave-form' element={<LeaveForm />} />
-            <Route path='/leave-request' element={<LeaveRequest />} />
-            <Route path='/leave-type' element={<LeaveType />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/signup' element={<Signup />} />
-            <Route path='/leave-request' element={<LeaveRequest />} />
-          </Routes>
-        </Layout>
-    </BrowserRouter>
+    <Router>
+        <Routes>
+          <Route path="/" element={<Login onLogin={handleLogin} />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/admindashboard" element={<AdminDashboard />} />
+          <Route path="/stdashboard" element={<StDashboard />} />
+          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/staff" element={<Staff />} />
+          <Route
+            path="/timesheets"
+            element={<TimeSheets timesheets={timesheets} onUpdateSheet={handleUpdateSheet} deleteData={deleteData} updateSheet={updateSheet} />}
+          />
+          <Route path="/client" element={<Client />} />
+          <Route path="/leave-form" element={<LeaveForm />} />
+          <Route path="/leave-request" element={<LeaveRequest />} />
+          <Route path="/leave-type" element={<LeaveType />} />
+          <Route path="/projectdash" element={<ProjectDashboard /> } />
+        </Routes>
+    </Router>
   );
 }
 
