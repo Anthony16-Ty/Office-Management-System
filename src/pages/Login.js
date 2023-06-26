@@ -46,7 +46,7 @@ const Login = ({ onLogin, loggedIn }) => {
           'url("https://as1.ftcdn.net/v2/jpg/03/70/92/84/1000_F_370928450_R6g8c0j5cey86PUXE32W7KMiqIUe1fOI.jpg")',
       }}
     >
-      <div className="p-8 bg-white shadow-md rounded-md w-120">
+      <div className="p-8 bg-white/25 shadow-md rounded-md w-120">
         <h1 className="text-2xl text-center">Login</h1>
         {error && <div className="error">{error}</div>}
         <form className="flex flex-col gap-2" onSubmit={handleSubmit}>

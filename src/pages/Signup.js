@@ -32,7 +32,7 @@ const SignUp = () => {
         }}
       ></div>
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="flex flex-col items-center mt-4 border rounded-md overflow-hidden bg-white shadow-md w-2/5 min-w-[300px] max-w-[40%]">
+        <div className="flex flex-col items-center mt-4 border rounded-md overflow-hidden bg-white/25 shadow-md w-2/5 min-w-[300px] max-w-[40%]">
           <h1 className="text-2xl mb-4">Sign Up</h1>
           <form className="flex flex-col w-2/3" onSubmit={handleSubmit}>
             <input
