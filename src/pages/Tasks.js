@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Table, Button, Modal, Form } from 'react-bootstrap';
 import axios from 'axios';
 
-const Tasks = ({onUpdateTask, tasks, deleteData, onUpdate}) => {
+const Tasks = ({onUpdateTask, tasks, deleteTasks, onUpdate}) => {
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
     task_name: '',
@@ -122,6 +122,7 @@ const Tasks = ({onUpdateTask, tasks, deleteData, onUpdate}) => {
             <th>Assigned To</th>
             <th>Managed By</th>
             <th>Project Id</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -131,7 +132,7 @@ const Tasks = ({onUpdateTask, tasks, deleteData, onUpdate}) => {
               <td>{task.assigned_to}</td>
               <td>{task.managed_by}</td>
               <td>{task.project_id}</td>
-              <td><Button variant="danger" onClick={() => deleteData(task.id)}>
+              <td><Button variant="danger" onClick={() => deleteTasks(task.id)}>
               Delete
             </Button></td>
             </tr>

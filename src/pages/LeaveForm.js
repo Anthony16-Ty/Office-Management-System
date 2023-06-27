@@ -7,7 +7,6 @@ const LeaveForm = ({ onUpdateForm }) => {
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
   const [formData, setFormData] = useState({
-    id: '',
     staff_id: '',
     date_from: '',
     date_to: '',
@@ -15,40 +14,39 @@ const LeaveForm = ({ onUpdateForm }) => {
     leave_type: '',
   });
 
-  async function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      if (
-        !formData.id ||
-        !formData.date_from ||
-        !formData.date_to ||
-        !formData.reason_for_leave ||
-        !formData.leave_type ||
-        !formData.staff_id
-      ) {
-        console.log('Please fill out all the form fields.');
-        return;
-      }
-      const response = await axios.post(
-        'http://localhost:3000/forms',
-        formData
-      );
-      const data = response.data;
-      onUpdateForm(data);
-      navigate('/leave-request')
-      setFormData({
-        id: '',
-        date_from: '',
-        date_to: '',
-        reason_for_leave: '',
-        leave_type: '',
-        staff_id: '',
+
+    fetch('http://localhost:3000/forms', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then(function (response) {
+        if (response.status === 201) {
+          return response.json();
+        } else {
+          throw new Error(`Network response was not ok. Response status: ${response.status}`);
+        }
+      })
+      .then(function (data) {
+        onUpdateForm(data);
+
+        setFormData({
+          staff_id: '',
+          date_from: '',
+          date_to: '',
+          reason_for_leave: '',
+          leave_type: '',
+        });
+        navigate('/leave-request')
+      })
+      .catch(function (error) {
+        console.log(error);
       });
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -65,17 +63,17 @@ const LeaveForm = ({ onUpdateForm }) => {
             Request Leave
           </h5>
           <div className='ml-28'>
-            <div className='m-1 w-80'>
-              <label className='block text-sm font-bold mb-1'>
-                Please Enter Request Id
+             <div className='m-2 w-80'>
+               <label className='block text-sm font-bold mb-1'>
+                Please Enter Staff Id
               </label>
               <input
-                name='request_id'
-                value={formData.id}
+                name='staff_id'
+                value={formData.staff_id}
                 onChange={handleChange}
                 className='border border-gray-400 rounded-md p-2 w-full'
               />
-            </div>
+             </div>
 
             <div className='m-1 w-80'>
               <label className='block text-sm font-bold mb-1'>
@@ -122,18 +120,6 @@ const LeaveForm = ({ onUpdateForm }) => {
               <input
                 name='leave_type'
                 value={formData.leave_type}
-                onChange={handleChange}
-                className='border border-gray-400 rounded-md p-2 w-full'
-              />
-            </div>
-
-            <div className='m-2 w-80'>
-              <label className='block text-sm font-bold mb-1'>
-                Please Enter Staff Id
-              </label>
-              <input
-                name='staff_id'
-                value={formData.staff_id}
                 onChange={handleChange}
                 className='border border-gray-400 rounded-md p-2 w-full'
               />

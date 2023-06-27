@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button,Modal } from 'react-bootstrap';
-import axios from 'axios';
 
-function Projects({handleAddProject, projects, deleteData, updateData}) {
+const Projects = ({handleUpdateProject, projects, deleteProjects, updateData}) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -14,22 +13,37 @@ function Projects({handleAddProject, projects, deleteData, updateData}) {
     client_id: "",
   });
 
-  async function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      if( !formData.project_name || !formData.client_name || !formData.description || !formData.client_id){
-        console.log('Please fill out all the form fields.');
-        return;
-    }
-    const response = await axios.post('http://localhost:3000/projects', formData);
-    const data = response.data
-    handleAddProject(data);
-    setFormData({project_name: "", client_name: "", description: "", client_id: ""});
-    console.log(data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+
+    fetch('http://localhost:3000/projects', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then(function (response) {
+        if (response.status === 201) {
+          return response.json();
+        } else {
+          throw new Error(`Network response was not ok. Response status: ${response.status}`);
+        }
+      })
+      .then(function (data) {
+        handleUpdateProject(data);
+
+        setFormData({
+          project_name: "",
+          client_name: "",
+          description: "",
+          client_id: "",
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -60,7 +74,6 @@ function Projects({handleAddProject, projects, deleteData, updateData}) {
                  <table class="table table-striped table-hover table-bordered table-sm">
                     <thead>
                         <tr>
-                            <th>Project Id</th>
                             <th>Project Name </th>
                             <th>Client Name</th>
                             <th>Description</th>
@@ -68,18 +81,17 @@ function Projects({handleAddProject, projects, deleteData, updateData}) {
                         </tr>
                     </thead>
                     <tbody>
-                    {projects.map((project) => (
-  <tr key={project.id}>
-    <td>{project.id}</td>
-    <td>{project.project_name}</td>
-    <td>{project.client_name}</td>
-    <td>{project.description}</td>
-    <td>
-      <Button variant="danger" onClick={() => deleteData(project.id)}>
-        Delete
-      </Button>
-    </td>
-  </tr>
+                    {projects && Array.isArray(projects) && projects.map((project) => (
+                    <tr key={project.id}>
+                      <td>{project.project_name}</td>
+                      <td>{project.client_name}</td>
+                      <td>{project.description}</td>
+                      <td>
+                         <Button variant="danger" onClick={() => deleteProjects(project.id)}>
+                          Delete
+                         </Button>
+                      </td>
+                    </tr>
 ))}
                     </tbody>
                 </table>

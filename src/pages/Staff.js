@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal } from 'react-bootstrap';
-import axios from 'axios';
+import axios from 'axios'
 
-function Staff({handleUpdateStaff, staffs, deleteData, onUpdate}) {
+function Staff({handleUpdateStaff, staffs, deleteStaffs, onUpdate}) {
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState({
     staff_name: "",
@@ -24,35 +24,33 @@ function Staff({handleUpdateStaff, staffs, deleteData, onUpdate}) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    fetch('http://localhost:3000/staffs', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
+    axios
+      .post('http://localhost:3000/staffs', formData)
       .then(function (response) {
         if (response.status === 200) {
-          return response.json();
+          // Assuming the respons
+        const data = response.data;
+          // Update the tasks state by adding the new task
+          handleUpdateStaff(data);
+
+          // Reset the form data
+          setFormData({
+            staff_name: "",
+            joining_date: "",
+            reporting_to: "",
+            email: "",
+            password: "",
+            password_confirmation: "",
+            tech_stack: "",
+            isStaff: "",
+            admin_id: "",
+          });
+
+          // Close the modal
+          // setShowModal(false);
         } else {
           throw new Error(`Network response was not ok. Response status: ${response.status}`);
         }
-      })
-      .then(function (data) {
-        handleUpdateStaff(data);
-
-        setFormData({
-          staff_name: "",
-          joining_date: "",
-          reporting_to: "",
-          email: "",
-          password: "",
-          password_confirmation: "",
-          tech_stack: "",
-          isStaff: "",
-          admin_id: "",
-        });
       })
       .catch(function (error) {
         console.log(error);
@@ -109,7 +107,7 @@ function Staff({handleUpdateStaff, staffs, deleteData, onUpdate}) {
                     <td>{staff.reporting_to}</td>
                     <td>{staff.tech_stack}</td>
                     <td>
-                      <Button variant="danger" onClick={() => deleteData(staff.id)}>
+                      <Button variant="danger" onClick={() => deleteStaffs(staff.id)}>
                         Delete
                       </Button>
                     </td>

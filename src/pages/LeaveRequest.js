@@ -5,7 +5,7 @@ import { Button,Modal } from 'react-bootstrap';
 
 
 
-function LeaveRequest({forms, deleteData, updateForm}) {
+function LeaveRequest({forms, deleteForms, updateForm}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -24,7 +24,6 @@ function LeaveRequest({forms, deleteData, updateForm}) {
                  <table class="table table-striped table-hover table-bordered table-sm">
                     <thead>
                         <tr>
-                            <th>Req Id</th>
                             <th>Staff ID</th>
                             <th>Date From</th>
                             <th>Date To</th>
@@ -35,7 +34,20 @@ function LeaveRequest({forms, deleteData, updateForm}) {
                         </tr>
                     </thead>
                     <tbody>
-
+                     {forms && Array.isArray(forms) && forms.map((form) => (
+                     <tr key={form.id}>
+                      <td>{form.staff_id}</td>
+                      <td>{form.date_from}</td>
+                      <td>{form.date_to}</td>
+                      <td>{form.reason_for_leave}</td>
+                      <td>{form.leave_type}</td>
+                      <td>
+                         <Button variant="danger" onClick={() => deleteForms(form.id)}>
+                          Delete
+                         </Button>
+                      </td>
+                    </tr>
+                    ))}
                     </tbody>
                 </table>
             </div>
