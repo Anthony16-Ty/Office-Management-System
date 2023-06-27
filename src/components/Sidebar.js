@@ -20,8 +20,6 @@ const Sidebar = () => {
     { title: 'TimeSheets', path: '/timesheets', src: <CgProfile /> },
     { title: 'Leave Requests', path: '/leave-request', src: <CgProfile /> },
     { title: 'Leave Types', path: '/leave-type', src: <CgProfile /> },
-    { title: 'Login', path: '/', src: <CgProfile /> },
-    { title: 'SignUp', path: '/signup', src: <CgProfile /> },
     { title: 'Leave Forms', path: '/leave-form', src: <SiOpenaccess /> },
 
   ]
