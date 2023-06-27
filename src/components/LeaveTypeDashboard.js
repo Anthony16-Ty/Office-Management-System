@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import { LeaveType } from '../pages/LeaveType';
+import { LeaveType } from './LeaveType';
 
 const LeaveTypeDashboard = () => {
     const [leaveTypes, setLeaveTypes] = useState([]);

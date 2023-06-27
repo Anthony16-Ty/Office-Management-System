@@ -1,40 +1,47 @@
-import React from 'react';
-import "bootstrap/dist/css/bootstrap.min.css";
-import {useState} from 'react';
-import { Button,Modal } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Table, Button, Modal, Form } from 'react-bootstrap';
 import axios from 'axios';
 
-
-
-function Tasks({onUpdateTask, tasks, deleteData, onUpdate}) {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
+const Tasks = ({onUpdateTask, tasks, deleteData, onUpdate}) => {
+  const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
-    id: "",
-    name: "",
-    assigned_to: "",
-    managed_by: "",
-    project_id: "",
+    task_name: '',
+    assigned_to: '',
+    managed_by: '',
+    project_id: '',
   });
 
-  async function handleSubmit(e) {
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      if(!formData.id || !formData.name || !formData.assigned_to || !formData.managed_by || !formData.project_id){
-        console.log('Please fill out all the form fields.');
-        return;
-    }
-    const response = await axios.post('http://localhost:3000/tasks', formData);
-    const data = response.data
-    onUpdateTask(data);
-    setFormData({id: "", name: "", assigned_to: "", managed_by: "", project_id: ""});
-    console.log(data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+    axios
+      .post('http://localhost:3000/tasks', formData)
+      .then(function (response) {
+        if (response.status === 201) {
+          // Assuming the respons
+        const data = response.data;
+          // Update the tasks state by adding the new task
+          onUpdateTask(data);
+
+          // Reset the form data
+          setFormData({
+            task_name: '',
+            assigned_to: '',
+            managed_by: '',
+            project_id: '',
+          });
+
+          // Close the modal
+          setShowModal(false);
+        } else {
+          throw new Error(`Network response was not ok. Response status: ${response.status}`);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
 
   const handleChange = (e) => {
     setFormData({
@@ -42,90 +49,98 @@ function Tasks({onUpdateTask, tasks, deleteData, onUpdate}) {
       [e.target.name]: e.target.value,
     });
   };
-    return (
-       <div class="container ">
-          <div className="taskss">
-          <div class="row ">
 
-           <div class="col-sm-3 mt-5 mb-4 text-gred">
-              <div className="search">
-                <form class="form-inline">
-                 <input class="form-control mr-sm-2" type="search" placeholder="Search Task" aria-label="Search"/>
 
-                </form>
-              </div>
-              </div>
-              <div class="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred" style={{color:"green"}}><h5><b>Tasks Details</b></h5></div>
-              <div class="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
-              <Button variant="primary" onClick={handleShow}>
-                Add New Task
-              </Button>
-             </div>
-           </div>
-            <div class="row">
-                <div class="table-responsive " >
-                 <table class="table table-striped table-hover table-bordered table-sm">
-                    <thead>
-                        <tr>
-                            <th>Task Name </th>
-                            <th>Assigned to Staff</th>
-                            <th>Managed by</th>
-                            <th>Project Id</th>
-                            <th>Actions</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        {/* <!--- Model Box ---> */}
-        <div className="model_box">
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Add Project</Modal.Title>
-        </Modal.Header>
-            <Modal.Body>
-            <form onSubmit={handleSubmit}>
-                <div class="form-group mt-3">
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={formData.name} placeholder="Enter Task Name" onChange={handleChange} />
-                </div>
-                <div class="form-group mt-3">
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={formData.assigned} placeholder="Enter Assigned to Staff" onChange={handleChange} />
-                </div>
-                <div class="form-group mt-3">
-                    <input type="password" class="form-control" id="exampleInputPassword1" value={formData.managed} placeholder="Enter Managed by Staff Id" onChange={handleChange} />
-                </div>
-                <div class="form-group">
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value={formData.id} placeholder="Enter Project Id" onChange={handleChange} />
-                </div>
-
-                  <button type="submit" class="btn btn-success mt-4">Add </button>
-                </form>
-            </Modal.Body>
-
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
+  return (
+    <div className='timesheets'>
+      <div style={{display: "flex", justifyContent: "space-between"}}>
+        <div> <h1>Tasks</h1></div>
+        <div>
+          <Button variant="primary" onClick={() => setShowModal(true)} style={{marginTop: "10px"}}>
+            Add New Task
           </Button>
+        </div>
+      </div>
 
-        </Modal.Footer>
+      {/* Modal for adding timesheet entry */}
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Task</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formTaskname">
+              <Form.Label>Task Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="task_name"
+                value={formData.task_name}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="formAssigned">
+              <Form.Label>Assigned To</Form.Label>
+              <Form.Control
+                type="text"
+                name="assigned_to"
+                value={formData.assigned_to}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="formManaged">
+              <Form.Label>Managed By</Form.Label>
+              <Form.Control
+                type="text"
+                name="managed_by"
+                value={formData.managed_by}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="formproject">
+              <Form.Label>Project ID</Form.Label>
+              <Form.Control
+                as="textarea"
+                name="project_id"
+                value={formData.project_id}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit" style={{marginTop: "9px"}}>
+              Add Task
+            </Button>
+          </Form>
+        </Modal.Body>
       </Modal>
 
-       {/* Model Box Finsihs */}
-       </div>
-      </div>
-      </div>
+
+
+      {/* Table to display timesheet entries */}
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Task Name</th>
+            <th>Assigned To</th>
+            <th>Managed By</th>
+            <th>Project Id</th>
+          </tr>
+        </thead>
+        <tbody>
+        {tasks && Array.isArray(tasks) && tasks.map((task) => (
+            <tr key={task.id}>
+              <td>{task.task_name}</td>
+              <td>{task.assigned_to}</td>
+              <td>{task.managed_by}</td>
+              <td>{task.project_id}</td>
+              <td><Button variant="danger" onClick={() => deleteData(task.id)}>
+              Delete
+            </Button></td>
+            </tr>
+          ))}
+
+        </tbody>
+      </Table>
+    </div>
   );
-}
+};
 
 export default Tasks;
-

@@ -1,20 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
-import {useState} from 'react';
-import { Button,Modal } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
 
-
-
-function Staff({onUpdateStaff, staffs, deleteData, onUpdate}) {
+function Staff({handleUpdateStaff, staffs, deleteData, onUpdate}) {
   const [show, setShow] = useState(false);
-  // const [selectedDate, setSelectedDate] = useState('')
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const [formData, setFormData] = useState({
-    id: "",
-    name: "",
+    staff_name: "",
     joining_date: "",
     reporting_to: "",
     email: "",
@@ -25,22 +17,46 @@ function Staff({onUpdateStaff, staffs, deleteData, onUpdate}) {
     admin_id: "",
   });
 
-  async function handleSubmit(e) {
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      if(!formData.id || !formData.name || !formData.joining_date || !formData.reporting_to || !formData.email || !formData.password || !formData.password_confirmation || !formData.tech_stack || !formData.isStaff || !formData.admin_id){
-        console.log('Please fill out all the form fields.');
-        return;
-    }
-    const response = await axios.post('https://jsonplaceholder.typicode.com/users', formData);
-    const data = response.data
-    onUpdateStaff(data);
-    setFormData({id: "", name: "", joining_date: "", reporting_to: "", email: "", password: "", password_confirmation: "", tech_stack: "", isStaff: "", admin_id: ""});
-    console.log(data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+    axios
+      .post('http://localhost:3000/staffs', formData)
+      .then(function (response) {
+        if (response.status === 201) {
+          // Assuming the respons
+        const data = response.data;
+          // Update the tasks state by adding the new task
+          handleUpdateStaff(data);
+
+          // Reset the form data
+          setFormData({
+            staff_name: "",
+            joining_date: "",
+            reporting_to: "",
+            email: "",
+            password: "",
+            password_confirmation: "",
+            tech_stack: "",
+            isStaff: "",
+            admin_id: "",
+          });
+
+          // Close the modal
+          setShowModal(false);
+        } else {
+          throw new Error(`Network response was not ok. Response status: ${response.status}`);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
 
   const handleChange = (e) => {
     setFormData({
@@ -49,106 +65,108 @@ function Staff({onUpdateStaff, staffs, deleteData, onUpdate}) {
     });
   };
 
-    return (
-       <div class="container ">
-          <div className="staff-details">
-          <div class="row ">
 
-           <div class="col-sm-3 mt-5 mb-4 text-gred">
-              <div className="search">
-                <form class="form-inline">
-                 <input class="form-control mr-sm-2" type="search" placeholder="Search Staff" aria-label="Search"/>
-
-                </form>
-              </div>
-              </div>
-              <div class="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred" style={{color:"green"}}><h2><b>Staff Details</b></h2></div>
-              <div class="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
-              <Button variant="primary" onClick={handleShow}>
-                Add New Staff
-              </Button>
-             </div>
-           </div>
-            <div class="row">
-                <div class="table-responsive " >
-                 <table class="table table-striped table-hover table-bordered table-sm">
-                    <thead>
-                        <tr>
-                            <th>Staff Id</th>
-                            <th>Name </th>
-                            <th>Joining Date</th>
-                            <th>Report To </th>
-                            <th>Tech Stack</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
+  return (
+    <div className="container">
+      <div className="staff-details">
+        <div className="row">
+          <div className="col-sm-3 mt-5 mb-4 text-gred">
+            <div className="search">
+              <form className="form-inline">
+                <input className="form-control mr-sm-2" type="search" placeholder="Search Staff" aria-label="Search" />
+              </form>
             </div>
+          </div>
+          <div className="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred" style={{ color: "green" }}>
+            <h2><b>Staff Details</b></h2>
+          </div>
+          <div className="col-sm-3 offset-sm-1 mt-5 mb-4 text-gred">
+            <Button variant="primary" onClick={handleShow}>
+              Add New Staff
+            </Button>
+          </div>
+        </div>
+        <div className="row">
+          <div className="table-responsive">
+            <table className="table table-striped table-hover table-bordered table-sm">
+              <thead>
+                <tr>
+                  <th>Staff Id</th>
+                  <th>Name</th>
+                  <th>Joining Date</th>
+                  <th>Report To</th>
+                  <th>Tech Stack</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {staffs && Array.isArray(staffs) && staffs.map((staff) => (
+                  <tr key={staff.id}>
+                    <td>{staff.staff_name}</td>
+                    <td>{staff.joining_date}</td>
+                    <td>{staff.reporting_to}</td>
+                    <td>{staff.tech_stack}</td>
+                    <td>
+                      <Button variant="danger" onClick={() => deleteData(staff.id)}>
+                        Delete
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        {/* <!--- Model Box ---> */}
         <div className="model_box">
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Add Record</Modal.Title>
-        </Modal.Header>
+          <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
+            <Modal.Header closeButton>
+              <Modal.Title>Add Record</Modal.Title>
+            </Modal.Header>
             <Modal.Body>
-            <form onSubmit={handleSubmit}>
-              <div class="form-group">
-                    <input type="name" class="form-control" name='text' placeholder="Enter Staff Name" value={formData.name} onChange={handleChange} />
-              </div>
-                <div class="form-group mt-3">
-                    <input type="date" class="datePicker" placeholder="Enter Joining Date" value={formData.joining_date} onChange={handleChange} />
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <input type="text" className="form-control" name='staff_name' placeholder="Enter Project Name" value={formData.staff_name} onChange={handleChange} />
                 </div>
-                <div class="form-group mt-3">
-                    <input type="text" class="form-control" name='text'  placeholder="Reporting To" value={formData.reporting_to} onChange={handleChange} />
+                <div className="form-group mt-3">
+                  <input type="date" className="datePicker" name='joining_date' placeholder="Enter Joining Date" value={formData.joining_date} onChange={handleChange} />
                 </div>
-                <div class="form-group mt-3">
-                    <input type="text" class="form-control" name='text'  placeholder="Enter Email" value={formData.email} onChange={handleChange} />
+                <div className="form-group mt-3">
+                  <input type="text" className="form-control" name='reporting_to' placeholder="Reporting To" value={formData.reporting_to} onChange={handleChange} />
                 </div>
-                <div class="form-group mt-3">
-                    <input type="password" class="password" placeholder="Create Password" value={formData.password} onChange={handleChange} />
+                <div className="form-group mt-3">
+                  <input type="text" className="form-control" name='email' placeholder="Enter Email" value={formData.email} onChange={handleChange} />
                 </div>
-                <div class="form-group mt-3">
-                    <input type="password" class="password_confirmation" placeholder="Confirm Password" value={formData.password_confirmation} onChange={handleChange} />
+                <div className="form-group mt-3">
+                  <input type="password" className="form-control" name='password' placeholder="Create Password" value={formData.password} onChange={handleChange} />
                 </div>
-                <div class="form-group mt-3">
-                    <input type="text" class="form-control" name='text' placeholder="Enter Your Stack Details" value={formData.tech_stack} onChange={handleChange} />
+                <div className="form-group mt-3">
+                  <input type="password" className="form-control" name='password_confirmation' placeholder="Confirm Password" value={formData.password_confirmation} onChange={handleChange} />
                 </div>
-                <div class="form-group mt-3">
-                    <input type="text" class="form-control" name='text' placeholder="isStaff" value={formData.isStaff} onChange={handleChange} />
+                <div className="form-group mt-3">
+                  <input type="text" className="form-control" name='tech_stack' placeholder="Enter Your Stack Details" value={formData.tech_stack} onChange={handleChange} />
                 </div>
-                <div class="form-group mt-3">
-                    <input type="text" class="form-control" name='text' placeholder="Admin ID" value={formData.admin_id} onChange={handleChange} />
+                <div className="form-group mt-3">
+                  <input type="text" className="form-control" name='isStaff' placeholder="isStaff" value={formData.isStaff} onChange={handleChange} />
+                </div>
+                <div className="form-group mt-3">
+                  <input type="text" className="form-control" name='admin_id' placeholder="Admin ID" value={formData.admin_id} onChange={handleChange} />
                 </div>
 
-                  <button type="submit" class="btn btn-success mt-4">Add Staff</button>
-                </form>
+                <button type="submit" className="btn btn-success mt-4">Add Staff</button>
+              </form>
             </Modal.Body>
 
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-
-        </Modal.Footer>
-      </Modal>
-
-       {/* Model Box Finsihs */}
-       </div>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
       </div>
-      </div>
+    </div>
   );
 }
 
 export default Staff;
-
-
