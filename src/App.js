@@ -12,7 +12,6 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AdminDashboard from './components/AdminDashboard';
 import StDashboard from './components/StDashboard';
-import ProjectDashboard from './components/ProjectDashboard';
 import axios from 'axios';
 
 function App() {
@@ -22,9 +21,112 @@ function App() {
   const [isStaff, setIsStaff] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [staffs, setStaffs] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [forms, setForms] = useState([]);
+
+  //Fetch Forms
+    useEffect(() => {
+        fetchForms();
+    }, []);
 
     useEffect(() => {
-        fetchStaffs();
+      const storedForms = localStorage.getItem('forms');
+      if(storedForms) {
+        setForms(JSON.parse(storedForms))
+      }
+    }, []);
+
+    useEffect(() => {
+      localStorage.setItem('forms', JSON.stringify(forms))
+    }, [forms]);
+
+    async function fetchForms() {
+    try {
+      const response = await axios.get('http://localhost:3000/forms');
+      const data = response.data;
+      setForms(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function updateForm(id, newData) {
+    try {
+      const response = await axios.put(`http://localhost:3000/forms/${id}`, newData);
+      const data = response.data;
+      setForms(data);
+    } catch (error) {
+      console.error('Errror updating data:', error);
+    }
+  }
+
+  async function deleteForms(id) {
+    try {
+      await axios.delete(`http://localhost:3000/forms/${id}`);
+      setForms(forms.filter(form => form.id !== id));
+    } catch (error) {
+      console.error('Error Deleting data:', error);
+    }
+  }
+
+  function handleUpdateForm(newForm) {
+    setForms([...forms, newForm])
+  }
+
+  //fetch projects
+
+    useEffect(() => {
+        fetchProjects();
+    }, []);
+
+    useEffect(() => {
+      const storedProjects = localStorage.getItem('projects');
+      if(storedProjects){
+        setProjects(JSON.parse(storedProjects))
+      }
+    }, []);
+
+    useEffect(() => {
+      localStorage.setItem('projects', JSON.stringify(projects));
+    }, [projects]);
+
+    async function fetchProjects() {
+        try {
+          const response = await axios.get('http://localhost:3000/projects');
+          const data = response.data;
+          setProjects(data);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+    async function updateProjects(id, newData) {
+      try {
+        const response = await axios.put(`http://localhost:3000/projects/${id}`, newData);
+        const data = response.data;
+        setProjects(data);
+      } catch (error) {
+        console.error('Errror updating data:', error);
+      }
+    }
+
+    async function deleteProjects(id) {
+      try {
+        await axios.delete(`http://localhost:3000/projects/${id}`);
+        setProjects(projects.filter(project => project.id !== id));
+      } catch (error) {
+        console.error('Error Deleting data:', error);
+      }
+    }
+
+    function handleUpdateProject(newProject) {
+      setProjects([...projects, newProject]);
+    }
+
+    //fetch staffs
+
+    useEffect(() => {
+      fetchStaffs();
     }, []);
 
     useEffect(() => {
@@ -58,18 +160,22 @@ function App() {
       }
     }
 
-    async function deleteData(id) {
+    async function deleteStaffs(id) {
       try {
         await axios.delete(`http://localhost:3000/staffs/${id}`);
-        setStaffs(staffs.filter(staff => staff.id !== id));
+        setStaffs(prevStaffs => prevStaffs.filter(staff => staff.id !== id));
       } catch (error) {
         console.error('Error Deleting data:', error);
       }
     }
 
-    function handleUpdateStaff(newStaff){
-        setStaffs([...staffs, newStaff])
+
+    function handleUpdateStaff(newStaff) {
+      setStaffs(prevStaffs => [...prevStaffs, newStaff]);
     }
+
+
+    //fetch tasks
 
     useEffect(() => {
         fetchTasks();
@@ -106,7 +212,7 @@ function App() {
       }
     }
 
-    async function deleteData(id) {
+    async function deleteTasks(id) {
       try {
         await axios.delete(`http://localhost:3000/tasks/${id}`);
         setTasks(tasks.filter(task => task.id !== id));
@@ -119,6 +225,8 @@ function App() {
         setTasks([...tasks, newTask])
     }
 
+
+    //fetch timesheets
 
   useEffect(() => {
     fetchTimesheets();
@@ -168,6 +276,8 @@ function App() {
     setTimesheets([...timesheets, newSheet]);
   }
 
+  //handle login states
+
   function handleLogin(user) {
     setIsLoggedIn(true);
     setIsAdmin(user.isadmin);
@@ -182,18 +292,17 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/admindashboard" element={<AdminDashboard />} />
           <Route path="/stdashboard" element={<StDashboard />} />
-          <Route path="/tasks" element={<Tasks onUpdateTask={handleUpdateTask} tasks={tasks} deleteData={deleteData} onUpdate={updateTasks} />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/staff" element={<Staff staffs={staffs} handleUpdateStaff={handleUpdateStaff} deleteData={deleteData} onUpdate={updateStaffs} />} />
+          <Route path="/tasks" element={<Tasks onUpdateTask={handleUpdateTask} tasks={tasks} deleteTasks={deleteTasks} onUpdate={updateTasks} />} />
+          <Route path="/projects" element={<Projects projects={projects} deleteProjects={deleteProjects} handleUpdateProject={handleUpdateProject} updateProjects={updateProjects} />} />
+          <Route path="/staff" element={<Staff staffs={staffs} handleUpdateStaff={handleUpdateStaff} deleteStaffs={deleteStaffs} onUpdate={updateStaffs} />} />
           <Route
             path="/timesheets"
             element={<TimeSheets timesheets={timesheets} onUpdateSheet={handleUpdateSheet} deleteData={deleteData} updateSheet={updateSheet} />}
           />
           <Route path="/client" element={<Client />} />
-          <Route path="/leave-form" element={<LeaveForm />} />
-          <Route path="/leave-request" element={<LeaveRequest />} />
+          <Route path="/leave-form" element={<LeaveForm onUpdateForm={handleUpdateForm} />} />
+          <Route path="/leave-request" element={<LeaveRequest forms={forms} updateForm={updateForm} deleteForms={deleteForms} />} />
           <Route path="/leave-type" element={<LeaveType />} />
-          {/* <Route path="/projectdash" element={<ProjectDashboard /> } /> */}
         </Routes>
     </Router>
   );
