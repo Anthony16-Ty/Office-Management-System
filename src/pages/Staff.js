@@ -24,38 +24,41 @@ function Staff({handleUpdateStaff, staffs, deleteData, onUpdate}) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post('http://localhost:3000/staffs', formData)
+
+    fetch('http://localhost:3000/staffs', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
       .then(function (response) {
-        if (response.status === 201) {
-          // Assuming the respons
-        const data = response.data;
-          // Update the tasks state by adding the new task
-          handleUpdateStaff(data);
-
-          // Reset the form data
-          setFormData({
-            staff_name: "",
-            joining_date: "",
-            reporting_to: "",
-            email: "",
-            password: "",
-            password_confirmation: "",
-            tech_stack: "",
-            isStaff: "",
-            admin_id: "",
-          });
-
-          // Close the modal
-          setShowModal(false);
+        if (response.status === 200) {
+          return response.json();
         } else {
           throw new Error(`Network response was not ok. Response status: ${response.status}`);
         }
+      })
+      .then(function (data) {
+        handleUpdateStaff(data);
+
+        setFormData({
+          staff_name: "",
+          joining_date: "",
+          reporting_to: "",
+          email: "",
+          password: "",
+          password_confirmation: "",
+          tech_stack: "",
+          isStaff: "",
+          admin_id: "",
+        });
       })
       .catch(function (error) {
         console.log(error);
       });
   };
+
 
 
   const handleChange = (e) => {
@@ -91,7 +94,6 @@ function Staff({handleUpdateStaff, staffs, deleteData, onUpdate}) {
             <table className="table table-striped table-hover table-bordered table-sm">
               <thead>
                 <tr>
-                  <th>Staff Id</th>
                   <th>Name</th>
                   <th>Joining Date</th>
                   <th>Report To</th>

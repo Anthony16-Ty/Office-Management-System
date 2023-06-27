@@ -13,8 +13,8 @@ import TimeSheets from '../pages/TimeSheets';
 function AdminDashboard() {
 
     return (
-      <div>
-        <h2>Welcome to Admin Dashboard</h2>
+      // <div>
+      //   <h2>Welcome to Admin Dashboard</h2>
 
         <AdminLayout>
           <Routes>
@@ -29,7 +29,7 @@ function AdminDashboard() {
           </Routes>
         </AdminLayout>
 
-      </div>
+      // </div>
     );
   }
 
