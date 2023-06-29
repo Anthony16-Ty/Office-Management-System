@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { BsArrowLeftCircle } from "react-icons/bs";
 import { AiFillProject } from "react-icons/ai";
-import { FaTasks } from "react-icons/fa";
-import { FaUserFriends } from "react-icons/fa";
+import { FaTasks, FaUserFriends } from "react-icons/fa";
 import Logo from "../assets/images/logo.svg";
 import HamburgerButton from "./HamburgerMenuButton/HamburgerButton";
 import { AiOutlineFieldTime } from "react-icons/ai";
 import { FaWpforms } from "react-icons/fa";
 import { FaBriefcase } from "react-icons/fa";
-import { GrDocumentPerformance } from "react-icons/gr";
+import { SiReacthookform } from "react-icons/si";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
@@ -23,11 +22,7 @@ const Sidebar = () => {
     { title: "TimeSheets", path: "/timesheets", src: <AiOutlineFieldTime /> },
     { title: "Leave Requests", path: "/leave-request", src: <FaWpforms /> },
     { title: "Leave Types", path: "/leave-type", src: <FaBriefcase /> },
-    {
-      title: "Leave Forms",
-      path: "/leave-form",
-      src: <GrDocumentPerformance />,
-    },
+    { title: "Leave Form", path: "/leave-form", src: <SiReacthookform /> },
   ];
 
   return (
