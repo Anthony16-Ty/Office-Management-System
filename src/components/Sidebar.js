@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { BsArrowLeftCircle } from 'react-icons/bs';
-import { SiFuturelearn } from 'react-icons/si';
-import { SiOpenaccess } from 'react-icons/si';
-import { CgProfile } from 'react-icons/cg';
+import { AiFillProject  } from 'react-icons/ai';
+import {FaTasks } from 'react-icons/fa';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUsers } from '@fortawesome/free-solid-svg-icons';
 import Logo from '../assets/images/logo.svg';
 import HamburgerButton from './HamburgerMenuButton/HamburgerButton';
+import {AiOutlineFieldTime } from 'react-icons/ai';
+import { FaWpforms } from 'react-icons/fa';
+import {MdDirectionsWalk} from 'react-icons/md';
+import { FaCalendarAlt } from 'react-icons/fa'
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
@@ -13,13 +18,13 @@ const Sidebar = () => {
   const location = useLocation();
 
   const Menus = [
-    { title: 'Projects', path: '/projects', src: <SiFuturelearn /> },
-    { title: 'Tasks', path: '/tasks', src: <CgProfile /> },
-    { title: 'Staffs', path: '/staff', src: <CgProfile /> },
-    { title: 'TimeSheets', path: '/timesheets', src: <CgProfile /> },
-    { title: 'Leave Requests', path: '/leave-request', src: <CgProfile /> },
-    { title: 'Leave Types', path: '/leave-type', src: <CgProfile /> },
-    { title: 'Leave Forms', path: '/leave-form', src: <SiOpenaccess /> },
+    { title: "Projects", path: "/projects", src: <AiFillProject /> },
+    { title: "Tasks", path: "/tasks", src: <FaTasks /> },
+    { title: "Staffs", path: "/staff", src: <faUsers /> },
+    { title: "TimeSheets", path: "/timesheets", src: <AiOutlineFieldTime /> },
+    { title: "Leave Requests", path: "/leave-request", src: <FaWpforms /> },
+    { title: "Leave Types", path: "/leave-type", src: <MdDirectionsWalk /> },
+    { title: "Leave Forms", path: "/leave-form", src: <FaCalendarAlt /> },
   ];
 
   return (
