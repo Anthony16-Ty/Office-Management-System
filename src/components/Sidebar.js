@@ -8,7 +8,7 @@ import Logo from '../assets/images/logo.svg';
 import HamburgerButton from './HamburgerMenuButton/HamburgerButton';
 import {AiOutlineFieldTime } from 'react-icons/ai';
 import { FaWpforms } from 'react-icons/fa';
-import {MdDirectionsWalk} from 'react-icons/md';
+import { FaBriefcase } from 'react-icons/fa'
 import { GrDocumentPerformance } from 'react-icons/gr'
 
 const Sidebar = () => {
@@ -22,7 +22,7 @@ const Sidebar = () => {
     { title: "Staffs", path: "/staff", src: <FaUserFriends /> },
     { title: "TimeSheets", path: "/timesheets", src: <AiOutlineFieldTime /> },
     { title: "Leave Requests", path: "/leave-request", src: <FaWpforms /> },
-    { title: "Leave Types", path: "/leave-type", src: <MdDirectionsWalk /> },
+    { title: "Leave Types", path: "/leave-type", src: <FaBriefcase /> },
     { title: "Leave Forms", path: "/leave-form", src: <GrDocumentPerformance /> },
   ];
 
