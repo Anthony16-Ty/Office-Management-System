@@ -11,11 +11,11 @@ function LeaveRequest({forms, deleteForms, updateForm}) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
     return (
-       <div class="container ">
+       <div class="mx-auto bg-white rounded-lg shadow-lg ml-12 px-5 pb-8 pt-3">
           <div className="requests">
           <div class="row ">
 
-              <div class="col-sm-3 offset-sm-2 mt-3 mb-4 text-gred" style={{color:"green"}}><h5><b>Leave Request Details</b></h5></div>
+              <div class="col-sm-3 offset-sm-2 mt-3 mb-4 text-gred" style={{color:"green"}}><h5 className='text-center'><b>Leave Request Details</b></h5></div>
               <div class="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
              </div>
            </div>
@@ -36,11 +36,11 @@ function LeaveRequest({forms, deleteForms, updateForm}) {
                     <tbody>
                      {forms && Array.isArray(forms) && forms.map((form) => (
                      <tr key={form.id}>
-                      <td>{form.staff_id}</td>
                       <td>{form.date_from}</td>
                       <td>{form.date_to}</td>
                       <td>{form.reason_for_leave}</td>
                       <td>{form.leave_type}</td>
+                      <td>{form.staff_id}</td>
                       <td>
                          <Button variant="danger" onClick={() => deleteForms(form.id)}>
                           Delete

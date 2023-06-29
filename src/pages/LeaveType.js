@@ -36,7 +36,7 @@ export const LeaveType = ({ leaveTypes, onUpdateLeave, deleteLeave, updateLeave 
   };
 
   return (
-    <form onSubmit={handleSubmit} className='form-type'>
+    <form onSubmit={handleSubmit} className='mx-auto bg-white rounded-lg shadow-lg ml-12 px-5 pb-8 pt-3'>
       <div className='ml-8'>
         <div className='mt-4 flex mb-4'>
           <label className='font-bold text-xl mr-2'>Name:</label>

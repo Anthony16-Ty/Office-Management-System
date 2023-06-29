@@ -45,9 +45,9 @@ const Timesheet = ({onUpdateSheet, timesheets, deleteData, updateSheet}) => {
 
 
   return (
-    <div className='timesheets'>
+    <div className='mx-auto bg-white rounded-lg shadow-lg ml-15 px-3 py-8 pt-3'>
       <div style={{display: "flex", justifyContent: "space-between"}}>
-        <div> <h1>Timesheets</h1></div>
+        <div> <h3 className='text-green text-center'>Timesheets</h3></div>
         <div>
           <Button variant="primary" onClick={() => setShowModal(true)} style={{marginTop: "10px"}}>
             Add Entry

@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios'
 
-function Staff({handleUpdateStaff, staffs, deleteStaffs, onUpdate}) {
+function Staff({handleUpdateStaff, staffs, deleteStaffs, updateStaff}) {
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState({
     staff_name: "",
@@ -68,7 +68,7 @@ function Staff({handleUpdateStaff, staffs, deleteStaffs, onUpdate}) {
 
 
   return (
-    <div className="container">
+    <div className="mx-auto bg-white rounded-lg shadow-lg ml-15 px-5 pb-8 pt-3">
       <div className="staff-details">
         <div className="row">
           <div className="col-sm-3 mt-5 mb-4 text-gred">
@@ -79,7 +79,7 @@ function Staff({handleUpdateStaff, staffs, deleteStaffs, onUpdate}) {
             </div>
           </div>
           <div className="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred" style={{ color: "green" }}>
-            <h2><b>Staff Details</b></h2>
+            <h3><b>Staff Details</b></h3>
           </div>
           <div className="col-sm-3 offset-sm-1 mt-5 mb-4 text-gred">
             <Button variant="primary" onClick={handleShow}>

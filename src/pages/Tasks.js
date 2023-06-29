@@ -52,9 +52,9 @@ const Tasks = ({onUpdateTask, tasks, deleteTasks, onUpdate}) => {
 
 
   return (
-    <div className='timesheets'>
+    <div className='mx-auto bg-white rounded-lg shadow-lg ml-15 px-5 pt-3 pb-8'>
       <div style={{display: "flex", justifyContent: "space-between"}}>
-        <div> <h1>Tasks</h1></div>
+        <div className='text-center text-green'><h3>Tasks</h3></div>
         <div>
           <Button variant="primary" onClick={() => setShowModal(true)} style={{marginTop: "10px"}}>
             Add New Task

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button,Modal } from 'react-bootstrap';
+import { Button, Modal, Table } from 'react-bootstrap';
 
 const Projects = ({handleUpdateProject, projects, deleteProjects, updateData}) => {
   const [show, setShow] = useState(false);
@@ -52,51 +52,52 @@ const Projects = ({handleUpdateProject, projects, deleteProjects, updateData}) =
     });
   };
     return (
-      <div class="container ">
-        <div className="main">
-          <div class="row ">
-            <div class="col-sm-3 mt-5 mb-4 text-gred">
-              <div className="search">
-                <form class="form-inline">
-                 <input class="form-control mr-sm-2" type="search" placeholder="Search Project" aria-label="Search"/>
-                </form>
-              </div>
-            </div>
-          <div class="col-sm-3 offset-sm-2 mt-5 mb-4 text-gred" style={{color:"green"}}><h5><b>Projects Details</b></h5></div>
-        <div class="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
-            <Button variant="primary" onClick={handleShow}>
-                Add New Project
+      <div className="container mx-auto bg-white rounded-lg shadow-lg ml-15 pt-3 pb-8">
+      <div className="main">
+        <div className="flex justify-between items-center my-5">
+          <div className="search">
+            <form className="inline-flex">
+              <input className="form-control mr-2" type="search" placeholder="Search Project" aria-label="Search" />
+            </form>
+          </div>
+          <div className="text-green-500">
+            <h5 className="font-bold text-lg">Projects Details</h5>
+          </div>
+          <div>
+            <Button variant="primary" onClick={handleShow} className='mr-5'>
+              Add New Project
             </Button>
+          </div>
         </div>
+        <div className="flex justify-center">
+          <div className="table-container">
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Project Name</th>
+                  <th>Client Name</th>
+                  <th>Description</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {projects && Array.isArray(projects) && projects.map((project) => (
+                  <tr key={project.id}>
+                    <td>{project.project_name}</td>
+                    <td>{project.client_name}</td>
+                    <td>{project.description}</td>
+                    <td>
+                      <Button variant="danger" onClick={() => deleteProjects(project.id)}>
+                        Delete
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
         </div>
-        <div class="row">
-            <div class="table-responsive " >
-                 <table class="table table-striped table-hover table-bordered table-sm">
-                    <thead>
-                        <tr>
-                            <th>Project Name </th>
-                            <th>Client Name</th>
-                            <th>Description</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {projects && Array.isArray(projects) && projects.map((project) => (
-                    <tr key={project.id}>
-                      <td>{project.project_name}</td>
-                      <td>{project.client_name}</td>
-                      <td>{project.description}</td>
-                      <td>
-                         <Button variant="danger" onClick={() => deleteProjects(project.id)}>
-                          Delete
-                         </Button>
-                      </td>
-                    </tr>
-))}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+
 
         <div className="model_box">
             <Modal
@@ -139,5 +140,4 @@ const Projects = ({handleUpdateProject, projects, deleteProjects, updateData}) =
 }
 
 export default Projects;
-
 
