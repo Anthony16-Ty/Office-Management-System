@@ -9,7 +9,7 @@ import HamburgerButton from './HamburgerMenuButton/HamburgerButton';
 import {AiOutlineFieldTime } from 'react-icons/ai';
 import { FaWpforms } from 'react-icons/fa';
 import {MdDirectionsWalk} from 'react-icons/md';
-import { FaCalendarAlt } from 'react-icons/fa'
+import { GrDocumentPerformance } from 'react-icons/gr'
 
 const Sidebar = () => {
   const [open, setOpen] = useState(true);
@@ -23,7 +23,7 @@ const Sidebar = () => {
     { title: "TimeSheets", path: "/timesheets", src: <AiOutlineFieldTime /> },
     { title: "Leave Requests", path: "/leave-request", src: <FaWpforms /> },
     { title: "Leave Types", path: "/leave-type", src: <MdDirectionsWalk /> },
-    { title: "Leave Forms", path: "/leave-form", src: <FaCalendarAlt /> },
+    { title: "Leave Forms", path: "/leave-form", src: <GrDocumentPerformance /> },
   ];
 
   return (
