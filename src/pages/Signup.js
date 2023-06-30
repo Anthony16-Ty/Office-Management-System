@@ -4,7 +4,8 @@ const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [userType, setUserType] = useState("regular"); // Default user type is regular
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [techStack, setTechStack] = useState("");
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -18,20 +19,38 @@ const SignUp = () => {
     setPassword(e.target.value);
   };
 
-  const handleUserTypeChange = (e) => {
-    setUserType(e.target.value);
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+  };
+
+  const handleTechStackChange = (e) => {
+    setTechStack(e.target.value);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle sign-up logic here based on the userType
-    if (userType === "admin") {
-      // Handle admin sign-up
-      console.log("Admin sign-up:", name, email, password);
-    } else {
-      // Handle regular user sign-up
-      console.log("Staff sign-up:", name, email, password);
+
+    // Validate form inputs (e.g., check password match, required fields, etc.)
+    if (password !== confirmPassword) {
+      // Handle password mismatch error
+      return;
     }
+
+    // Create a staff object to send to the server
+    const staff = {
+      staff_name: name,
+      joining_date: new Date(), // Set the joining date
+      reporting_to: "", // Set the reporting manager
+      email,
+      password,
+      password_confirmation: confirmPassword,
+      tech_stack: techStack,
+      isStaff: true,
+      admin_id: 0, // Set the admin ID as per your requirements
+    };
+
+    // Send the staff object to the server or perform further actions
+    console.log(staff);
   };
 
   return (
@@ -75,21 +94,17 @@ const SignUp = () => {
               className="mb-4 border border-gray-400 rounded-md p-2"
               type="password"
               placeholder="Confirm Password"
-              value={password}
-              onChange={handlePasswordChange}
+              value={confirmPassword}
+              onChange={handleConfirmPasswordChange}
               required
             />
-            <label className="mb-2">
-              User Type:
-              <select
-                className="ml-2 border border-gray-400 rounded-md p-2"
-                value={userType}
-                onChange={handleUserTypeChange}
-              >
-                <option value="regular">Staff</option>
-                <option value="admin">Admin</option>
-              </select>
-            </label>
+            <textarea
+              className="mb-4 border border-gray-400 rounded-md p-2"
+              placeholder="Tech Stack"
+              value={techStack}
+              onChange={handleTechStackChange}
+              required
+            />
             <button
               className="mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded-md"
               type="submit"
