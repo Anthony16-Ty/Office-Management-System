@@ -5,10 +5,10 @@ import Projects from '../pages/Projects';
 import LeaveRequest from '../pages/LeaveRequest';
 import LeaveForm from '../pages/LeaveForm';
 import { LeaveType } from '../pages/LeaveType';
+import LeaveReport from '../pages/LeaveReport';
 import TimeSheets from '../pages/TimeSheets';
 import Layout from './Layout';
 import axios from 'axios';
-import LeaveReport from '../pages/LeaveReport';
 
 function StDashboard() {
   const [timesheets, setTimesheets] = useState([]);
@@ -41,7 +41,7 @@ function StDashboard() {
 
   async function fetchReports() {
     try {
-      const response = await axios.get('https://oms-api-production.up.railway.app/leave_types');
+      const response = await axios.get('https://web-production-baa0.up.railway.app/leave_types');
       const data = response.data;
       setLeave_types(data);
     } catch (error) {
@@ -50,7 +50,7 @@ function StDashboard() {
   }
   async function updateLeave(id, newData) {
     try {
-      const response = await axios.put(`http://localhost:3000/leave_types/${id}`, newData);
+      const response = await axios.put(`https://web-production-baa0.up.railway.app/leave_types/${id}`, newData);
       const data = response.data;
       setLeave_types(data);
     } catch (error) {
@@ -59,7 +59,7 @@ function StDashboard() {
   }
   async function deleteLeave(id) {
     try {
-      await axios.delete(`http://localhost:3000/leave_types/${id}`);
+      await axios.delete(`https://web-production-baa0.up.railway.app/leave_types/${id}`);
       setLeave_types(leave_types.filter(leave_type => leave_type.id !== id));
     } catch (error) {
       console.error('Error deleting data:', error);
@@ -84,7 +84,7 @@ function StDashboard() {
 
   async function fetchTimesheets() {
     try {
-      const response = await axios.get('http://localhost:3000/timesheets');
+      const response = await axios.get('https://web-production-baa0.up.railway.app/timesheets');
       const data = response.data;
       setTimesheets(data);
     } catch (error) {
@@ -93,7 +93,7 @@ function StDashboard() {
   }
   async function updateSheet(id, newData) {
     try {
-      const response = await axios.put(`http://localhost:3000/timesheets/${id}`, newData);
+      const response = await axios.put(`https://web-production-baa0.up.railway.app/timesheets/${id}`, newData);
       const data = response.data;
       setTimesheets(data);
     } catch (error) {
@@ -102,7 +102,7 @@ function StDashboard() {
   }
   async function deleteData(id) {
     try {
-      await axios.delete(`http://localhost:3000/timesheets/${id}`);
+      await axios.delete(`https://web-production-baa0.up.railway.app/timesheets/${id}`);
       setTimesheets(timesheets.filter(timesheet => timesheet.id !== id));
     } catch (error) {
       console.error('Error deleting data:', error);
@@ -127,7 +127,7 @@ function StDashboard() {
 
   async function fetchTasks() {
     try {
-      const response = await axios.get('http://localhost:3000/tasks');
+      const response = await axios.get('https://web-production-baa0.up.railway.app/tasks');
       const data = response.data;
       setTasks(data);
     } catch (error) {
@@ -138,7 +138,7 @@ function StDashboard() {
   // Perform update operation on tasks
   async function updateTask(id, newData) {
     try {
-      await axios.put(`http://localhost:3000/tasks/${id}`, newData);
+      await axios.put(`https://web-production-baa0.up.railway.app/tasks/${id}`, newData);
       const updatedTasks = tasks.map((task) => {
         if (task.id === id) {
           return { ...task, ...newData };
@@ -154,7 +154,7 @@ function StDashboard() {
   // Perform delete operation on tasks
   async function deleteTasks(id) {
     try {
-      await axios.delete(`http://localhost:3000/tasks/${id}`);
+      await axios.delete(`https://web-production-baa0.up.railway.app/tasks/${id}`);
       setTasks(tasks.filter(task => task.id !== id));
     } catch (error) {
       console.error('Error Deleting data:', error);
@@ -179,7 +179,7 @@ function StDashboard() {
 
   async function fetchProjects() {
     try {
-      const response = await axios.get('http://localhost:3000/projects');
+      const response = await axios.get('https://web-production-baa0.up.railway.app/projects');
       const data = response.data;
       setProjects(data);
     } catch (error) {
@@ -190,7 +190,7 @@ function StDashboard() {
   // Perform update operation on projects
   async function updateProject(id, newData) {
     try {
-      await axios.put(`http://localhost:3000/projects/${id}`, newData);
+      await axios.put(`https://web-production-baa0.up.railway.app/projects/${id}`, newData);
       const updatedProjects = projects.map((project) => {
         if (project.id === id) {
           return { ...project, ...newData };
@@ -206,7 +206,7 @@ function StDashboard() {
   // Perform delete operation on projects
   async function deleteProjects(id) {
     try {
-      await axios.delete(`http://localhost:3000/projects/${id}`);
+      await axios.delete(`https://web-production-baa0.up.railway.app/projects/${id}`);
       setProjects(projects.filter(project => project.id !== id));
     } catch (error) {
       console.error('Error Deleting data:', error);
@@ -232,7 +232,7 @@ function StDashboard() {
 
   async function fetchForms() {
     try {
-      const response = await axios.get('http://localhost:3000/forms');
+      const response = await axios.get('https://web-production-baa0.up.railway.app/forms');
       const data = response.data;
       setForms(data);
     } catch (error) {
@@ -243,7 +243,7 @@ function StDashboard() {
   // Perform update operation on forms
   async function updateForm(id, newData) {
     try {
-      await axios.put(`http://localhost:3000/forms/${id}`, newData);
+      await axios.put(`https://web-production-baa0.up.railway.app/forms/${id}`, newData);
       const updatedForms = forms.map((form) => {
         if (form.id === id) {
           return { ...form, ...newData };
@@ -259,7 +259,7 @@ function StDashboard() {
   // Perform delete operation on forms
   async function deleteForms(id) {
     try {
-      await axios.delete(`http://localhost:3000/forms/${id}`);
+      await axios.delete(`https://web-production-baa0.up.railway.app/forms/${id}`);
       setForms(forms.filter(form => form.id !== id));
     } catch (error) {
       console.error('Error Deleting data:', error);
