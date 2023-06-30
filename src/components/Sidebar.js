@@ -28,36 +28,36 @@ const Sidebar = ({ dashboardType }) => {
     { title: 'Leave Types', path: '/leave-type', src: <FaBriefcase /> },
   ];
 
-  async function handleLogout() {
-    try {
-      const response = await fetch('https://oms-api-production.up.railway.app/mi', {
-        method: 'GET',
-        credentials: 'include',
-      });
+  // async function handleLogout() {
+  //   try {
+  //     const response = await fetch('https://oms-api-production.up.railway.app/mi', {
+  //       method: 'GET',
+  //       credentials: 'include',
+  //     });
 
-      if (response.ok) {
-        // Admin session found, proceed with logout
-        const logoutResponse = await fetch('https://oms-api-production.up.railway.app/logout', {
-          method: 'DELETE',
-          credentials: 'include',
-        });
+  //     if (response.ok) {
+  //       // Admin session found, proceed with logout
+  //       const logoutResponse = await fetch('https://oms-api-production.up.railway.app/logout', {
+  //         method: 'DELETE',
+  //         credentials: 'include',
+  //       });
 
-        if (logoutResponse.ok) {
-          // Logout successful
-          console.log('Admin logged out successfully');
-        } else {
-          // Logout failed, handle the error
-          console.error('Logout failed');
-        }
-      } else {
-        // Admin session not found
-        console.error('Admin session not found');
-      }
-    } catch (error) {
-      // Handle any network or server errors
-      console.error('An error occurred during logout', error);
-    }
-  }
+  //       if (logoutResponse.ok) {
+  //         // Logout successful
+  //         console.log('Admin logged out successfully');
+  //       } else {
+  //         // Logout failed, handle the error
+  //         console.error('Logout failed');
+  //       }
+  //     } else {
+  //       // Admin session not found
+  //       console.error('Admin session not found');
+  //     }
+  //   } catch (error) {
+  //     // Handle any network or server errors
+  //     console.error('An error occurred during logout', error);
+  //   }
+  // }
 
 
 
@@ -118,14 +118,14 @@ const Sidebar = ({ dashboardType }) => {
             </li>
           ))}
         </ul>
-        <div className="absolute bottom-5 w-full">
+        {/* <div className="absolute bottom-5 w-full">
           <button
             className="text-sm text-white bg-red-500 hover:bg-red-600 py-2 px-4 rounded-full"
             onClick={handleLogout}
           >
             Logout
           </button>
-        </div>
+        </div> */}
       </div>
       {/* Mobile Menu */}
       <div className="pt-3">
