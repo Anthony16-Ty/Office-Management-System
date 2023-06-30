@@ -41,7 +41,7 @@ function StDashboard() {
 
   async function fetchReports() {
     try {
-      const response = await axios.get('http://localhost:3000/leave_types');
+      const response = await axios.get('https://oms-api-production.up.railway.app/leave_types');
       const data = response.data;
       setLeave_types(data);
     } catch (error) {
