@@ -12,6 +12,7 @@ const LeaveForm = ({ onUpdateForm, dashboardType }) => {
     staff_id: '',
   });
 
+  
   const handleSubmit = (e) => {
     e.preventDefault();
 
