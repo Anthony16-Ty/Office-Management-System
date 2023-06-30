@@ -30,7 +30,7 @@ const SignUp = () => {
       console.log("Admin sign-up:", name, email, password);
     } else {
       // Handle regular user sign-up
-      console.log("Regular user sign-up:", name, email, password);
+      console.log("Staff sign-up:", name, email, password);
     }
   };
 
@@ -86,7 +86,7 @@ const SignUp = () => {
                 value={userType}
                 onChange={handleUserTypeChange}
               >
-                <option value="regular">Regular User</option>
+                <option value="regular">Staff</option>
                 <option value="admin">Admin</option>
               </select>
             </label>
