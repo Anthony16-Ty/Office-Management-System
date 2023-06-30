@@ -76,4 +76,4 @@ export const LeaveType = ({ leaveTypes, onUpdateLeave, deleteLeave, updateLeave 
   );
 };
 
-export default LeaveType;
+
