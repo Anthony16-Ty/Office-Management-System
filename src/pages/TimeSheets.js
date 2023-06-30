@@ -133,7 +133,7 @@ const Timesheet = ({onUpdateSheet, timesheets, deleteData, updateSheet}) => {
             <tr key={timesheet.id}>
               <td>{timesheet.date}</td>
               <td>{new Date(timesheet.start_time).toLocaleTimeString('en-us')}</td>
-              <td>{new Date(timesheet.end_time).ttoLocaleTimeString('en-us')}</td>
+              <td>{new Date(timesheet.end_time).toLocaleTimeString('en-us')}</td>
               <td>{timesheet.progress_details}</td>
               <td>{timesheet.task_id}</td>
               <td><Button variant="danger" onClick={() => deleteData(timesheet.id)}>
