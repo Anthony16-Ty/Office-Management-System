@@ -56,7 +56,7 @@ const Tasks = ({onUpdateTask, tasks, deleteTasks, onUpdate}) => {
       <div style={{display: "flex", justifyContent: "space-between"}}>
         <div className='text-center text-green'><h3>Tasks</h3></div>
         <div>
-          <Button variant="primary" onClick={() => setShowModal(true)} style={{marginTop: "10px"}}>
+          <Button variant="primary" onClick={() => setShowModal(true)} style={{marginTop: "10px", marginBottom: "3px"}}>
             Add New Task
           </Button>
         </div>
