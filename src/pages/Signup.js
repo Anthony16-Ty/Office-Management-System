@@ -4,6 +4,7 @@ const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [userType, setUserType] = useState("regular"); // Default user type is regular
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -17,9 +18,20 @@ const SignUp = () => {
     setPassword(e.target.value);
   };
 
+  const handleUserTypeChange = (e) => {
+    setUserType(e.target.value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle sign-up logic here
+    // Handle sign-up logic here based on the userType
+    if (userType === "admin") {
+      // Handle admin sign-up
+      console.log("Admin sign-up:", name, email, password);
+    } else {
+      // Handle regular user sign-up
+      console.log("Regular user sign-up:", name, email, password);
+    }
   };
 
   return (
@@ -67,6 +79,17 @@ const SignUp = () => {
               onChange={handlePasswordChange}
               required
             />
+            <label className="mb-2">
+              User Type:
+              <select
+                className="ml-2 border border-gray-400 rounded-md p-2"
+                value={userType}
+                onChange={handleUserTypeChange}
+              >
+                <option value="regular">Regular User</option>
+                <option value="admin">Admin</option>
+              </select>
+            </label>
             <button
               className="mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded-md"
               type="submit"

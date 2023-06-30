@@ -23,7 +23,7 @@ const Sidebar = ({ dashboardType }) => {
     { title: 'Client Forms', path: '/client-form', src: <SiReacthookform /> },
     { title: 'TimeSheets', path: '/timesheets', src: <AiOutlineFieldTime /> },
     { title: 'Leave Requests', path: '/leave-request', src: <FaWpforms /> },
-    { title: 'Leave Forms', path: '/leave-form', src: <SiReacthookform /> },
+    // { title: 'Leave Forms', path: '/leave-form', src: <SiReacthookform /> },
     { title: 'Leave Reports', path: '/leave-report', src: <FaWpforms /> },
     { title: 'Leave Types', path: '/leave-type', src: <FaBriefcase /> },
   ];
