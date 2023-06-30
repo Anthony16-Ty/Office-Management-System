@@ -12,7 +12,6 @@ import Client from './pages/Client';
 import TimeSheets from './pages/TimeSheets';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Logout from './pages/Logout';
 import AdminDashboard from './components/AdminDashboard';
 import StDashboard from './components/StDashboard';
 
@@ -33,7 +32,6 @@ function App() {
       <Routes>
         <Route path="/" element={<Login onLogin={handleLogin} />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<Logout />} />
         <Route
           path="/admindashboard/*"
           element={<AdminDashboard isLoggedIn={isloggedIn} isAdmin={isadmin} isStaff={isStaff} />}
