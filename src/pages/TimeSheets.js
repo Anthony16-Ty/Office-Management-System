@@ -132,8 +132,8 @@ const Timesheet = ({onUpdateSheet, timesheets, deleteData, updateSheet}) => {
           {timesheets.map((timesheet) => (
             <tr key={timesheet.id}>
               <td>{timesheet.date}</td>
-              <td>{timesheet.start_time}</td>
-              <td>{timesheet.end_time}</td>
+              <td>{new Date(timesheet.start_time).toLocaleString('en-us')}</td>
+              <td>{new Date(timesheet.end_time).toLocaleString('en-us')}</td>
               <td>{timesheet.progress_details}</td>
               <td>{timesheet.task_id}</td>
               <td><Button variant="danger" onClick={() => deleteData(timesheet.id)}>
