@@ -16,7 +16,7 @@ const Projects = ({handleUpdateProject, projects, deleteProjects, updateData}) =
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch('http://localhost:3000/projects', {
+    fetch('https://oms-api-production.up.railway.app/projects', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

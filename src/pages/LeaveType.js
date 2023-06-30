@@ -16,7 +16,7 @@ export const LeaveType = ({ leaveTypes, onUpdateLeave, deleteLeave, updateLeave 
         return;
       }
       const response = await axios.post(
-        'https://jsonplaceholder.typicode.com/users',
+        'https://oms-api-production.up.railway.app/users',
         formData
       );
       const data = response.data;

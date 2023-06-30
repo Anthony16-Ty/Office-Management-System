@@ -8,19 +8,66 @@ import { LeaveType } from '../pages/LeaveType';
 import TimeSheets from '../pages/TimeSheets';
 import Layout from './Layout';
 import axios from 'axios';
+import LeaveReport from '../pages/LeaveReport';
 
 function StDashboard() {
   const [timesheets, setTimesheets] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [projects, setProjects] = useState([]);
   const [forms, setForms] = useState([]);
+  const [leave_types, setLeave_types] = useState([]);
 
   useEffect(() => {
     fetchTimesheets();
     fetchTasks();
     fetchProjects();
     fetchForms();
+    fetchReports();
   }, []);
+
+  //fetch reports
+  useEffect(() => {
+    const storedReports = localStorage.getItem('leave_types');
+    if (storedReports) {
+      setLeave_types(JSON.parse(storedReports));
+    }
+  }, []);
+
+
+  useEffect(() => {
+    localStorage.setItem('leave_types', JSON.stringify(leave_types));
+  }, [leave_types]);
+
+
+  async function fetchReports() {
+    try {
+      const response = await axios.get('http://localhost:3000/leave_types');
+      const data = response.data;
+      setLeave_types(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function updateLeave(id, newData) {
+    try {
+      const response = await axios.put(`http://localhost:3000/leave_types/${id}`, newData);
+      const data = response.data;
+      setLeave_types(data);
+    } catch (error) {
+      console.error('Error updating data:', error);
+    }
+  }
+  async function deleteLeave(id) {
+    try {
+      await axios.delete(`http://localhost:3000/leave_types/${id}`);
+      setLeave_types(leave_types.filter(leave_type => leave_type.id !== id));
+    } catch (error) {
+      console.error('Error deleting data:', error);
+    }
+  }
+  function handleUpdateLeave(newReport) {
+    setLeave_types([...leave_types, newReport]);
+  }
 
   useEffect(() => {
     const storedTimesheets = localStorage.getItem('timesheets');
@@ -243,6 +290,14 @@ function StDashboard() {
           <Route
             path="/leave-request"
             element={<LeaveRequest forms={forms} updateForm={updateForm} deleteForms={deleteForms} />}
+          />
+          <Route
+            path="/leave-type"
+            element={<LeaveType onUpdateLeave={handleUpdateLeave} />}
+          />
+          <Route
+            path="/leave-report"
+            element={<LeaveReport leave_types={leave_types} updateLeave={updateLeave} deleteLeave={deleteLeave} />}
           />
           <Route
             path="/timesheets"

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const LeaveForm = ({ onUpdateForm }) => {
+const LeaveForm = ({ onUpdateForm, dashboardType }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     date_from: '',
@@ -15,7 +15,7 @@ const LeaveForm = ({ onUpdateForm }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch('http://localhost:3000/forms', {
+    fetch('https://oms-api-production.up.railway.app/forms', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -39,7 +39,12 @@ const LeaveForm = ({ onUpdateForm }) => {
           leave_type: '',
           staff_id: '',
         });
-        navigate('/leave-request')
+
+        if (dashboardType === 'admin') {
+          navigate('/admindashboard/leave-request'); // Navigate to /admindashboard/leave-report for admin dashboard
+        } else if (dashboardType === 'staff') {
+          navigate('/stdashboard/leave-request'); // Navigate to /stdashboard/leave-report for staff dashboard
+        }
       })
       .catch(function (error) {
         console.log(error);
@@ -54,15 +59,15 @@ const LeaveForm = ({ onUpdateForm }) => {
   };
 
   return (
-    <div className='mx-auto bg-white rounded-lg shadow-lg ml-15 px-1 py-8'>
+    <div className='mx-auto bg-white rounded-lg shadow-lg ml-15 px-1 py-8 w-96'>
       <div>
-        <form onSubmit={handleSubmit} className='flex justify-center'>
+        <form onSubmit={handleSubmit} className='justify-center'>
           <h5 className='text-center text-xl font-bold mt-4 text-green-500'>
             Request Leave
           </h5>
-          <div className='ml-32'>
+          <div className='ml-1'>
 
-            <div className='m-1 w-60'>
+            <div className='m-1'>
               <label className='block text-sm font-bold mb-1'>
                 Please Enter Date From
               </label>
@@ -75,7 +80,7 @@ const LeaveForm = ({ onUpdateForm }) => {
               />
             </div>
 
-            <div className='m-1 w-60'>
+            <div className='m-1'>
               <label className='block text-sm font-bold mb-1'>
                 Please Enter Date To
               </label>
@@ -88,7 +93,7 @@ const LeaveForm = ({ onUpdateForm }) => {
               />
             </div>
 
-            <div className='m-1 w-60'>
+            <div className='m-1'>
               <label className='block text-sm font-bold mb-1'>
                 Please Enter Reason For Leave
               </label>
@@ -100,7 +105,7 @@ const LeaveForm = ({ onUpdateForm }) => {
               />
             </div>
 
-            <div className='m-1 w-60'>
+            <div className='m-1'>
               <label className='block text-sm font-bold mb-1'>
                 Please Enter Type of Leave
               </label>
@@ -112,7 +117,7 @@ const LeaveForm = ({ onUpdateForm }) => {
               />
             </div>
 
-            <div className='m-2 w-60'>
+            <div className='m-2'>
                <label className='block text-sm font-bold mb-1'>
                 Please Enter Staff Id
               </label>

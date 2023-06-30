@@ -20,7 +20,7 @@ const Timesheet = ({onUpdateSheet, timesheets, deleteData, updateSheet}) => {
         console.log('Please fill out all the form fields.');
         return;
     }
-    const response = await axios.post('http://localhost:3000/timesheets', formData);
+    const response = await axios.post('https://oms-api-production.up.railway.app/timesheets', formData);
     const data = response.data
     onUpdateSheet(data);
     setFormData({
