@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { BsArrowLeftCircle } from 'react-icons/bs';
 import { AiFillProject } from 'react-icons/ai';
-import { FaTasks, FaUserFriends } from 'react-icons/fa';
+import { FaTasks } from 'react-icons/fa';
 import { AiOutlineFieldTime } from 'react-icons/ai';
 import { FaWpforms } from 'react-icons/fa';
 import { FaBriefcase } from 'react-icons/fa';
