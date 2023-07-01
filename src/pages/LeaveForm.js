@@ -12,11 +12,11 @@ const LeaveForm = ({ onUpdateForm, dashboardType }) => {
     staff_id: '',
   });
 
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch('https://oms-api-production.up.railway.app/forms', {
+    fetch('https://oms-api-production-acab.up.railway.app/forms', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

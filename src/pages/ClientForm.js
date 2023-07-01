@@ -11,7 +11,7 @@ const ClientForm = ({ onUpdateClient, dashboardType }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch('https://oms-api-production.up.railway.app/clients', {
+    fetch('https://oms-api-production-acab.up.railway.app/clients', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

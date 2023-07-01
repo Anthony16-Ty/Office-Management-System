@@ -25,7 +25,7 @@ function Staff({handleUpdateStaff, staffs, deleteStaffs, updateStaff}) {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post('https://oms-api-production.up.railway.app/staffs', formData)
+      .post('https://oms-api-production-acab.up.railway.app/staffs', formData)
       .then(function (response) {
         if (response.status === 200) {
           // Assuming the respons

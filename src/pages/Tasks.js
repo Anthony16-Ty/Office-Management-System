@@ -15,7 +15,7 @@ const Tasks = ({onUpdateTask, tasks, deleteTasks, onUpdate}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post('https://oms-api-production.up.railway.app/tasks', formData)
+      .post('https://oms-api-production-acab.up.railway.app/tasks', formData)
       .then(function (response) {
         if (response.status === 201) {
           // Assuming the respons

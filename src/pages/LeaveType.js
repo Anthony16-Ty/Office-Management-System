@@ -12,7 +12,7 @@ const LeaveType = ({ onUpdateLeave, dashboardType}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch('https://oms-api-production.up.railway.app/leave_types', {
+    fetch('https://oms-api-production-acab.up.railway.app/leave_types', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
