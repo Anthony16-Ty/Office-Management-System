@@ -49,7 +49,7 @@ function AdminDashboard() {
 
   async function fetchReports() {
     try {
-      const response = await axios.get('https://oms-api-production.up.railway.app/leave_types');
+      const response = await axios.get('https://oms-api-production-acab.up.railway.app/leave_types');
       const data = response.data;
       setLeave_types(data);
     } catch (error) {
@@ -58,7 +58,7 @@ function AdminDashboard() {
   }
   async function updateLeave(id, newData) {
     try {
-      const response = await axios.put(`https://oms-api-production.up.railway.app/leave_types/${id}`, newData);
+      const response = await axios.put(`https://oms-api-production-acab.up.railway.app/leave_types/${id}`, newData);
       const data = response.data;
       setLeave_types(data);
     } catch (error) {
@@ -67,7 +67,7 @@ function AdminDashboard() {
   }
   async function deleteLeave(id) {
     try {
-      await axios.delete(`https://oms-api-production.up.railway.app/leave_types/${id}`);
+      await axios.delete(`https://oms-api-production-acab.up.railway.app/leave_types/${id}`);
       setLeave_types(leave_types.filter(leave_type => leave_type.id !== id));
     } catch (error) {
       console.error('Error deleting data:', error);
@@ -94,7 +94,7 @@ function AdminDashboard() {
 
   async function fetchClients() {
     try {
-      const response = await axios.get('https://oms-api-production.up.railway.app/clients');
+      const response = await axios.get('https://oms-api-production-acab.up.railway.app/clients');
       const data = response.data;
       setClients(data);
     } catch (error) {
@@ -103,7 +103,7 @@ function AdminDashboard() {
   }
   async function updateClient(id, newData) {
     try {
-      const response = await axios.put(`https://oms-api-production.up.railway.app/clients/${id}`, newData);
+      const response = await axios.put(`https://oms-api-production-acab.up.railway.app/clients/${id}`, newData);
       const data = response.data;
       setClients(data);
     } catch (error) {
@@ -112,7 +112,7 @@ function AdminDashboard() {
   }
   async function deleteClients(id) {
     try {
-      await axios.delete(`https://oms-api-production.up.railway.app/clients/${id}`);
+      await axios.delete(`https://oms-api-production-acab.up.railway.app/clients/${id}`);
       setClients(clients.filter(client => client.id !== id));
     } catch (error) {
       console.error('Error deleting data:', error);
@@ -139,7 +139,7 @@ function AdminDashboard() {
 
   async function fetchTimesheets() {
     try {
-      const response = await axios.get('https://oms-api-production.up.railway.app/timesheets');
+      const response = await axios.get('https://oms-api-production-acab.up.railway.app/timesheets');
       const data = response.data;
       setTimesheets(data);
     } catch (error) {
@@ -148,7 +148,7 @@ function AdminDashboard() {
   }
   async function updateSheet(id, newData) {
     try {
-      const response = await axios.put(`https://oms-api-production.up.railway.app/timesheets/${id}`, newData);
+      const response = await axios.put(`https://oms-api-production-acab.up.railway.app/timesheets/${id}`, newData);
       const data = response.data;
       setTimesheets(data);
     } catch (error) {
@@ -157,7 +157,7 @@ function AdminDashboard() {
   }
   async function deleteData(id) {
     try {
-      await axios.delete(`https://oms-api-production.up.railway.app/timesheets/${id}`);
+      await axios.delete(`https://oms-api-production-acab.up.railway.app/timesheets/${id}`);
       setTimesheets(timesheets.filter(timesheet => timesheet.id !== id));
     } catch (error) {
       console.error('Error deleting data:', error);
@@ -182,7 +182,7 @@ function AdminDashboard() {
 
   async function fetchTasks() {
     try {
-      const response = await axios.get('https://oms-api-production.up.railway.app/tasks');
+      const response = await axios.get('https://oms-api-production-acab.up.railway.app/tasks');
       const data = response.data;
       setTasks(data);
     } catch (error) {
@@ -193,7 +193,7 @@ function AdminDashboard() {
   // Perform update operation on tasks
   async function updateTask(id, newData) {
     try {
-      await axios.put(`https://oms-api-production.up.railway.app/tasks/${id}`, newData);
+      await axios.put(`https://oms-api-production-acab.up.railway.app/tasks/${id}`, newData);
       const updatedTasks = tasks.map((task) => {
         if (task.id === id) {
           return { ...task, ...newData };
@@ -209,7 +209,7 @@ function AdminDashboard() {
   // Perform delete operation on tasks
   async function deleteTasks(id) {
     try {
-      await axios.delete(`https://oms-api-production.up.railway.app/tasks/${id}`);
+      await axios.delete(`https://oms-api-production-acab.up.railway.app/tasks/${id}`);
       setTasks(tasks.filter(task => task.id !== id));
     } catch (error) {
       console.error('Error Deleting data:', error);
@@ -234,7 +234,7 @@ function AdminDashboard() {
 
   async function fetchStaffs() {
     try {
-      const response = await axios.get('https://oms-api-production.up.railway.app/staffs');
+      const response = await axios.get('https://oms-api-production-acab.up.railway.app/staffs');
       const data = response.data;
       setStaffs(data);
     } catch (error) {
@@ -245,7 +245,7 @@ function AdminDashboard() {
   // Perform update operation on staffs
   async function updateStaff(id, newData) {
     try {
-      await axios.put(`https://oms-api-production.up.railway.app/staffs/${id}`, newData);
+      await axios.put(`https://oms-api-production-acab.up.railway.app/staffs/${id}`, newData);
       const updatedStaffs = staffs.map((staff) => {
         if (staff.id === id) {
           return { ...staff, ...newData };
@@ -261,7 +261,7 @@ function AdminDashboard() {
   // Perform delete operation on staffs
   async function deleteStaffs(id) {
     try {
-      await axios.delete(`https://oms-api-production.up.railway.app/staffs/${id}`);
+      await axios.delete(`https://oms-api-production-acab.up.railway.app/staffs/${id}`);
       setStaffs(staffs.filter(staff => staff.id !== id));
     } catch (error) {
       console.error('Error Deleting data:', error);
@@ -287,7 +287,7 @@ function AdminDashboard() {
 
   async function fetchProjects() {
     try {
-      const response = await axios.get('https://oms-api-production.up.railway.app/projects');
+      const response = await axios.get('https://oms-api-production-acab.up.railway.app/projects');
       const data = response.data;
       setProjects(data);
     } catch (error) {
@@ -298,7 +298,7 @@ function AdminDashboard() {
   // Perform update operation on projects
   async function updateProject(id, newData) {
     try {
-      await axios.put(`https://oms-api-production.up.railway.app/projects/${id}`, newData);
+      await axios.put(`https://oms-api-production-acab.up.railway.app/projects/${id}`, newData);
       const updatedProjects = projects.map((project) => {
         if (project.id === id) {
           return { ...project, ...newData };
@@ -314,7 +314,7 @@ function AdminDashboard() {
   // Perform delete operation on projects
   async function deleteProjects(id) {
     try {
-      await axios.delete(`https://oms-api-production.up.railway.app/projects/${id}`);
+      await axios.delete(`https://oms-api-production-acab.up.railway.app/projects/${id}`);
       setProjects(projects.filter(project => project.id !== id));
     } catch (error) {
       console.error('Error Deleting data:', error);
@@ -340,7 +340,7 @@ function AdminDashboard() {
 
   async function fetchForms() {
     try {
-      const response = await axios.get('https://oms-api-production.up.railway.app/forms');
+      const response = await axios.get('https://oms-api-production-acab.up.railway.app/forms');
       const data = response.data;
       setForms(data);
     } catch (error) {
@@ -367,7 +367,7 @@ function AdminDashboard() {
   // Perform delete operation on forms
   async function deleteForms(id) {
     try {
-      await axios.delete(`https://oms-api-production.up.railway.app/forms/${id}`);
+      await axios.delete(`https://oms-api-production-acab.up.railway.app/forms/${id}`);
       setForms(forms.filter(form => form.id !== id));
     } catch (error) {
       console.error('Error Deleting data:', error);
