@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal, Table } from 'react-bootstrap';
 
-const Projects = ({handleUpdateProject, projects, deleteProjects, updateData}) => {
+const Projects = ({ handleUpdateProject, projects, deleteProjects, updateData }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -12,6 +12,7 @@ const Projects = ({handleUpdateProject, projects, deleteProjects, updateData}) =
     description: "",
     client_id: "",
   });
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -51,20 +52,36 @@ const Projects = ({handleUpdateProject, projects, deleteProjects, updateData}) =
       [e.target.name]: e.target.value,
     });
   };
-    return (
-      <div className="container mx-auto bg-white rounded-lg shadow-lg ml-15 pt-3 pb-8">
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredProjects = projects.filter((project) =>
+    project.project_name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    <div className="container mx-auto bg-white rounded-lg shadow-lg ml-15 pt-3 pb-8">
       <div className="main">
         <div className="flex justify-between items-center my-5">
           <div className="search">
             <form className="inline-flex">
-              <input className="form-control mr-2" type="search" placeholder="Search Project" aria-label="Search" />
+              <input
+                className="form-control mr-2"
+                type="search"
+                placeholder="Search Project"
+                aria-label="Search"
+                value={searchTerm}
+                onChange={handleSearch}
+              />
             </form>
           </div>
           <div className="text-green-500">
             <h5 className="font-bold text-lg">Projects Details</h5>
           </div>
           <div>
-            <Button variant="primary" onClick={handleShow} className='mr-5'>
+            <Button variant="primary" onClick={handleShow} className="mr-5">
               Add New Project
             </Button>
           </div>
@@ -81,7 +98,7 @@ const Projects = ({handleUpdateProject, projects, deleteProjects, updateData}) =
                 </tr>
               </thead>
               <tbody>
-                {projects && Array.isArray(projects) && projects.map((project) => (
+                {filteredProjects.map((project) => (
                   <tr key={project.id}>
                     <td>{project.project_name}</td>
                     <td>{project.client_name}</td>
@@ -98,46 +115,69 @@ const Projects = ({handleUpdateProject, projects, deleteProjects, updateData}) =
           </div>
         </div>
 
-
         <div className="model_box">
-            <Modal
-            show={show}
-            onHide={handleClose}
-            backdrop="static"
-            keyboard={false}
-            >
+          <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
             <Modal.Header closeButton>
-            <Modal.Title>Add Project</Modal.Title>
+              <Modal.Title>Add Project</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <form onSubmit={handleSubmit}>
-                   <div class="form-group mt-3">
-                        <input type="text" class="form-control" name='project_name' placeholder="Enter Project Name" value={formData.project_name} onChange={handleChange} />
-                    </div>
-                    <div class="form-group mt-3">
-                        <input type="text" class="form-control" name='client_name' placeholder="Enter Client" value={formData.client_name} onChange={handleChange} />
-                    </div>
-                    <div class="form-group mt-3">
-                        <input type="text" class="form-control" name='description' placeholder="Enter Description" value={formData.description} onChange={handleChange}/>
-                    </div>
-                    <div class="form-group mt-3">
-                        <input type="text" class="form-control" name='client_id' placeholder="Enter Client_Id" value={formData.client_id} onChange={handleChange}/>
-                    </div>
+              <form onSubmit={handleSubmit}>
+                <div class="form-group mt-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="project_name"
+                    placeholder="Enter Project Name"
+                    value={formData.project_name}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div class="form-group mt-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="client_name"
+                    placeholder="Enter Client"
+                    value={formData.client_name}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div class="form-group mt-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="description"
+                    placeholder="Enter Description"
+                    value={formData.description}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div class="form-group mt-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="client_id"
+                    placeholder="Enter Client_Id"
+                    value={formData.client_id}
+                    onChange={handleChange}
+                  />
+                </div>
 
-                    <button type="submit" class="btn btn-success mt-4">Add </button>
-                </form>
+                <button type="submit" class="btn btn-success mt-4">
+                  Add
+                </button>
+              </form>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>
-                    Close
-                </Button>
-                </Modal.Footer>
-            </Modal>
-            </div>
+              <Button variant="secondary" onClick={handleClose}>
+                Close
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </div>
+      </div>
     </div>
   );
-}
+};
 
 export default Projects;
-
