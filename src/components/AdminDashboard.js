@@ -236,6 +236,7 @@ function AdminDashboard() {
     try {
       const response = await axios.get('https://oms-api-production-acab.up.railway.app/staffs');
       const data = response.data;
+      console.log(data)
       setStaffs(data);
     } catch (error) {
       console.log(error);

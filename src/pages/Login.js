@@ -22,7 +22,8 @@ const Login = ({ onLogin, loggedIn }) => {
 
       if (response.ok) {
         const user = await response.json();
-        onLogin(user); // Pass the user object to the onLogin callback
+
+        // onLogin(user); // Pass the user object to the onLogin callback
 
         // Redirect the user based on their role
         if (user.isadmin) {
