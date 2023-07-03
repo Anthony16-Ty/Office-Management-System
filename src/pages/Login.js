@@ -19,10 +19,8 @@ const Login = ({ onLogin, loggedIn }) => {
         },
         body: JSON.stringify({ email, password }),
       });
-
       if (response.ok) {
         const user = await response.json();
-
         // onLogin(user); // Pass the user object to the onLogin callback
 
         // Redirect the user based on their role
