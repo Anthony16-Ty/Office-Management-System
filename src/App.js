@@ -12,7 +12,7 @@ import Client from './pages/Client';
 import TimeSheets from './pages/TimeSheets';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Logout from './pages/Logout';
+// import Logout from './pages/Logout';
 import ProfilePage from './pages/ProfilePage';
 import AdminDashboard from './components/AdminDashboard';
 import StDashboard from './components/StDashboard';
@@ -59,7 +59,7 @@ function App() {
           }
         />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/logout" element={<Logout />} />
+        {/* <Route path="/logout" element={<Logout />} /> */}
         <Route
           path="/admindashboard/*"
           element={<AdminDashboard isloggedIn={isLoggedIn} isadmin={isadmin} isStaff={isStaff} />}
