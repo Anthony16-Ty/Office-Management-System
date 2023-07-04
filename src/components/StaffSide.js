@@ -4,8 +4,7 @@ import { BsArrowLeftCircle } from 'react-icons/bs';
 import { AiFillProject } from 'react-icons/ai';
 import { FaTasks } from 'react-icons/fa';
 import { AiOutlineFieldTime } from 'react-icons/ai';
-import { FaWpforms } from 'react-icons/fa';
-import { FaBriefcase } from 'react-icons/fa';
+import { FaUserFriends } from "react-icons/fa";
 import { SiReacthookform } from 'react-icons/si';
 import Logo from '../assets/images/logo.svg';
 import HamburgerButton from './HamburgerMenuButton/HamburgerButton';
@@ -16,13 +15,11 @@ const StaffSide = ({ dashboardType }) => {
   const location = useLocation();
 
   const Menus = [
+    { title: "Profile", path: '/profile', src: <FaUserFriends />},
     { title: 'Projects', path: '/projects', src: <AiFillProject /> },
     { title: 'Tasks', path: '/tasks', src: <FaTasks /> },
     { title: 'TimeSheets', path: '/timesheets', src: <AiOutlineFieldTime /> },
-    { title: 'Leave Requests', path: '/leave-request', src: <FaWpforms /> },
     { title: 'Leave Forms', path: '/leave-form', src: <SiReacthookform /> },
-    { title: 'Leave Reports', path: '/leave-report', src: <FaWpforms /> },
-    { title: 'Leave Types', path: '/leave-type', src: <FaBriefcase /> },
   ];
 
   return (
@@ -53,7 +50,7 @@ const StaffSide = ({ dashboardType }) => {
           {Menus.map((menu, index) => (
             <li
               key={index}
-              className={`flex items-center gap-x-6 p-1 text-base font-normal rounded-lg cursor-pointer dark:text-white hover:bg-gray-700
+              className={`flex items-center gap-x-6 p-4 text-base font-normal rounded-lg cursor-pointer dark:text-white hover:bg-gray-700
               ${menu.gap ? 'mt-9' : 'mt-2'} ${
                 location.pathname ===
                 (dashboardType === 'staff'
