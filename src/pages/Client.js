@@ -1,112 +1,89 @@
-import React, { useState } from 'react';
+import React from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Modal } from 'react-bootstrap';
+import {useState} from 'react';
+import { Button,Modal } from 'react-bootstrap';
 
-function Client({ clients, deleteClients, updateClient }) {
+
+
+function Client({clients, deleteClients, updateClient}) {
   const [show, setShow] = useState(false);
-  const [editData, setEditData] = useState({ client_name: '', description: '' });
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+    return (
+       <div class="mx-auto bg-white rounded-lg shadow-lg ml-12 px-5 pb-8 pt-3">
+          <div className="clients">
+          <div class="row ">
 
-  const handleEdit = (client) => {
-    setEditData(client);
-    handleShow();
-  };
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setEditData((prevData) => ({
-      ...prevData,
-      [name]: value
-    }));
-  };
-
-  const handleEditSubmit = (event) => {
-    event.preventDefault();
-    updateClient(editData);
-    handleClose();
-  };
-
-  return (
-    <div className="mx-auto bg-white rounded-lg shadow-lg ml-12 px-5 pb-8 pt-3">
-      <div className="clients">
-        <div className="row">
-          <div className="col-sm-3 offset-sm-2 mt-3 mb-4 text-gred" style={{ color: "green" }}>
-            <h5 className='text-center'><b>Client Details</b></h5>
-          </div>
-          <div className="col-sm-3 offset-sm-1 mt-5 mb-4 text-gred">
-          </div>
-        </div>
-        <div className="row">
-          <div className="table-responsive">
-            <table className="table table-striped table-hover table-bordered table-sm">
-              <thead>
-                <tr>
-                  <th>Client Name</th>
-                  <th>Description</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {clients && Array.isArray(clients) && clients.map((client) => (
-                  <tr key={client.id}>
-                    <td>{client.client_name}</td>
-                    <td>{client.description}</td>
-                    <td>
-                      <Button variant="danger" onClick={() => deleteClients(client.id)}>
-                        Delete
-                      </Button>{' '}
-                      {/* Added a space here */}
-                      <Button variant="primary" onClick={() => handleEdit(client)}>
-                        Edit
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              <div class="col-sm-3 offset-sm-2 mt-3 mb-4 text-gred" style={{color:"green"}}><h5 className='text-center'><b>Client Details</b></h5></div>
+              <div class="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
+             </div>
+           </div>
+            <div class="row">
+                <div class="table-responsive " >
+                 <table class="table table-striped table-hover table-bordered table-sm">
+                    <thead>
+                        <tr>
+                            <th>Client Name</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                     {clients && Array.isArray(clients) && clients.map((client) => (
+                     <tr key={client.id}>
+                      <td>{client.client_name}</td>
+                      <td>{client.description}</td>
+                      <td>
+                         <Button variant="danger" onClick={() => deleteClients(client.id)}>
+                          Delete
+                         </Button>
+                      </td>
+                    </tr>
+                    ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-        {/* Edit Client Modal */}
-        <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
-          <Modal.Header closeButton>
-            <Modal.Title>Edit Client</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <form onSubmit={handleEditSubmit}>
-              <div className="form-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  name="client_name"
-                  value={editData.client_name}
-                  onChange={handleInputChange}
-                  placeholder="Enter Client Name"
-                />
-              </div>
-              <div className="form-group mt-3">
-                <input
-                  type="text"
-                  className="form-control"
-                  name="description"
-                  value={editData.description}
-                  onChange={handleInputChange}
-                  placeholder="Enter Description"
-                />
-              </div>
-              <Button type="submit" className="btn btn-success mt-4">Update Client</Button>
-            </form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>Close</Button>
-          </Modal.Footer>
-        </Modal>
-        {/* Edit Client Modal Finish */}
+        {/* <!--- Model Box ---> */}
+        <div className="model_box">
+      <Modal
+        show={show}
+        onHide={handleClose}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Add Client</Modal.Title>
+        </Modal.Header>
+            <Modal.Body>
+            <form>
+                <div class="form-group">
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Client Name"/>
+                </div>
+                <div class="form-group mt-3">
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Description"/>
+                </div>
+
+                  <button type="submit" class="btn btn-success mt-4">Add Client</button>
+                </form>
+            </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+
+        </Modal.Footer>
+      </Modal>
+
+       {/* Model Box Finish */}
+       </div>
       </div>
-    </div>
+      </div>
   );
 }
 
 export default Client;
+
+
