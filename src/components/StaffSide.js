@@ -6,6 +6,7 @@ import { FaTasks } from 'react-icons/fa';
 import { AiOutlineFieldTime } from 'react-icons/ai';
 import { FaUserFriends } from "react-icons/fa";
 import { SiReacthookform } from 'react-icons/si';
+import { FaWpforms } from 'react-icons/fa';
 import Logo from '../assets/images/logo.svg';
 import HamburgerButton from './HamburgerMenuButton/HamburgerButton';
 
@@ -20,6 +21,7 @@ const StaffSide = ({ dashboardType }) => {
     { title: 'Tasks', path: '/tasks', src: <FaTasks /> },
     { title: 'TimeSheets', path: '/timesheets', src: <AiOutlineFieldTime /> },
     { title: 'Leave Forms', path: '/leave-form', src: <SiReacthookform /> },
+    { title: 'Leave Reports', path: '/leave-report', src: <FaWpforms /> },
   ];
 
   return (

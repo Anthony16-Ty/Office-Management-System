@@ -18,44 +18,55 @@ import AdminDashboard from './components/AdminDashboard';
 import StDashboard from './components/StDashboard';
 
 function App() {
-  const [isloggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isadmin, setIsAdmin] = useState(false);
   const [isStaff, setIsStaff] = useState(false);
-  // const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  //handle login states
+  // handle login states
   function handleLogin(user) {
     setIsLoggedIn(true);
     setIsAdmin(user.isadmin);
     setIsStaff(user.isStaff);
   }
 
-  // useEffect(() => {
-  //   fetch("/mi")
-  //   .then(resp => {
-  //     if (resp.ok){
-  //       resp.json().then((user) => setUser(user))
-  //     } else {
-  //       resp.json().then(console.log)
-  //     }
-  //   })
-  // }, [])
+  // Simulate loading or checking user authentication
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+  }, []);
 
-  // console.log(user)
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Login onLogin={handleLogin} />} />
+        <Route
+          path="/"
+          element={
+            isLoggedIn ? (
+              isadmin ? (
+                <AdminDashboard />
+              ) : (
+                <StDashboard />
+              )
+            ) : (
+              <Login onLogin={handleLogin} />
+            )
+          }
+        />
         <Route path="/signup" element={<Signup />} />
         <Route path="/logout" element={<Logout />} />
         <Route
           path="/admindashboard/*"
-          element={<AdminDashboard isloggedIn={isloggedIn} isAdmin={isadmin} isStaff={isStaff} />}
+          element={<AdminDashboard isloggedIn={isLoggedIn} isadmin={isadmin} isStaff={isStaff} />}
         />
         <Route
           path="/stdashboard/*"
-          element={<StDashboard isloggedIn={isloggedIn} isAdmin={isadmin} isStaff={isStaff} />}
+          element={<StDashboard isloggedIn={isLoggedIn} isadmin={isadmin} isStaff={isStaff} />}
         />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/tasks" element={<Tasks />} />
