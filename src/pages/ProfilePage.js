@@ -1,10 +1,10 @@
-import React from 'react';
+import React from "react";
 
 const ProfilePage = ({ handleLogout }) => {
   const user = {
-    name: 'Anthony Kimani',
-    location: 'Nairobi, Kenya',
-    about: 'Admin',
+    name: "Anthony Kimani",
+    location: "Nairobi, Kenya",
+    about: "Admin",
   };
 
   return (
@@ -15,41 +15,45 @@ const ProfilePage = ({ handleLogout }) => {
           alt="User Avatar"
           className="w-40 h-40 rounded-full border border-white"
         />
-        <div className='mt-10 ml-4'>
+        <div className="mt-10 ml-4">
           <h2 className="text-lg text-2xl text-white">{user.name}</h2>
           <p className="text-xl text-white">{user.location}</p>
         </div>
       </div>
       <div className="flex-grow bg-white py-1 flex items-start">
-        <div>
-          <div className='flex justify start ml-8'>
-            <button className="mt-2 bg-blue-400 text-white-500 py-2 px-4 rounded">Edit Profile</button>
+        <div className="flex flex-col justify-between ml-8 mr-8">
+          <div>
+            <button className="mt-4 bg-blue-400 text-white py-2 px-4 rounded">
+              Edit Profile
+            </button>
+            <h4 className="text-blue-500 mt-6 underline text-2xl">About</h4>
+            <p className="text-black text-xl">{user.about}</p>
           </div>
-          <div className="flex justify-between ml-5">
-            <div>
-              <h4 className="text-blue-500 mt-4 underline text-2xl">About</h4>
-              <h6 className='text-black text-xl'>Staff Member</h6>
-            </div>
-            <div className='ml-10'>
-              <h4 className="text-blue-500 mt-4 underline text-2xl">Roles</h4>
-              <ul className='text-black text-bold text-xl'>
-                <div className='flex justify around mt-3'>
-                  <div>
-                    <li className='ml-6 mb-2'>Joining Date: <strong>23/05/2023</strong></li>
-                    <li className='mb-2'>Reporting To: <strong>Anthony</strong></li>
-                    <li className='mb-2'>Id Number: <strong>35674849</strong></li>
-                  </div>
-                  <div>
-                    <li className='ml-5 mb-2'>Email: <strong>anthony@gmail.com</strong></li>
-                    <li className='mb-2'>TechStack: <strong>FullStack D</strong></li>
-                    <li className='mr-5'>Mobile: <strong>0703383959</strong></li>
-                  </div>
-                </div>
-              </ul>
-            </div>
+          <div>
+            <h4 className="text-blue-500 mt-8 underline text-2xl">Roles</h4>
+            <ul className="text-black text-xl">
+              <li className="mt-3">
+                <strong>Joining Date:</strong> 23/05/2023
+              </li>
+              <li>
+                <strong>Reporting To:</strong> Anthony
+              </li>
+              <li>
+                <strong>ID Number:</strong> 35674849
+              </li>
+              <li className="mt-4">
+                <strong>Email:</strong> anthony@gmail.com
+              </li>
+              <li>
+                <strong>Tech Stack:</strong> Full Stack D
+              </li>
+              <li>
+                <strong>Mobile:</strong> 0703383959
+              </li>
+            </ul>
           </div>
           <button
-            className="text-sm text-white bg-red-500 hover:bg-red-600 py-2 px-4 mt-24 rounded-full"
+            className="text-sm text-white bg-red-500 hover:bg-red-600 py-2 px-4 mt-8 rounded-full self-center"
             onClick={handleLogout}
           >
             Logout
