@@ -2,54 +2,72 @@ import React, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal, Table } from 'react-bootstrap';
 
-const Projects = ({ handleUpdateProject, projects, deleteProjects, updateData }) => {
+const Projects = ({ projects, deleteProjects, handleUpdateProject, handleUpdateProjects }) => {
   const [show, setShow] = useState(false);
-  const [editProject, setEditProject] = useState(null); // Add state for editing project
-  const handleClose = () => {
-    setShow(false);
-    setEditProject(null); // Reset editProject state when closing the modal
-  };
+  const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [editingProject, setEditingProject] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
   const [formData, setFormData] = useState({
     project_name: "",
     client_name: "",
     description: "",
     client_id: "",
   });
-  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredProjects = projects.filter((project) =>
+    project.project_name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Check if editProject is set to update an existing project
-    if (editProject) {
-      // Perform update request
-      // ...
-      // After successful update, handle close and reset form data
-      handleClose();
-      setFormData({
-        project_name: "",
-        client_name: "",
-        description: "",
-        client_id: "",
-      });
-    } else {
-      // Perform create request
-      // ...
-      // After successful creation, handle update project and reset form data
-      // ...
-    }
-  };
+    const url = editingProject
+      ? `https://oms-api-production-acab.up.railway.app/${editingProject.id}`
+      : 'https://oms-api-production-acab.up.railway.app';
 
-  const handleEditProject = (project) => {
-    setEditProject(project);
-    setFormData({
-      project_name: project.project_name,
-      client_name: project.client_name,
-      description: project.description,
-      client_id: project.client_id,
-    });
-    handleShow();
+    const method = editingProject ? 'PUT' : 'POST';
+
+    fetch(url, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then(function (response) {
+        if (response.status === 201 || response.status === 200) {
+          return response.json();
+        } else {
+          throw new Error(`Network response was not ok. Response status: ${response.status}`);
+        }
+      })
+      .then(function (data) {
+        if (editingProject) {
+          // Update the existing project
+          handleUpdateProject(data);
+          setEditingProject(null);
+        } else {
+          // Create a new project
+          handleUpdateProjects(data);
+        }
+
+        setFormData({
+          project_name: "",
+          client_name: "",
+          description: "",
+          client_id: "",
+        });
+        handleClose();
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   const handleChange = (e) => {
@@ -59,13 +77,16 @@ const Projects = ({ handleUpdateProject, projects, deleteProjects, updateData })
     });
   };
 
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
+  const updateData = (project) => {
+    setEditingProject(project);
+    setFormData({
+      project_name: project.project_name,
+      client_name: project.client_name,
+      description: project.description,
+      client_id: project.client_id,
+    });
+    handleShow();
   };
-
-  const filteredProjects = projects.filter((project) =>
-    project.project_name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   return (
     <div className="container mx-auto bg-white rounded-lg shadow-lg ml-15 pt-3 pb-8">
@@ -113,7 +134,7 @@ const Projects = ({ handleUpdateProject, projects, deleteProjects, updateData })
                       <Button variant="danger" className="mr-2" onClick={() => deleteProjects(project.id)}>
                         Delete
                       </Button>
-                      <Button variant="info" onClick={() => handleEditProject(project)}>
+                      <Button variant="info" onClick={() => updateData(project)}>
                         Edit
                       </Button>
                     </td>
@@ -127,7 +148,7 @@ const Projects = ({ handleUpdateProject, projects, deleteProjects, updateData })
         <div className="model_box">
           <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
             <Modal.Header closeButton>
-              <Modal.Title>{editProject ? 'Edit Project' : 'Add Project'}</Modal.Title>
+              <Modal.Title>Add Project</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <form onSubmit={handleSubmit}>
@@ -173,7 +194,7 @@ const Projects = ({ handleUpdateProject, projects, deleteProjects, updateData })
                 </div>
 
                 <button type="submit" className="btn btn-success mt-4">
-                  {editProject ? 'Update' : 'Add'}
+                  Add
                 </button>
               </form>
             </Modal.Body>
@@ -187,6 +208,6 @@ const Projects = ({ handleUpdateProject, projects, deleteProjects, updateData })
       </div>
     </div>
   );
-};
+}
 
 export default Projects;
