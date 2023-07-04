@@ -189,7 +189,7 @@ function StDashboard() {
   }
 
   // Perform update operation on projects
-  async function updateProject(id, newData) {
+  async function handleUpdateProject(id, newData) {
     try {
       await axios.put(` https://oms-api-production-acab.up.railway.app/projects/${id}`, newData);
       const updatedProjects = projects.map((project) => {
@@ -214,7 +214,7 @@ function StDashboard() {
     }
   }
 
-  function handleUpdateProject(newProject) {
+  function handleUpdateProjects(newProject) {
     setProjects([...projects, newProject]);
   }
 
@@ -287,7 +287,7 @@ function StDashboard() {
           />
           <Route
             path="/projects"
-            element={<Projects projects={projects} updateData={updateProject} deleteProjects={deleteProjects} handleUpdateProject={handleUpdateProject} />}
+            element={<Projects projects={projects} handleUpdateProjects={handleUpdateProject} deleteProjects={deleteProjects} handleUpdateProjects={handleUpdateProjects} />}
           />
           <Route
             path="/leave-form"
