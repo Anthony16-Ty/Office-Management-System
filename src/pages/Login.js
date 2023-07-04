@@ -12,7 +12,7 @@ const Login = ({ onLogin, loggedIn }) => {
 
     try {
       // Make an API request to validate the login credentials
-      const response = await fetch("https://oms-api-production-acab.up.railway.app/login", {
+      const response = await fetch("http://localhost:3000/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

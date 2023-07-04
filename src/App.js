@@ -14,6 +14,8 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AdminDashboard from './components/AdminDashboard';
 import StDashboard from './components/StDashboard';
+import ProfilePage from './pages/ProfilePage';
+
 
 function App() {
   const [isloggedIn, setIsLoggedIn] = useState(false);
