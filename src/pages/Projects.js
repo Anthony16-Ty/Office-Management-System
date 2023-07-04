@@ -4,7 +4,11 @@ import { Button, Modal, Table } from 'react-bootstrap';
 
 const Projects = ({ handleUpdateProject, projects, deleteProjects, updateData }) => {
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  const [editProject, setEditProject] = useState(null); // Add state for editing project
+  const handleClose = () => {
+    setShow(false);
+    setEditProject(null); // Reset editProject state when closing the modal
+  };
   const handleShow = () => setShow(true);
   const [formData, setFormData] = useState({
     project_name: "",
@@ -17,33 +21,35 @@ const Projects = ({ handleUpdateProject, projects, deleteProjects, updateData })
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    fetch('https://oms-api-production-acab.up.railway.app/projects', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-      .then(function (response) {
-        if (response.status === 201) {
-          return response.json();
-        } else {
-          throw new Error(`Network response was not ok. Response status: ${response.status}`);
-        }
-      })
-      .then(function (data) {
-        handleUpdateProject(data);
-
-        setFormData({
-          project_name: "",
-          client_name: "",
-          description: "",
-          client_id: "",
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
+    // Check if editProject is set to update an existing project
+    if (editProject) {
+      // Perform update request
+      // ...
+      // After successful update, handle close and reset form data
+      handleClose();
+      setFormData({
+        project_name: "",
+        client_name: "",
+        description: "",
+        client_id: "",
       });
+    } else {
+      // Perform create request
+      // ...
+      // After successful creation, handle update project and reset form data
+      // ...
+    }
+  };
+
+  const handleEditProject = (project) => {
+    setEditProject(project);
+    setFormData({
+      project_name: project.project_name,
+      client_name: project.client_name,
+      description: project.description,
+      client_id: project.client_id,
+    });
+    handleShow();
   };
 
   const handleChange = (e) => {
@@ -81,7 +87,7 @@ const Projects = ({ handleUpdateProject, projects, deleteProjects, updateData })
             <h5 className="font-bold text-lg">Projects Details</h5>
           </div>
           <div>
-            <Button variant="primary" onClick={handleShow} className="mr-5">
+            <Button variant="primary" onClick={handleShow} className="mr-2">
               Add New Project
             </Button>
           </div>
@@ -107,6 +113,9 @@ const Projects = ({ handleUpdateProject, projects, deleteProjects, updateData })
                       <Button variant="danger" onClick={() => deleteProjects(project.id)}>
                         Delete
                       </Button>
+                      <Button variant="info" onClick={() => handleEditProject(project)}>
+                        Edit
+                      </Button>
                     </td>
                   </tr>
                 ))}
@@ -118,44 +127,44 @@ const Projects = ({ handleUpdateProject, projects, deleteProjects, updateData })
         <div className="model_box">
           <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
             <Modal.Header closeButton>
-              <Modal.Title>Add Project</Modal.Title>
+              <Modal.Title>{editProject ? 'Edit Project' : 'Add Project'}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <form onSubmit={handleSubmit}>
-                <div class="form-group mt-3">
+                <div className="form-group mt-3">
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     name="project_name"
                     placeholder="Enter Project Name"
                     value={formData.project_name}
                     onChange={handleChange}
                   />
                 </div>
-                <div class="form-group mt-3">
+                <div className="form-group mt-3">
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     name="client_name"
                     placeholder="Enter Client"
                     value={formData.client_name}
                     onChange={handleChange}
                   />
                 </div>
-                <div class="form-group mt-3">
+                <div className="form-group mt-3">
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     name="description"
                     placeholder="Enter Description"
                     value={formData.description}
                     onChange={handleChange}
                   />
                 </div>
-                <div class="form-group mt-3">
+                <div className="form-group mt-3">
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     name="client_id"
                     placeholder="Enter Client_Id"
                     value={formData.client_id}
@@ -163,8 +172,8 @@ const Projects = ({ handleUpdateProject, projects, deleteProjects, updateData })
                   />
                 </div>
 
-                <button type="submit" class="btn btn-success mt-4">
-                  Add
+                <button type="submit" className="btn btn-success mt-4">
+                  {editProject ? 'Update' : 'Add'}
                 </button>
               </form>
             </Modal.Body>
