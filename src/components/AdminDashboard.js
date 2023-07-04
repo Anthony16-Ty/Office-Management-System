@@ -11,7 +11,7 @@ import TimeSheets from '../pages/TimeSheets';
 import Client from '../pages/Client';
 import ClientForm from '../pages/ClientForm';
 import AdminLayout from './AdminLayout';
-import Logout from '../pages/Logout';
+// import Logout from '../pages/Logout';
 import axios from 'axios';
 
 function AdminDashboard() {
@@ -426,7 +426,7 @@ function AdminDashboard() {
             element={<TimeSheets timesheets={timesheets} updateSheet={updateSheet} deleteData={deleteData} onUpdateSheet={handleUpdateSheet} />}
           />
           <Route path="/leave-type" element={<LeaveType />} />
-          <Route path="/" element={<Logout />} />
+          {/* <Route path="/" element={<Logout />} /> */}
         </Routes>
       </AdminLayout>
     </div>
