@@ -11,7 +11,6 @@ import TimeSheets from '../pages/TimeSheets';
 import Client from '../pages/Client';
 import ClientForm from '../pages/ClientForm';
 import AdminLayout from './AdminLayout';
-// import Logout from '../pages/Logout';
 import axios from 'axios';
 
 function AdminDashboard() {
@@ -50,7 +49,7 @@ function AdminDashboard() {
 
   async function fetchReports() {
     try {
-      const response = await axios.get('https://oms-api-production-acab.up.railway.app/leave_types');
+      const response = await axios.get('https://oms-api-production-acab.up.railway.app');
       const data = response.data;
       setLeave_types(data);
     } catch (error) {
@@ -59,7 +58,7 @@ function AdminDashboard() {
   }
   async function updateLeave(id, newData) {
     try {
-      const response = await axios.put(`https://oms-api-production-acab.up.railway.app/leave_types/${id}`, newData);
+      const response = await axios.put(`https://oms-api-production-acab.up.railway.app/${id}`, newData);
       const data = response.data;
       setLeave_types(data);
     } catch (error) {
@@ -68,7 +67,7 @@ function AdminDashboard() {
   }
   async function deleteLeave(id) {
     try {
-      await axios.delete(`https://oms-api-production-acab.up.railway.app/leave_types/${id}`);
+      await axios.delete(`https://oms-api-production-acab.up.railway.app/${id}`);
       setLeave_types(leave_types.filter(leave_type => leave_type.id !== id));
     } catch (error) {
       console.error('Error deleting data:', error);
@@ -421,7 +420,7 @@ function AdminDashboard() {
             element={<TimeSheets timesheets={timesheets} updateSheet={updateSheet} deleteData={deleteData} onUpdateSheet={handleUpdateSheet} />}
           />
           <Route path="/leave-type" element={<LeaveType />} />
-          {/* <Route path="/" element={<Logout />} /> */}
+
         </Routes>
       </AdminLayout>
     </div>

@@ -28,8 +28,8 @@ const Projects = ({ projects, deleteProjects, handleUpdateProject, handleUpdateP
     e.preventDefault();
 
     const url = editingProject
-      ? `https://oms-api-production-acab.up.railway.app/${editingProject.id}`
-      : 'https://oms-api-production-acab.up.railway.app';
+      ? `https://oms-api-production-acab.up.railway.app/projects/${editingProject.id}`
+      : 'https://oms-api-production-acab.up.railway.app/projects';
 
     const method = editingProject ? 'PUT' : 'POST';
 
@@ -209,6 +209,5 @@ const Projects = ({ projects, deleteProjects, handleUpdateProject, handleUpdateP
     </div>
   );
 }
-
 
 export default Projects;
