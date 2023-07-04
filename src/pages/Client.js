@@ -29,22 +29,23 @@ function Client({ clients, deleteClients, updateClient }) {
   };
 
   return (
-    <div class="mx-auto bg-white rounded-lg shadow-lg ml-12 px-5 pb-8 pt-3">
+    <div className="mx-auto bg-white rounded-lg shadow-lg ml-12 px-5 pb-8 pt-3">
       <div className="clients">
-        <div class="row">
-          <div class="col-sm-3 offset-sm-2 mt-3 mb-4 text-gred" style={{ color: "green" }}>
+        <div className="row">
+          <div className="col-sm-3 offset-sm-2 mt-3 mb-4 text-gred" style={{ color: "green" }}>
             <h5 className='text-center'><b>Client Details</b></h5>
           </div>
-          <div class="col-sm-3 offset-sm-1 mt-5 mb-4 text-gred">
+          <div className="col-sm-3 offset-sm-1 mt-5 mb-4 text-gred">
           </div>
         </div>
-        <div class="row">
-          <div class="table-responsive ">
-            <table class="table table-striped table-hover table-bordered table-sm">
+        <div className="row">
+          <div className="table-responsive">
+            <table className="table table-striped table-hover table-bordered table-sm">
               <thead>
                 <tr>
                   <th>Client Name</th>
                   <th>Description</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -55,7 +56,8 @@ function Client({ clients, deleteClients, updateClient }) {
                     <td>
                       <Button variant="danger" onClick={() => deleteClients(client.id)}>
                         Delete
-                      </Button>
+                      </Button>{' '}
+                      {/* Added a space here */}
                       <Button variant="primary" onClick={() => handleEdit(client)}>
                         Edit
                       </Button>
@@ -74,27 +76,27 @@ function Client({ clients, deleteClients, updateClient }) {
           </Modal.Header>
           <Modal.Body>
             <form onSubmit={handleEditSubmit}>
-              <div class="form-group">
+              <div className="form-group">
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   name="client_name"
                   value={editData.client_name}
                   onChange={handleInputChange}
                   placeholder="Enter Client Name"
                 />
               </div>
-              <div class="form-group mt-3">
+              <div className="form-group mt-3">
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   name="description"
                   value={editData.description}
                   onChange={handleInputChange}
                   placeholder="Enter Description"
                 />
               </div>
-              <Button type="submit" class="btn btn-success mt-4">Update Client</Button>
+              <Button type="submit" className="btn btn-success mt-4">Update Client</Button>
             </form>
           </Modal.Body>
           <Modal.Footer>
