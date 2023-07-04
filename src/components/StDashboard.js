@@ -287,7 +287,7 @@ function StDashboard() {
           />
           <Route
             path="/projects"
-            element={<Projects projects={projects} handleUpdateProjects={handleUpdateProject} deleteProjects={deleteProjects} handleUpdateProjects={handleUpdateProjects} />}
+            element={<Projects projects={projects} handleUpdateProjects={handleUpdateProject} deleteProjects={deleteProjects} handleUpdateProject={handleUpdateProjects} />}
           />
           <Route
             path="/leave-form"
