@@ -210,4 +210,5 @@ const Projects = ({ projects, deleteProjects, handleUpdateProject, handleUpdateP
   );
 }
 
+
 export default Projects;
