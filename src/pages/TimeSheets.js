@@ -14,6 +14,9 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData, updateSheet }) => {
   });
 
   const currentDate = new Date(); // Get the current date
+  const nextDay = new Date();
+  nextDay.setDate(nextDay.getDate() + 1);
+  const minDate = nextDay.toISOString().split('T')[0];
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -97,7 +100,7 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData, updateSheet }) => {
                 type='date'
                 name='date'
                 value={formData.date}
-                min={currentDate.toISOString().split('T')[0]} // Set the minimum date to the current date
+                min={minDate} // Set the minimum date to the next day's date
                 onChange={handleChange}
               />
             </Form.Group>
