@@ -94,31 +94,12 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData, updateSheet }) => {
         </Modal.Header>
         <Modal.Body>
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId='formDate'>
-              <Form.Label>Date</Form.Label>
+            <Form.Group controlId='formtask'>
+              <Form.Label>Task ID</Form.Label>
               <Form.Control
-                type='date'
-                name='date'
-                value={formData.date}
-                min={minDate} // Set the minimum date to the next day's date
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Group controlId='formStartTime'>
-              <Form.Label>Start Time</Form.Label>
-              <Form.Control
-                type='time'
-                name='start_time'
-                value={formData.start_time}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Group controlId='formEndTime'>
-              <Form.Label>End Time</Form.Label>
-              <Form.Control
-                type='time'
-                name='end_time'
-                value={formData.end_time}
+                as='textarea'
+                name='task_id'
+                value={formData.task_id}
                 onChange={handleChange}
               />
             </Form.Group>
@@ -131,12 +112,31 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData, updateSheet }) => {
                 onChange={handleChange}
               />
             </Form.Group>
-            <Form.Group controlId='formtask'>
-              <Form.Label>Task ID</Form.Label>
+            <Form.Group controlId='formEndTime'>
+              <Form.Label>End Time</Form.Label>
               <Form.Control
-                as='textarea'
-                name='task_id'
-                value={formData.task_id}
+                type='time'
+                name='end_time'
+                value={formData.end_time}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId='formStartTime'>
+              <Form.Label>Start Time</Form.Label>
+              <Form.Control
+                type='time'
+                name='start_time'
+                value={formData.start_time}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId='formDate'>
+              <Form.Label>Date</Form.Label>
+              <Form.Control
+                type='date'
+                name='date'
+                value={formData.date}
+                min={minDate} // Set the minimum date to the next day's date
                 onChange={handleChange}
               />
             </Form.Group>
