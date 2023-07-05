@@ -11,8 +11,8 @@ function Staff({ handleUpdateStaff, staffs, deleteStaffs, updateStaff }) {
     reporting_to: "",
     email: "",
     tech_stack: "",
-    isStaff: "",
-    admin_id: "",
+    // isStaff: "",
+    // admin_id: "",
   });
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -52,8 +52,8 @@ function Staff({ handleUpdateStaff, staffs, deleteStaffs, updateStaff }) {
             reporting_to: "",
             email: "",
             tech_stack: "",
-            isStaff: "",
-            admin_id: "",
+            // isStaff: "",
+            // admin_id: "",
           });
         } else {
           throw new Error(`Network response was not ok. Response status: ${response.status}`);
@@ -136,7 +136,7 @@ function Staff({ handleUpdateStaff, staffs, deleteStaffs, updateStaff }) {
         <div className="model_box">
           <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
             <Modal.Header closeButton>
-              <Modal.Title>Add Record</Modal.Title>
+              <Modal.Title>Add New Staff</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <form onSubmit={handleSubmit}>
@@ -145,7 +145,7 @@ function Staff({ handleUpdateStaff, staffs, deleteStaffs, updateStaff }) {
                     type="text"
                     className="form-control"
                     name="staff_name"
-                    placeholder="Enter Project Name"
+                    placeholder="Enter Staff Name"
                     value={formData.staff_name}
                     onChange={handleChange}
                   />
@@ -190,7 +190,7 @@ function Staff({ handleUpdateStaff, staffs, deleteStaffs, updateStaff }) {
                     onChange={handleChange}
                   />
                 </div>
-                <div className="form-group mt-3">
+                {/* <div className="form-group mt-3">
                   <input
                     type="text"
                     className="form-control"
@@ -199,8 +199,8 @@ function Staff({ handleUpdateStaff, staffs, deleteStaffs, updateStaff }) {
                     value={formData.isStaff}
                     onChange={handleChange}
                   />
-                </div>
-                <div className="form-group mt-3">
+                </div> */}
+                {/* <div className="form-group mt-3">
                   <input
                     type="text"
                     className="form-control"
@@ -209,7 +209,7 @@ function Staff({ handleUpdateStaff, staffs, deleteStaffs, updateStaff }) {
                     value={formData.admin_id}
                     onChange={handleChange}
                   />
-                </div>
+                </div> */}
 
                 <button type="submit" className="btn btn-success mt-4">
                   Add Staff
