@@ -145,8 +145,9 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData, tasks}) => {
                 value={formData.task_id}
                 onChange={handleChange}
               >
+                <option value="">select tasks</option>
                 {tasks && Array.isArray(tasks) && tasks.map((task) => (
-                  <option key={task.id} value={task.task_name}>
+                  <option key={task.id} value={task.id}>
                     ID: {task.id} {task.task_name}
                   </option>
                 ))}
