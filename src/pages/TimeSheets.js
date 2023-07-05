@@ -13,6 +13,8 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData, updateSheet }) => {
     task_id: '',
   });
 
+  const currentDate = new Date(); // Get the current date
+
   async function handleSubmit(e) {
     e.preventDefault();
     try {
@@ -24,6 +26,13 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData, updateSheet }) => {
         !formData.task_id
       ) {
         setError('Please fill out all the form fields.');
+        return;
+      }
+
+      const selectedDate = new Date(formData.date);
+
+      if (selectedDate < currentDate) {
+        setError('You cannot add a date that is in the past.');
         return;
       }
 
@@ -66,7 +75,6 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData, updateSheet }) => {
     <div className='mx-auto bg-white rounded-lg shadow-lg ml-15 px-3 py-8 pt-3'>
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div>
-          {' '}
           <h3 className='text-green text-center'>Timesheets</h3>
         </div>
         <div>
@@ -85,7 +93,13 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData, updateSheet }) => {
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId='formDate'>
               <Form.Label>Date</Form.Label>
-              <Form.Control type='date' name='date' value={formData.date} onChange={handleChange} />
+              <Form.Control
+                type='date'
+                name='date'
+                value={formData.date}
+                min={currentDate.toISOString().split('T')[0]} // Set the minimum date to the current date
+                onChange={handleChange}
+              />
             </Form.Group>
             <Form.Group controlId='formStartTime'>
               <Form.Label>Start Time</Form.Label>
@@ -116,13 +130,22 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData, updateSheet }) => {
             </Form.Group>
             <Form.Group controlId='formtask'>
               <Form.Label>Task ID</Form.Label>
-              <Form.Control as='textarea' name='task_id' value={formData.task_id} onChange={handleChange} />
+              <Form.Control
+                as='textarea'
+                name='task_id'
+                value={formData.task_id}
+                onChange={handleChange}
+              />
             </Form.Group>
             <Button variant='primary' type='submit' style={{ marginTop: '9px' }}>
               Add Entry
             </Button>
           </Form>
-          {error && <Alert variant='danger'>{error}</Alert>}
+          {error && (
+            <Alert variant='danger' className='mt-4'>
+              {error}
+            </Alert>
+          )}
         </Modal.Body>
       </Modal>
 
@@ -142,12 +165,8 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData, updateSheet }) => {
           {timesheets.map((timesheet) => (
             <tr key={timesheet.id}>
               <td>{timesheet.date}</td>
-              <td>
-                {new Date(timesheet.start_time).toLocaleTimeString('en-US', { timeStyle: 'short' })}
-              </td>
-              <td>
-                {new Date(timesheet.end_time).toLocaleTimeString('en-US', { timeStyle: 'short' })}
-              </td>
+              <td>{new Date(timesheet.start_time).toLocaleTimeString('en-US', { timeStyle: 'short' })}</td>
+              <td>{new Date(timesheet.end_time).toLocaleTimeString('en-US', { timeStyle: 'short' })}</td>
               <td>{timesheet.progress_details}</td>
               <td>{timesheet.task_id}</td>
               <td>
