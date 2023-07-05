@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Table, Button, Modal, Form } from 'react-bootstrap';
+import { Table, Button, Modal, Form, Alert } from 'react-bootstrap';
 import axios from 'axios';
 
 const Timesheet = ({ onUpdateSheet, timesheets, deleteData, updateSheet }) => {
   const [showModal, setShowModal] = useState(false);
+  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     date: '',
     start_time: '',
@@ -22,7 +23,7 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData, updateSheet }) => {
         !formData.progress_details ||
         !formData.task_id
       ) {
-        console.log('Please fill out all the form fields.');
+        setError('Please fill out all the form fields.');
         return;
       }
 
@@ -30,7 +31,7 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData, updateSheet }) => {
       const endTime = new Date(`1970-01-01T${formData.end_time}`);
 
       if (endTime < startTime) {
-        console.log('End time cannot be less than start time.');
+        setError('End time cannot be less than start time.');
         return;
       }
 
@@ -47,6 +48,7 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData, updateSheet }) => {
         progress_details: '',
         task_id: '',
       });
+      setError('');
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -120,6 +122,7 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData, updateSheet }) => {
               Add Entry
             </Button>
           </Form>
+          {error && <Alert variant='danger'>{error}</Alert>}
         </Modal.Body>
       </Modal>
 
