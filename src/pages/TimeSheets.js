@@ -12,7 +12,6 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData }) => {
     progress_details: '',
     task_id: '',
   });
-  const [tasks, setTasks] = useState([]); // State to store the tasks fetched from the server
 
   const [currentDate] = useState(new Date(new Date().setDate(new Date().getDate() - 1))); // State for current date
 
@@ -26,7 +25,10 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData }) => {
     try {
       const response = await axios.get('https://oms-api-production-acab.up.railway.app/tasks');
       const tasksData = response.data;
-      setTasks(tasksData);
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        task_id: tasksData.length > 0 ? tasksData[0].id : '',
+      }));
     } catch (error) {
       console.log(error);
     }
@@ -153,18 +155,12 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData }) => {
             <Form.Group controlId='formTask'>
               <Form.Label>Task ID</Form.Label>
               <Form.Control
-                as='select'
+                type='text'
                 name='task_id'
                 value={formData.task_id}
                 onChange={handleChange}
-              >
-                <option value=''>Select Task</option>
-                {tasks.map((task) => (
-                  <option key={task.id} value={task.id}>
-                    {task.name}
-                  </option>
-                ))}
-              </Form.Control>
+                readOnly
+              />
             </Form.Group>
             <Button variant='primary' type='submit' style={{ marginTop: '9px' }}>
               Add Entry
