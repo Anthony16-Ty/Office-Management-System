@@ -16,57 +16,106 @@ import Signup from './pages/Signup';
 import ProfilePage from './pages/ProfilePage';
 import AdminDashboard from './components/AdminDashboard';
 import StDashboard from './components/StDashboard';
+import axios from 'axios';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isloggedIn, setIsLoggedIn] = useState(false);
   const [isadmin, setIsAdmin] = useState(false);
   const [isStaff, setIsStaff] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [staffs, setStaffs] = useState([]);
+  // const [user, setUser] = useState(null);
 
-  // handle login states
+  useEffect(() => {
+    fetchStaffs();
+  }, []);
+
+
+  // Fetch staffs
+  useEffect(() => {
+    const storedStaffs = localStorage.getItem('staffs');
+    if (storedStaffs) {
+      setStaffs(JSON.parse(storedStaffs));
+    }
+  }, []);
+
+
+  useEffect(() => {
+    localStorage.setItem('staffs', JSON.stringify(staffs));
+  }, [staffs]);
+
+  async function fetchStaffs() {
+    try {
+      const response = await axios.get('https://oms-api-production-acab.up.railway.app/staffs');
+      const data = response.data;
+      setStaffs(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // Perform update operation on staffs
+  async function updateStaff(id, newData) {
+    try {
+      await axios.put(`https://oms-api-production-acab.up.railway.app/staffs/${id}`, newData);
+      const updatedStaffs = staffs.map((staff) => {
+        if (staff.id === id) {
+          return { ...staff, ...newData };
+        }
+        return staff;
+      });
+      setStaffs(updatedStaffs);
+    } catch (error) {
+      console.error('Error updating data:', error);
+    }
+  }
+
+  // Perform delete operation on staffs
+  async function deleteStaffs(id) {
+    try {
+      await axios.delete(`https://oms-api-production-acab.up.railway.app/staffs/${id}`);
+      setStaffs(staffs.filter(staff => staff.id !== id));
+    } catch (error) {
+      console.error('Error Deleting data:', error);
+    }
+  }
+
+  function handleUpdateStaff(newStaff){
+      setStaffs([...staffs, newStaff])
+  }
+
+  //handle login states
   function handleLogin(user) {
     setIsLoggedIn(true);
     setIsAdmin(user.isadmin);
     setIsStaff(user.isStaff);
   }
 
-  // Simulate loading or checking user authentication
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
-  }, []);
+  // useEffect(() => {
+  //   fetch("/mi")
+  //   .then(resp => {
+  //     if (resp.ok){
+  //       resp.json().then((user) => setUser(user))
+  //     } else {
+  //       resp.json().then(console.log)
+  //     }
+  //   })
+  // }, [])
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // console.log(user)
 
   return (
     <Router>
       <Routes>
-        <Route
-          path="/"
-          element={
-            isLoggedIn ? (
-              isadmin ? (
-                <AdminDashboard />
-              ) : (
-                <StDashboard />
-              )
-            ) : (
-              <Login onLogin={handleLogin} />
-            )
-          }
-        />
+        <Route path="/" element={<Login onLogin={handleLogin} />} />
         <Route path="/signup" element={<Signup />} />
-        {/* <Route path="/logout" element={<Logout />} /> */}
+        {/* <Route path="/logout" element={<Logout setAdmin={setIsAdmin} setStaff={setIsStaff} />} /> */}
         <Route
           path="/admindashboard/*"
-          element={<AdminDashboard isloggedIn={isLoggedIn} isadmin={isadmin} isStaff={isStaff} />}
+          element={<AdminDashboard isloggedIn={isloggedIn} isAdmin={isadmin} isStaff={isStaff} staffs={staffs} handleUpdateStaff={handleUpdateStaff} deleteStaffs={deleteStaffs} updateStaff={updateStaff} />}
         />
         <Route
           path="/stdashboard/*"
-          element={<StDashboard isloggedIn={isLoggedIn} isadmin={isadmin} isStaff={isStaff} />}
+          element={<StDashboard isloggedIn={isloggedIn} isAdmin={isadmin} isStaff={isStaff} staffs={staffs} handleUpdateStaff={handleUpdateStaff} deleteStaffs={deleteStaffs} updateStaff={updateStaff} />}
         />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/tasks" element={<Tasks />} />
