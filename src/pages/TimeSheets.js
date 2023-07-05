@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Table, Button, Modal, Form, Alert } from 'react-bootstrap';
+import { Table, Modal, Button, Form, Alert } from 'react-bootstrap';
 import axios from 'axios';
 
-const Timesheet = ({ onUpdateSheet, timesheets, deleteData, updateSheet }) => {
+const Timesheet = ({ onUpdateSheet, timesheets, deleteData }) => {
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
@@ -71,6 +71,8 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData, updateSheet }) => {
       } else {
         setError('');
       }
+    } else {
+      setError('');
     }
     setFormData({
       ...formData,
