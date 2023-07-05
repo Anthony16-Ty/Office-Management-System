@@ -66,7 +66,7 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData }) => {
   const handleChange = (e) => {
     if (e.target.name === 'date') {
       const selectedDate = new Date(e.target.value);
-      if (selectedDate < currentDate) {
+      if (selectedDate < currentDate - 1) {
         setError('You cannot select a date that is in the past.');
       } else {
         setError('');
