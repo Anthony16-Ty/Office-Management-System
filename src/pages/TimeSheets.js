@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Table, Modal, Button, Form, Alert } from 'react-bootstrap';
 import axios from 'axios';
 
-const Timesheet = ({ onUpdateSheet, timesheets, deleteData, tasks}) => {
+const Timesheet = ({ onUpdateSheet, timesheets, deleteData, tasks }) => {
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
@@ -15,9 +15,8 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData, tasks}) => {
 
   const [currentDate] = useState(new Date(new Date().setDate(new Date().getDate() - 1))); // State for current date
 
-
   // Function to fetch tasks from the server
-
+  // ...
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -145,7 +144,7 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData, tasks}) => {
                 value={formData.task_id}
                 onChange={handleChange}
               >
-                <option value="">select tasks</option>
+                <option value="">Select Task</option>
                 {tasks && Array.isArray(tasks) && tasks.map((task) => (
                   <option key={task.id} value={task.id}>
                     ID: {task.id} {task.task_name}
