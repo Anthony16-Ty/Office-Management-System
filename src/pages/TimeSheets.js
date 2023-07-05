@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, Modal, Button, Form, Alert } from 'react-bootstrap';
 import axios from 'axios';
 
@@ -12,9 +12,25 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData }) => {
     progress_details: '',
     task_id: '',
   });
-
+  const [tasks, setTasks] = useState([]); // State to store the tasks fetched from the server
 
   const [currentDate] = useState(new Date(new Date().setDate(new Date().getDate() - 1))); // State for current date
+
+  useEffect(() => {
+    // Fetch tasks from the server when the component mounts
+    fetchTasks();
+  }, []);
+
+  // Function to fetch tasks from the server
+  async function fetchTasks() {
+    try {
+      const response = await axios.get('https://oms-api-production-acab.up.railway.app/tasks');
+      const tasksData = response.data;
+      setTasks(tasksData);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -137,11 +153,18 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData }) => {
             <Form.Group controlId='formTask'>
               <Form.Label>Task ID</Form.Label>
               <Form.Control
-                type='text'
+                as='select'
                 name='task_id'
                 value={formData.task_id}
                 onChange={handleChange}
-              />
+              >
+                <option value=''>Select Task</option>
+                {tasks.map((task) => (
+                  <option key={task.id} value={task.id}>
+                    {task.name}
+                  </option>
+                ))}
+              </Form.Control>
             </Form.Group>
             <Button variant='primary' type='submit' style={{ marginTop: '9px' }}>
               Add Entry
