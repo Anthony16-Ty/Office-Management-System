@@ -19,6 +19,7 @@ const Sidebar = ({ dashboardType, handleLogout }) => {
     { title: 'Projects', path: '/projects', src: <AiFillProject /> },
     { title: 'Tasks', path: '/tasks', src: <FaTasks /> },
     { title: 'Staffs', path: '/staff', src: <FaUserFriends /> },
+    { title: 'Managers', path: '/manager', src: <FaUserFriends /> },
     { title: 'Clients', path: '/client', src: <FaUserFriends /> },
     { title: 'Client Forms', path: '/client-form', src: <SiReacthookform /> },
     { title: 'TimeSheets', path: '/timesheets', src: <AiOutlineFieldTime /> },

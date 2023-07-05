@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Table, Button, Modal, Form } from 'react-bootstrap';
 import axios from 'axios';
 
-const Tasks = ({ onUpdateTask, tasks, deleteTasks, onUpdate, staffs }) => {
+const Tasks = ({ onUpdateTask, tasks, deleteTasks, onUpdate, staffs, managers }) => {
   const [showModal, setShowModal] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
 
@@ -17,8 +17,8 @@ const Tasks = ({ onUpdateTask, tasks, deleteTasks, onUpdate, staffs }) => {
     e.preventDefault();
 
     const url = editingTask
-      ? `https://oms-api-production-acab.up.railway.app/tasks/${editingTask.id}`
-      : 'https://oms-api-production-acab.up.railway.app/tasks';
+      ? `https://web-production-e0ae6.up.railway.app/tasks/${editingTask.id}`
+      : 'https://web-production-e0ae6.up.railway.app/tasks';
 
     const method = editingTask ? 'PUT' : 'POST';
 
@@ -28,7 +28,7 @@ const Tasks = ({ onUpdateTask, tasks, deleteTasks, onUpdate, staffs }) => {
       data: formData,
     })
       .then((response) => {
-        if (response.status === 201 || response.status === 201) {
+        if (response.status === 201 || response.status === 200) {
           const data = response.data;
           if (editingTask) {
             // Update the existing task
@@ -123,8 +123,8 @@ const Tasks = ({ onUpdateTask, tasks, deleteTasks, onUpdate, staffs }) => {
               >
                 <option value="">Select Staff</option>
                 {staffs && Array.isArray(staffs) && staffs.map((staff) => (
-                  <option key={staff.id} value={staff.id}>
-                    ID:{staff.id} - Name:{staff.staff_name}
+                  <option key={staff.id} value={staff.staff_name}>
+                    ID: {staff.id} - Name: {staff.staff_name}
                   </option>
                 ))}
               </Form.Control>
@@ -132,11 +132,18 @@ const Tasks = ({ onUpdateTask, tasks, deleteTasks, onUpdate, staffs }) => {
             <Form.Group controlId="formManaged">
               <Form.Label>Managed By</Form.Label>
               <Form.Control
-                type="text"
+                as="select"
                 name="managed_by"
                 value={formData.managed_by}
-                onChange={handleChange}
-              />
+                onChange={handleChange}>
+
+                  <option value="">Select Managers</option>
+                 {managers && Array.isArray(managers) && managers.map((manager) => (
+                  <option key={manager.id} value={manager.first_name}>
+                    ID: {manager.id} - Name: {manager.first_name} {manager.last_name}
+                  </option>
+                ))}
+                </Form.Control>
             </Form.Group>
             <Form.Group controlId="formproject">
               <Form.Label>Project ID</Form.Label>

@@ -10,8 +10,8 @@ import LeaveReport from '../pages/LeaveReport';
 import TimeSheets from '../pages/TimeSheets';
 import Client from '../pages/Client';
 import ClientForm from '../pages/ClientForm';
+import Managers from '../pages/Managers';
 import AdminLayout from './AdminLayout';
-// import Logout from '../pages/Logout';
 import axios from 'axios';
 
 function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) {
@@ -21,6 +21,7 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) 
   const [forms, setForms] = useState([]);
   const [clients, setClients] = useState([]);
   const [leave_types, setLeave_types] = useState([]);
+  const [managers, setManagers] = useState([]);
 
   useEffect(() => {
     fetchTimesheets();
@@ -29,7 +30,60 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) 
     fetchForms();
     fetchClients();
     fetchReports();
+    fetchManagers();
   }, []);
+
+  useEffect(() => {
+    const storedManagers = localStorage.getItem('managers');
+    if (storedManagers) {
+      setManagers(JSON.parse(storedManagers));
+    }
+  }, []);
+
+
+  useEffect(() => {
+    localStorage.setItem('managers', JSON.stringify(managers));
+  }, [managers]);
+
+  async function fetchManagers() {
+    try {
+      const response = await axios.get('https://oms-api-production-acab.up.railway.app/managers');
+      const data = response.data;
+      setManagers(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // Perform update operation on staffs
+  async function updateManager(id, newData) {
+    try {
+      await axios.put(`https://oms-api-production-acab.up.railway.app/managers/${id}`, newData);
+      const updatedManagers = managers.map((manager) => {
+        if (manager.id === id) {
+          return { ...manager, ...newData };
+        }
+        return manager;
+      });
+      setManagers(updatedManagers);
+    } catch (error) {
+      console.error('Error updating data:', error);
+    }
+  }
+
+  // Perform delete operation on staffs
+  async function deleteManagers(id) {
+    try {
+      await axios.delete(`https://oms-api-production-acab.up.railway.app/managers/${id}`);
+      setManagers(managers.filter(manager => manager.id !== id));
+    } catch (error) {
+      console.error('Error Deleting data:', error);
+    }
+  }
+
+  function handleUpdateManager(newManager){
+      setManagers([...managers, newManager])
+  }
 
 
   //fetch reports
@@ -322,11 +376,15 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) 
           <Route path="/" element={<Navigate to="/admindashboard/projects" />} />
           <Route
             path="/tasks"
-            element={<Tasks tasks={tasks} staffs={staffs} onUpdate={updateTask} deleteTasks={deleteTasks} onUpdateTask={handleUpdateTask} />}
+            element={<Tasks tasks={tasks} staffs={staffs} managers={managers} onUpdate={updateTask} deleteTasks={deleteTasks} onUpdateTask={handleUpdateTask} />}
           />
           <Route
             path="/staff"
-            element={<Staff staffs={staffs} updateStaff={updateStaff} deleteStaffs={deleteStaffs} handleUpdateStaff={handleUpdateStaff} />}
+            element={<Staff staffs={staffs} managers={managers} updateStaff={updateStaff} deleteStaffs={deleteStaffs} handleUpdateStaff={handleUpdateStaff} />}
+          />
+           <Route
+            path="/manager"
+            element={<Managers managers={managers} updateManager={updateManager} deleteManagers={deleteManagers} handleUpdateManager={handleUpdateManager} />}
           />
           <Route
             path="/projects"
@@ -358,10 +416,10 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) 
           />
           <Route
             path="/timesheets"
-            element={<TimeSheets timesheets={timesheets} tasks={tasks} updateSheet={updateSheet} deleteData={deleteData} onUpdateSheet={handleUpdateSheet} />}
+            element={<TimeSheets timesheets={timesheets} updateSheet={updateSheet} deleteData={deleteData} onUpdateSheet={handleUpdateSheet} />}
           />
           <Route path="/leave-type" element={<LeaveType />} />
-          {/* <Route path="/" element={<Logout />} /> */}
+
         </Routes>
       </AdminLayout>
     </div>

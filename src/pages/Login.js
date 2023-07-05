@@ -6,14 +6,14 @@ const Login = ({ onLogin, loggedIn }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  
+
 
   async function handleSubmit(event) {
     event.preventDefault();
 
     try {
       // Make an API request to validate the login credentials
-      const response = await fetch(" https://oms-api-production-acab.up.railway.app/login", {
+      const response = await fetch("https://oms-api-production-acab.up.railway.app/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
