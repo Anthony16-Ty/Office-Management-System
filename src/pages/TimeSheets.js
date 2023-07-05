@@ -106,7 +106,6 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData }) => {
                 type='date'
                 name='date'
                 value={formData.date}
-                min={currentDate.toISOString().split('T')[0]} // Set the minimum date to the current date
                 onChange={handleChange}
               />
             </Form.Group>
