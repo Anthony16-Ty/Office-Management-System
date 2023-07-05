@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
 
-function Staff({ handleUpdateStaff, staffs, deleteStaffs, updateStaff }) {
+function Staff({ handleUpdateStaff, staffs, deleteStaffs, managers }) {
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState({
     staff_name: "",
@@ -11,37 +11,16 @@ function Staff({ handleUpdateStaff, staffs, deleteStaffs, updateStaff }) {
     reporting_to: "",
     email: "",
     tech_stack: "",
-    // isStaff: "",
-    // admin_id: "",
   });
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
-  };
-
-  useEffect(() => {
-    // Perform search logic here (e.g., send API request with search query)
-    // Update the staffs state with the search results
-    // For example:
-    // axios.get(`http://localhost:3000/staffs?search=${searchQuery}`)
-    //   .then(function (response) {
-    //     if (response.status === 200) {
-    //       handleUpdateStaff(response.data);
-    //     }
-    //   })
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
-  }, [searchQuery]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(' https://oms-api-production-acab.up.railway.app/staffs', formData)
+      .post('https://oms-api-production-acab.up.railway.app/staffs', formData)
       .then(function (response) {
         if (response.status === 200) {
           const data = response.data;
@@ -52,8 +31,6 @@ function Staff({ handleUpdateStaff, staffs, deleteStaffs, updateStaff }) {
             reporting_to: "",
             email: "",
             tech_stack: "",
-            // isStaff: "",
-            // admin_id: "",
           });
         } else {
           throw new Error(`Network response was not ok. Response status: ${response.status}`);
@@ -69,6 +46,11 @@ function Staff({ handleUpdateStaff, staffs, deleteStaffs, updateStaff }) {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+    // Perform search logic here
   };
 
   return (
@@ -141,82 +123,81 @@ function Staff({ handleUpdateStaff, staffs, deleteStaffs, updateStaff }) {
             <Modal.Body>
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
+                  <label htmlFor="staff_name">Staff Name</label>
                   <input
                     type="text"
                     className="form-control"
                     name="staff_name"
+                    id="staff_name"
                     placeholder="Enter Staff Name"
                     value={formData.staff_name}
                     onChange={handleChange}
                   />
                 </div>
                 <div className="form-group mt-3">
+                  <label htmlFor="joining_date">Joining Date</label>
                   <input
                     type="date"
                     className="datePicker"
                     name="joining_date"
+                    id="joining_date"
                     placeholder="Enter Joining Date"
                     value={formData.joining_date}
                     onChange={handleChange}
                   />
                 </div>
                 <div className="form-group mt-3">
-                  <input
-                    type="text"
+                  <label htmlFor="reporting_to">Reporting To</label>
+                  <select
                     className="form-control"
                     name="reporting_to"
-                    placeholder="Reporting To"
+                    id="reporting_to"
                     value={formData.reporting_to}
                     onChange={handleChange}
-                  />
+                  >
+                    <option value="">Select Reporting To</option>
+                    {managers &&
+                      Array.isArray(managers) &&
+                      managers.map((manager) => (
+                        <option key={manager.id} value={manager.first_name}>
+                          {manager.first_name}
+                        </option>
+                      ))}
+                  </select>
                 </div>
                 <div className="form-group mt-3">
+                  <label htmlFor="email">Email</label>
                   <input
                     type="text"
                     className="form-control"
                     name="email"
+                    id="email"
                     placeholder="Enter Email"
                     value={formData.email}
                     onChange={handleChange}
                   />
                 </div>
                 <div className="form-group mt-3">
-                  <input
-                    type="text"
+                  <label htmlFor="tech_stack">Enter Your Stack Details</label>
+                  <select
                     className="form-control"
                     name="tech_stack"
-                    placeholder="Enter Your Stack Details"
+                    id="tech_stack"
                     value={formData.tech_stack}
                     onChange={handleChange}
-                  />
+                  >
+                    <option value="">Select Tech Stack</option>
+                    <option value="Stack 1">Full Stack Developer</option>
+                    <option value="Stack 2">Frontend Developer</option>
+                    <option value="Stack 3">Backend Developer</option>
+                    <option value="Stack 4">Mobile Developer</option>
+                  </select>
                 </div>
-                {/* <div className="form-group mt-3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="isStaff"
-                    placeholder="isStaff"
-                    value={formData.isStaff}
-                    onChange={handleChange}
-                  />
-                </div> */}
-                {/* <div className="form-group mt-3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="admin_id"
-                    placeholder="Admin ID"
-                    value={formData.admin_id}
-                    onChange={handleChange}
-                  />
-                </div> */}
-
                 <button type="submit" className="btn btn-success mt-4">
                   Add Staff
                 </button>
               </form>
             </Modal.Body>
-
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>
                 Close
