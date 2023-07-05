@@ -12,7 +12,9 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData }) => {
     progress_details: '',
     task_id: '',
   });
-  const [currentDate, setCurrentDate] = useState(new Date()); // State for current date
+
+
+  const [currentDate] = useState(new Date(new Date().setDate(new Date().getDate() - 1))); // State for current date
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -64,13 +66,9 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData }) => {
   }
 
   const handleChange = (e) => {
-    if (e.target.name === 'date') {
-      const selectedDate = new Date(e.target.value);
-      if (selectedDate < currentDate - 1) {
-        setError('You cannot select a date that is in the past.');
-      } else {
-        setError('');
-      }
+    const selectedDate = new Date(e.target.value);
+    if (selectedDate < currentDate) {
+      setError('You cannot select a date that is in the past.');
     } else {
       setError('');
     }
