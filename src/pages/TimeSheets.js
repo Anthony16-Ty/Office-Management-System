@@ -137,10 +137,10 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData }) => {
                 onChange={handleChange}
               />
             </Form.Group>
-            <Form.Group controlId='formtask'>
+            <Form.Group controlId='formTask'>
               <Form.Label>Task ID</Form.Label>
               <Form.Control
-                as='textarea'
+                type='text'
                 name='task_id'
                 value={formData.task_id}
                 onChange={handleChange}
