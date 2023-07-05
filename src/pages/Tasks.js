@@ -17,8 +17,8 @@ const Tasks = ({ onUpdateTask, tasks, deleteTasks, onUpdate, staffs, managers })
     e.preventDefault();
 
     const url = editingTask
-      ? `https://web-production-e0ae6.up.railway.app/tasks/${editingTask.id}`
-      : 'https://web-production-e0ae6.up.railway.app/tasks';
+      ? `https://oms-api-production-acab.up.railway.app/tasks/${editingTask.id}`
+      : 'https://oms-api-production-acab.up.railway.app/tasks';
 
     const method = editingTask ? 'PUT' : 'POST';
 
