@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Table, Modal, Button, Form, Alert } from 'react-bootstrap';
 import axios from 'axios';
 
-const Timesheet = ({ onUpdateSheet, timesheets, deleteData }) => {
+const Timesheet = ({ onUpdateSheet, timesheets, deleteData, tasks}) => {
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState('');
   const [formData, setFormData] = useState({
@@ -14,27 +14,10 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData }) => {
   });
 
   const [currentDate] = useState(new Date(new Date().setDate(new Date().getDate() - 1))); // State for current date
-  const [tasks, setTasks] = useState([]); // State for tasks
 
-  useEffect(() => {
-    // Fetch tasks from the server when the component mounts
-    fetchTasks();
-  }, []);
 
   // Function to fetch tasks from the server
-  async function fetchTasks() {
-    try {
-      const response = await axios.get('https://oms-api-production-acab.up.railway.app/tasks');
-      const tasksData = response.data;
-      setTasks(tasksData);
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        task_id: tasksData.length > 0 ? tasksData[0].id : '',
-      }));
-    } catch (error) {
-      console.log(error);
-    }
-  }
+
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -162,9 +145,9 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData }) => {
                 value={formData.task_id}
                 onChange={handleChange}
               >
-                {tasks.map((task) => (
-                  <option key={task.id} value={task.id}>
-                    {task.name} (ID: {task.id})
+                {tasks && Array.isArray(tasks) && tasks.map((task) => (
+                  <option key={task.id} value={task.task_name}>
+                    ID: {task.id} {task.task_name}
                   </option>
                 ))}
               </Form.Control>
