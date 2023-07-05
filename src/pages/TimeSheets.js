@@ -14,6 +14,7 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData }) => {
   });
 
   const [currentDate] = useState(new Date(new Date().setDate(new Date().getDate() - 1))); // State for current date
+  const [tasks, setTasks] = useState([]); // State for tasks
 
   useEffect(() => {
     // Fetch tasks from the server when the component mounts
@@ -25,6 +26,7 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData }) => {
     try {
       const response = await axios.get('https://oms-api-production-acab.up.railway.app/tasks');
       const tasksData = response.data;
+      setTasks(tasksData);
       setFormData((prevFormData) => ({
         ...prevFormData,
         task_id: tasksData.length > 0 ? tasksData[0].id : '',
@@ -153,14 +155,19 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData }) => {
               />
             </Form.Group>
             <Form.Group controlId='formTask'>
-              <Form.Label>Task ID</Form.Label>
+              <Form.Label>Task</Form.Label>
               <Form.Control
-                type='text'
+                as='select'
                 name='task_id'
                 value={formData.task_id}
                 onChange={handleChange}
-                readOnly
-              />
+              >
+                {tasks.map((task) => (
+                  <option key={task.id} value={task.id}>
+                    {task.name} (ID: {task.id})
+                  </option>
+                ))}
+              </Form.Control>
             </Form.Group>
             <Button variant='primary' type='submit' style={{ marginTop: '9px' }}>
               Add Entry
@@ -182,7 +189,7 @@ const Timesheet = ({ onUpdateSheet, timesheets, deleteData }) => {
             <th>Start Time</th>
             <th>End Time</th>
             <th>Progress Details</th>
-            <th>Task Id</th>
+            <th>Task ID</th>
             <th>Action</th>
           </tr>
         </thead>
