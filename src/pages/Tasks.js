@@ -92,9 +92,6 @@ const Tasks = ({ onUpdateTask, tasks, deleteTasks, onUpdate, staffs, managers })
   return (
     <div className="mx-auto bg-white rounded-lg shadow-lg ml-15 px-5 pt-3 pb-8">
       <div className="flex justify-between mb-4">
-        <div className="text-center text-green">
-          <h3>Tasks</h3>
-        </div>
         <div className="flex items-center">
           <input
             type="text"
@@ -105,6 +102,9 @@ const Tasks = ({ onUpdateTask, tasks, deleteTasks, onUpdate, staffs, managers })
           <Button variant="primary" onClick={handleAddTask} className="mt-2 mb-3">
             Add New Task
           </Button>
+        </div>
+        <div className="text-center text-green">
+          <h3>Tasks</h3>
         </div>
       </div>
 
