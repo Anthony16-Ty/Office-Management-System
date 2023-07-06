@@ -5,6 +5,7 @@ import axios from 'axios';
 const Client = ({ onUpdateClient, clients, deleteClients, onUpdate }) => {
   const [showModal, setShowModal] = useState(false);
   const [editingClient, setEditingClient] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const [formData, setFormData] = useState({
     client_name: '',
@@ -58,35 +59,58 @@ const Client = ({ onUpdateClient, clients, deleteClients, onUpdate }) => {
     });
   };
 
-  const handleEditClient = ( client) => {
-    setEditingClient( client);
+  const handleEditClient = (client) => {
+    setEditingClient(client);
     setFormData({
-      client_name:  client.client_name,
-      description:  client.description,
+      client_name: client.client_name,
+      description: client.description,
     });
     setShowModal(true);
   };
 
-  const  handleAddClient = () => {
+  const handleAddClient = () => {
     setEditingClient(null);
     setFormData({
-       client_name: '',
-       description: '',
+      client_name: '',
+      description: '',
     });
     setShowModal(true);
   };
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  // Filter clients based on the search term
+  const filteredClients = clients.filter((client) => {
+    const { client_name, description } = client;
+    const searchTermLowerCase = searchTerm.toLowerCase();
+    return (
+      client_name.toLowerCase().includes(searchTermLowerCase) ||
+      description.toLowerCase().includes(searchTermLowerCase)
+    );
+  });
 
   return (
     <div className="mx-auto bg-white rounded-lg shadow-lg ml-15 px-5 pt-3 pb-8">
       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
         <div className="text-center text-green">
-          <h3> clients</h3>
+          <h3> Clients</h3>
         </div>
         <div>
-          <Button variant="primary" onClick={ handleAddClient} style={{ marginTop: '10px', marginBottom: '3px' }}>
+          <Button
+            variant="primary"
+            onClick={handleAddClient}
+            style={{ marginTop: '10px', marginBottom: '3px' }}
+          >
             Add New Client
           </Button>
         </div>
+      </div>
+
+      {/* Search input field */}
+      <div style={{ marginTop: '10px', marginBottom: '10px' }}>
+        <input type="text" value={searchTerm} onChange={handleSearch} placeholder="Search clients" />
       </div>
 
       {/* Modal for adding/editing task */}
@@ -131,22 +155,20 @@ const Client = ({ onUpdateClient, clients, deleteClients, onUpdate }) => {
           </tr>
         </thead>
         <tbody>
-          {clients &&
-            Array.isArray(clients) &&
-            clients.map((client) => (
-              <tr key={client.id}>
-                <td>{client.client_name}</td>
-                <td>{client.description}</td>
-                <td>
-                  <Button variant="primary" onClick={() => handleEditClient(client)}>
-                    Edit
-                  </Button>{' '}
-                  <Button variant="danger" onClick={() => deleteClients(client.id)}>
-                    Delete
-                  </Button>
-                </td>
-              </tr>
-            ))}
+          {filteredClients.map((client) => (
+            <tr key={client.id}>
+              <td>{client.client_name}</td>
+              <td>{client.description}</td>
+              <td>
+                <Button variant="primary" onClick={() => handleEditClient(client)}>
+                  Edit
+                </Button>{' '}
+                <Button variant="danger" onClick={() => deleteClients(client.id)}>
+                  Delete
+                </Button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </Table>
     </div>
