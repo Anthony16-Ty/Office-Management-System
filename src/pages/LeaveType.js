@@ -61,24 +61,21 @@ const LeaveType = ({ onUpdateLeave, dashboardType, staffs}) => {
           <div className='ml-1'>
 
           <div className="form-group mt-3">
-              <label htmlFor="client_details">Staff Name</label>
-                <select
-                  className="form-control"
-                  name="your_name"
-                  id="your name"
-                  value={formData.your_name}
-                  onChange={handleChange}
+                  <label htmlFor="your_name">Enter Leave Type</label>
+                  <select
+                    className="form-control"
+                    name="your_name"
+                    id="your_name"
+                    value={formData.your_name}
+                    onChange={handleChange}
                   >
-                  <option value="">Select Staff Name</option>
-                    {staffs &&
-                      Array.isArray(staffs) &&
-                      staffs.map((staff) => (
-                        <option key={staff.id} value={staff.staff_name}>
-                         ID: {staff.id} Name: {staff.staff_name}
-                        </option>
-                      ))}
+                    <option value="">Select Type of Leave</option>
+                    <option value="Sick">Sick </option>
+                    <option value="Paternity">Paternity</option>
+                    <option value="Emergency">Emergency</option>
+                    <option value="Maternity">Maternity</option>
                   </select>
-            </div>
+          </div>
 
             <div className='m-1'>
               <label className='block text-sm font-bold mb-1'>
