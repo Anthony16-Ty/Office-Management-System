@@ -54,6 +54,7 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) 
     }
   }
 
+  
   // Perform update operation on staffs
   async function updateManager(id, newData) {
     try {
