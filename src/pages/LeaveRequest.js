@@ -9,7 +9,7 @@ function LeaveRequest({forms, deleteForms, updateForm}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  
+ 
     return (
        <div class="mx-auto bg-white rounded-lg shadow-lg ml-12 px-5 pb-8 pt-3">
           <div className="requests">
@@ -24,7 +24,7 @@ function LeaveRequest({forms, deleteForms, updateForm}) {
                  <table class="table table-striped table-hover table-bordered table-sm">
                     <thead>
                         <tr>
-                            <th>Staff ID</th>
+                            <th>Staff Name</th>
                             <th>Date From</th>
                             <th>Date To</th>
                             <th>Reason For Leave</th>
@@ -36,11 +36,11 @@ function LeaveRequest({forms, deleteForms, updateForm}) {
                     <tbody>
                      {forms && Array.isArray(forms) && forms.map((form) => (
                      <tr key={form.id}>
+                      <td>{form.your_name}</td>
                       <td>{form.date_from}</td>
                       <td>{form.date_to}</td>
                       <td>{form.reason_for_leave}</td>
-                      <td>{form.leave_type}</td>
-                      <td>{form.staff_id}</td>
+                      <td>{form.leaving_type}</td>
                       <td>
                          <Button variant="danger" onClick={() => deleteForms(form.id)}>
                           Delete
@@ -99,4 +99,5 @@ function LeaveRequest({forms, deleteForms, updateForm}) {
 }
 
 export default LeaveRequest;
+
 
