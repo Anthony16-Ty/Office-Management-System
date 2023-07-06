@@ -6,7 +6,6 @@ import { FaTasks, FaUserFriends } from "react-icons/fa";
 import { AiOutlineFieldTime } from 'react-icons/ai';
 import { FaWpforms } from 'react-icons/fa';
 import { FaBriefcase } from 'react-icons/fa';
-import { SiReacthookform } from 'react-icons/si';
 import Logo from '../assets/images/logo.svg';
 import HamburgerButton from './HamburgerMenuButton/HamburgerButton';
 
@@ -21,7 +20,6 @@ const Sidebar = ({ dashboardType, handleLogout }) => {
     { title: 'Staffs', path: '/staff', src: <FaUserFriends /> },
     { title: 'Managers', path: '/manager', src: <FaUserFriends /> },
     { title: 'Clients', path: '/client', src: <FaUserFriends /> },
-    { title: 'Client Forms', path: '/client-form', src: <SiReacthookform /> },
     { title: 'TimeSheets', path: '/timesheets', src: <AiOutlineFieldTime /> },
     { title: 'Leave Requests', path: '/leave-request', src: <FaWpforms /> },
     { title: 'Leave Types', path: '/leave-type', src: <FaBriefcase /> },

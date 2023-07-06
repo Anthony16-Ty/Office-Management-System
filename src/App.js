@@ -7,7 +7,6 @@ import LeaveRequest from './pages/LeaveRequest';
 import LeaveForm from './pages/LeaveForm';
 import { LeaveType } from './pages/LeaveType';
 import LeaveReport from './pages/LeaveReport';
-import ClientForm from './pages/ClientForm';
 import Client from './pages/Client';
 import TimeSheets from './pages/TimeSheets';
 import Login from './pages/Login';
@@ -123,7 +122,6 @@ function App() {
         <Route path="/staff" element={<Staff />} />
         <Route path="/timesheets" element={<TimeSheets />} />
         <Route path="/client" element={<Client />} />
-        <Route path="/client-form" element={<ClientForm />} />
         <Route path="/leave-form" element={<LeaveForm />} />
         <Route path="/leave-request" element={<LeaveRequest />} />
         <Route path="/leave-type" element={<LeaveType />} />

@@ -9,7 +9,6 @@ import { LeaveType } from '../pages/LeaveType';
 import LeaveReport from '../pages/LeaveReport';
 import TimeSheets from '../pages/TimeSheets';
 import Client from '../pages/Client';
-import ClientForm from '../pages/ClientForm';
 import Managers from '../pages/Managers';
 import AdminLayout from './AdminLayout';
 import axios from 'axios';
@@ -154,15 +153,17 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) 
       console.log(error);
     }
   }
-  async function updateClient(id, newData) {
-    try {
-      const response = await axios.put(`https://oms-api-production-acab.up.railway.app/clients/${id}`, newData);
-      const data = response.data;
-      setClients(data);
-    } catch (error) {
-      console.error('Error updating data:', error);
-    }
-  }
+
+  const updateClient = (updatedClient) => {
+    const updatedClients = clients.map((client) => {
+      if (client.id === updatedClient.id) {
+        return updatedClient;
+      }
+      return client;
+    });
+    setClients(updatedClients);
+  };
+
   async function deleteClients(id) {
     try {
       await axios.delete(`https://oms-api-production-acab.up.railway.app/clients/${id}`);
@@ -378,6 +379,10 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) 
             path="/tasks"
             element={<Tasks tasks={tasks} staffs={staffs} managers={managers} onUpdate={updateTask} deleteTasks={deleteTasks} onUpdateTask={handleUpdateTask} />}
           />
+           <Route
+            path="/client"
+            element={<Client clients={clients} onUpdate={updateClient} deleteClients={deleteClients} onUpdateClient={handleUpdateClient} />}
+          />
           <Route
             path="/staff"
             element={<Staff staffs={staffs} managers={managers} updateStaff={updateStaff} deleteStaffs={deleteStaffs} handleUpdateStaff={handleUpdateStaff} />}
@@ -399,14 +404,6 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) 
             element={<LeaveRequest forms={forms} updateForm={updateForm} deleteForms={deleteForms} />}
           />
           <Route
-            path="/client-form"
-            element={<ClientForm onUpdateClient={handleUpdateClient} />}
-          />
-          <Route
-            path="/client"
-            element={<Client clients={clients} updateClient={updateClient} deleteClients={deleteClients} />}
-          />
-          <Route
             path="/leave-type"
             element={<LeaveType onUpdateLeave={handleUpdateLeave} />}
           />
@@ -419,7 +416,6 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) 
             element={<TimeSheets timesheets={timesheets} tasks={tasks} updateSheet={updateSheet} deleteData={deleteData} onUpdateSheet={handleUpdateSheet} />}
           />
           <Route path="/leave-type" element={<LeaveType />} />
-
         </Routes>
       </AdminLayout>
     </div>

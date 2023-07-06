@@ -1,89 +1,156 @@
-import React from 'react';
-import "bootstrap/dist/css/bootstrap.min.css";
-import {useState} from 'react';
-import { Button,Modal } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Table, Button, Modal, Form } from 'react-bootstrap';
+import axios from 'axios';
 
+const Client = ({ onUpdateClient, clients, deleteClients, onUpdate }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [editingClient, setEditingClient] = useState(null);
 
+  const [formData, setFormData] = useState({
+    client_name: '',
+    description: '',
+  });
 
-function Client({clients, deleteClients, updateClient}) {
-  const [show, setShow] = useState(false);
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-    return (
-       <div class="mx-auto bg-white rounded-lg shadow-lg ml-12 px-5 pb-8 pt-3">
-          <div className="clients">
-          <div class="row ">
+    const url = editingClient
+      ? `https://oms-api-production-acab.up.railway.app/clients/${editingClient.id}`
+      : 'https://oms-api-production-acab.up.railway.app/clients';
 
-              <div class="col-sm-3 offset-sm-2 mt-3 mb-4 text-gred" style={{color:"green"}}><h5 className='text-center'><b>Client Details</b></h5></div>
-              <div class="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
-             </div>
-           </div>
-            <div class="row">
-                <div class="table-responsive " >
-                 <table class="table table-striped table-hover table-bordered table-sm">
-                    <thead>
-                        <tr>
-                            <th>Client Name</th>
-                            <th>Description</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                     {clients && Array.isArray(clients) && clients.map((client) => (
-                     <tr key={client.id}>
-                      <td>{client.client_name}</td>
-                      <td>{client.description}</td>
-                      <td>
-                         <Button variant="danger" onClick={() => deleteClients(client.id)}>
-                          Delete
-                         </Button>
-                      </td>
-                    </tr>
-                    ))}
-                    </tbody>
-                </table>
-            </div>
+    const method = editingClient ? 'PUT' : 'POST';
+
+    axios({
+      method: method,
+      url: url,
+      data: formData,
+    })
+      .then((response) => {
+        if (response.status === 201 || response.status === 200) {
+          const data = response.data;
+          if (editingClient) {
+            // Update the existing task
+            onUpdate(data);
+            setEditingClient(null);
+          } else {
+            // Create a new task
+            onUpdateClient(data);
+          }
+
+          setFormData({
+            client_name: '',
+            description: '',
+          });
+          setShowModal(false);
+        } else {
+          throw new Error(`Network response was not ok. Response status: ${response.status}`);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleEditClient = ( client) => {
+    setEditingClient( client);
+    setFormData({
+      client_name:  client.client_name,
+      description:  client.description,
+    });
+    setShowModal(true);
+  };
+
+  const  handleAddClient = () => {
+    setEditingClient(null);
+    setFormData({
+       client_name: '',
+       description: '',
+    });
+    setShowModal(true);
+  };
+
+  return (
+    <div className="mx-auto bg-white rounded-lg shadow-lg ml-15 px-5 pt-3 pb-8">
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <div className="text-center text-green">
+          <h3> clients</h3>
         </div>
-
-        {/* <!--- Model Box ---> */}
-        <div className="model_box">
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Add Client</Modal.Title>
-        </Modal.Header>
-            <Modal.Body>
-            <form>
-                <div class="form-group">
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Client Name"/>
-                </div>
-                <div class="form-group mt-3">
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Description"/>
-                </div>
-
-                  <button type="submit" class="btn btn-success mt-4">Add Client</button>
-                </form>
-            </Modal.Body>
-
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
+        <div>
+          <Button variant="primary" onClick={ handleAddClient} style={{ marginTop: '10px', marginBottom: '3px' }}>
+            Add New Client
           </Button>
+        </div>
+      </div>
 
-        </Modal.Footer>
+      {/* Modal for adding/editing task */}
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>{editingClient ? 'Edit Client' : 'Add Client'}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formClientName">
+              <Form.Label>Client Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="client_name"
+                value={formData.client_name}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="formdescription">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Button variant="primary" type="submit" style={{ marginTop: '9px' }}>
+              {editingClient ? 'Save Changes' : 'Add Client'}
+            </Button>
+          </Form>
+        </Modal.Body>
       </Modal>
 
-       {/* Model Box Finish */}
-       </div>
-      </div>
-      </div>
+      {/* Table to display tasks */}
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Client Name</th>
+            <th>Description</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {clients &&
+            Array.isArray(clients) &&
+            clients.map((client) => (
+              <tr key={client.id}>
+                <td>{client.client_name}</td>
+                <td>{client.description}</td>
+                <td>
+                  <Button variant="primary" onClick={() => handleEditClient(client)}>
+                    Edit
+                  </Button>{' '}
+                  <Button variant="danger" onClick={() => deleteClients(client.id)}>
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            ))}
+        </tbody>
+      </Table>
+    </div>
   );
-}
+};
 
 export default Client;
-
-
