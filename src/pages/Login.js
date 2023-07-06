@@ -7,19 +7,21 @@ const Login = ({ onLogin, loggedIn }) => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-
   async function handleSubmit(event) {
     event.preventDefault();
 
     try {
       // Make an API request to validate the login credentials
-      const response = await fetch("https://oms-api-production-acab.up.railway.app/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        "https://oms-api-production-acab.up.railway.app/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
       if (response.ok) {
         const user = await response.json();
         // onLogin(user); // Pass the user object to the onLogin callback

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal, Table } from 'react-bootstrap';
 
-const Projects = ({ projects, deleteProjects, handleUpdateProject, handleUpdateProjects }) => {
+const Projects = ({ projects, deleteProjects, handleUpdateProject, handleUpdateProjects, clients }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -11,9 +11,9 @@ const Projects = ({ projects, deleteProjects, handleUpdateProject, handleUpdateP
 
   const [formData, setFormData] = useState({
     project_name: "",
-    client_name: "",
     description: "",
-    client_id: "",
+    client_details: "",
+
   });
 
   const handleSearch = (e) => {
@@ -59,9 +59,8 @@ const Projects = ({ projects, deleteProjects, handleUpdateProject, handleUpdateP
 
         setFormData({
           project_name: "",
-          client_name: "",
           description: "",
-          client_id: "",
+          client_details: "",
         });
         handleClose();
       })
@@ -81,9 +80,8 @@ const Projects = ({ projects, deleteProjects, handleUpdateProject, handleUpdateP
     setEditingProject(project);
     setFormData({
       project_name: project.project_name,
-      client_name: project.client_name,
       description: project.description,
-      client_id: project.client_id,
+      client_details: project.client_details,
     });
     handleShow();
   };
@@ -119,8 +117,8 @@ const Projects = ({ projects, deleteProjects, handleUpdateProject, handleUpdateP
               <thead>
                 <tr>
                   <th>Project Name</th>
-                  <th>Client Name</th>
                   <th>Description</th>
+                  <th>Client Name</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -128,8 +126,8 @@ const Projects = ({ projects, deleteProjects, handleUpdateProject, handleUpdateP
                 {filteredProjects.map((project) => (
                   <tr key={project.id}>
                     <td>{project.project_name}</td>
-                    <td>{project.client_name}</td>
                     <td>{project.description}</td>
+                    <td>{project.client_details}</td>
                     <td>
                       <Button variant="danger" className="mr-2" onClick={() => deleteProjects(project.id)}>
                         Delete
@@ -166,35 +164,35 @@ const Projects = ({ projects, deleteProjects, handleUpdateProject, handleUpdateP
                   <input
                     type="text"
                     className="form-control"
-                    name="client_name"
-                    placeholder="Enter Client"
-                    value={formData.client_name}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="form-group mt-3">
-                  <input
-                    type="text"
-                    className="form-control"
                     name="description"
                     placeholder="Enter Description"
                     value={formData.description}
                     onChange={handleChange}
                   />
                 </div>
+
                 <div className="form-group mt-3">
-                  <input
-                    type="text"
+                  <label htmlFor="client_details">Client Name</label>
+                  <select
                     className="form-control"
-                    name="client_id"
-                    placeholder="Enter Client_Id"
-                    value={formData.client_id}
+                    name="client_details"
+                    id="client_details"
+                    value={formData.client_details}
                     onChange={handleChange}
-                  />
+                  >
+                    <option value="">Select Client</option>
+                    {clients &&
+                      Array.isArray(clients) &&
+                      clients.map((client) => (
+                        <option key={client.id} value={client.client_name}>
+                         ID: {client.id} Name: {client.client_name}
+                        </option>
+                      ))}
+                  </select>
                 </div>
 
                 <button type="submit" className="btn btn-success mt-4">
-                  Add
+                  {editingProject ? 'Save Changes' : 'Add Project'}
                 </button>
               </form>
             </Modal.Body>
