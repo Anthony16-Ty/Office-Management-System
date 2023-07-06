@@ -1,25 +1,24 @@
 import React, { useState } from 'react';
 import { Table, Button, Modal, Form } from 'react-bootstrap';
 import axios from 'axios';
+import 'tailwindcss/tailwind.css'; // Import Tailwind CSS styles
 
 const Tasks = ({ onUpdateTask, tasks, deleteTasks, onUpdate, staffs, managers }) => {
   const [showModal, setShowModal] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
-
   const [formData, setFormData] = useState({
     task_name: '',
     assigned_to: '',
     managed_by: '',
     project_id: '',
   });
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const url = editingTask
       ? `https://oms-api-production-acab.up.railway.app/tasks/${editingTask.id}`
       : 'https://oms-api-production-acab.up.railway.app/tasks';
-
     const method = editingTask ? 'PUT' : 'POST';
 
     axios({
@@ -31,11 +30,9 @@ const Tasks = ({ onUpdateTask, tasks, deleteTasks, onUpdate, staffs, managers })
         if (response.status === 201 || response.status === 200) {
           const data = response.data;
           if (editingTask) {
-            // Update the existing task
             onUpdate(data);
             setEditingTask(null);
-          } else {
-            // Create a new task
+          } else{
             onUpdateTask(data);
           }
 
@@ -84,14 +81,28 @@ const Tasks = ({ onUpdateTask, tasks, deleteTasks, onUpdate, staffs, managers })
     setShowModal(true);
   };
 
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+  const filteredTasks = tasks.filter((task) => {
+    return task.task_name.toLowerCase().includes(searchQuery.toLowerCase());
+  });
+
   return (
     <div className="mx-auto bg-white rounded-lg shadow-lg ml-15 px-5 pt-3 pb-8">
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      <div className="flex justify-between mb-4">
         <div className="text-center text-green">
           <h3>Tasks</h3>
         </div>
-        <div>
-          <Button variant="primary" onClick={handleAddTask} style={{ marginTop: '10px', marginBottom: '3px' }}>
+        <div className="flex items-center">
+          <input
+            type="text"
+            placeholder="Search"
+            className="w-48 px-3 py-2 mr-2 border border-gray-300 rounded focus:outline-none focus:border-blue-400"
+            onChange={(e) => handleSearch(e.target.value)}
+          />
+          <Button variant="primary" onClick={handleAddTask} className="mt-2 mb-3">
             Add New Task
           </Button>
         </div>
@@ -115,18 +126,15 @@ const Tasks = ({ onUpdateTask, tasks, deleteTasks, onUpdate, staffs, managers })
             </Form.Group>
             <Form.Group controlId="formAssigned">
               <Form.Label>Assigned To</Form.Label>
-              <Form.Control
-                as="select"
-                name="assigned_to"
-                value={formData.assigned_to}
-                onChange={handleChange}
-              >
+              <Form.Control as="select" name="assigned_to" value={formData.assigned_to} onChange={handleChange}>
                 <option value="">Select Staff</option>
-                {staffs && Array.isArray(staffs) && staffs.map((staff) => (
-                  <option key={staff.id} value={staff.staff_name}>
-                    ID: {staff.id} - Name: {staff.staff_name}
-                  </option>
-                ))}
+                {staffs &&
+                  Array.isArray(staffs) &&
+                  staffs.map((staff) => (
+                    <option key={staff.id} value={staff.staff_name}>
+                      ID: {staff.id} - Name: {staff.staff_name}
+                    </option>
+                  ))}
               </Form.Control>
             </Form.Group>
             <Form.Group controlId="formManaged">
@@ -135,15 +143,17 @@ const Tasks = ({ onUpdateTask, tasks, deleteTasks, onUpdate, staffs, managers })
                 as="select"
                 name="managed_by"
                 value={formData.managed_by}
-                onChange={handleChange}>
-
-                  <option value="">Select Managers</option>
-                 {managers && Array.isArray(managers) && managers.map((manager) => (
-                  <option key={manager.id} value={manager.first_name}>
-                    ID: {manager.id} - Name: {manager.first_name} {manager.last_name}
-                  </option>
-                ))}
-                </Form.Control>
+                onChange={handleChange}
+              >
+                <option value="">Select Managers</option>
+                {managers &&
+                  Array.isArray(managers) &&
+                  managers.map((manager) => (
+                    <option key={manager.id} value={manager.first_name}>
+                      ID: {manager.id} - Name: {manager.first_name} {manager.last_name}
+                    </option>
+                  ))}
+              </Form.Control>
             </Form.Group>
             <Form.Group controlId="formproject">
               <Form.Label>Project ID</Form.Label>
@@ -165,32 +175,30 @@ const Tasks = ({ onUpdateTask, tasks, deleteTasks, onUpdate, staffs, managers })
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>Task Name</th>
-            <th>Assigned To</th>
-            <th>Managed By</th>
-            <th>Project ID</th>
-            <th>Action</th>
+            <th className="w-1/4">Task Name</th>
+            <th className="w-1/4">Assigned To</th>
+            <th className="w-1/4">Managed By</th>
+            <th className="w-1/4">Project ID</th>
+            <th className="w-1/4">Action</th>
           </tr>
         </thead>
         <tbody>
-          {tasks &&
-            Array.isArray(tasks) &&
-            tasks.map((task) => (
-              <tr key={task.id}>
-                <td>{task.task_name}</td>
-                <td>{task.assigned_to}</td>
-                <td>{task.managed_by}</td>
-                <td>{task.project_id}</td>
-                <td>
-                  <Button variant="primary" onClick={() => handleEditTask(task)}>
-                    Edit
-                  </Button>{' '}
-                  <Button variant="danger" onClick={() => deleteTasks(task.id)}>
-                    Delete
-                  </Button>
-                </td>
-              </tr>
-            ))}
+          {filteredTasks.map((task) => (
+            <tr key={task.id}>
+              <td>{task.task_name}</td>
+              <td>{task.assigned_to}</td>
+              <td>{task.managed_by}</td>
+              <td>{task.project_id}</td>
+              <td>
+                <Button variant="primary" onClick={() => handleEditTask(task)}>
+                  Edit
+                </Button>{" "}
+                <Button variant="danger" onClick={() => deleteTasks(task.id)}>
+                  Delete
+                </Button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </Table>
     </div>
