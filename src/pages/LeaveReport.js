@@ -15,7 +15,7 @@ function LeaveReport({leave_types, deleteLeave, updateLeave}) {
           <div className="leave-types">
           <div class="row ">
 
-              <div class="col-sm-3 offset-sm-2 mt-3 mb-4 text-gred" style={{color:"green"}}><h5 className='text-center'><b>Leave Report</b></h5></div>
+              <div class="col-sm-3 offset-sm-2 mt-3 mb-4 text-gred" style={{color:"green"}}><h5 className='text-center'><b>Leave Type</b></h5></div>
               <div class="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred">
              </div>
            </div>
