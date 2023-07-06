@@ -54,7 +54,6 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) 
     }
   }
 
-  
   // Perform update operation on staffs
   async function updateManager(id, newData) {
     try {
@@ -398,7 +397,7 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) 
           />
           <Route
             path="/leave-form"
-            element={<LeaveForm onUpdateForm={handleUpdateForm} />}
+            element={<LeaveForm staffs={staffs} onUpdateForm={handleUpdateForm} />}
           />
           <Route
             path="/leave-request"
@@ -406,7 +405,7 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) 
           />
           <Route
             path="/leave-type"
-            element={<LeaveType onUpdateLeave={handleUpdateLeave} />}
+            element={<LeaveType staffs={staffs} onUpdateLeave={handleUpdateLeave} />}
           />
           <Route
             path="/leave-report"
@@ -425,3 +424,4 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) 
 }
 
 export default AdminDashboard;
+

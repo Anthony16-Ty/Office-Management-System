@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const LeaveType = ({ onUpdateLeave, dashboardType}) => {
+const LeaveType = ({ onUpdateLeave, dashboardType, staffs}) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    your_name: '',
-    days_allowed: '',
-    staff_id: '',
+    leave_type: '',
+    Total_days_allowed: '',
   });
 
   const handleSubmit = (e) => {
@@ -32,7 +31,6 @@ const LeaveType = ({ onUpdateLeave, dashboardType}) => {
         setFormData({
           your_name: '',
           days_allowed: '',
-          staff_id: '',
         });
 
         if (dashboardType === 'admin') {
@@ -62,16 +60,24 @@ const LeaveType = ({ onUpdateLeave, dashboardType}) => {
           </h5>
           <div className='ml-1'>
 
-            <div className='m-1'>
-              <label className='block text-sm font-bold mb-1'>
-                Enter Staff Name
-              </label>
-              <input
-                name='your_name'
-                value={formData.your_name}
-                onChange={handleChange}
-                className='border border-gray-400 rounded-md p-2 w-48'
-              />
+          <div className="form-group mt-3">
+              <label htmlFor="client_details">Staff Name</label>
+                <select
+                  className="form-control"
+                  name="your_name"
+                  id="your name"
+                  value={formData.your_name}
+                  onChange={handleChange}
+                  >
+                  <option value="">Select Staff Name</option>
+                    {staffs &&
+                      Array.isArray(staffs) &&
+                      staffs.map((staff) => (
+                        <option key={staff.id} value={staff.staff_name}>
+                         ID: {staff.id} Name: {staff.staff_name}
+                        </option>
+                      ))}
+                  </select>
             </div>
 
             <div className='m-1'>
@@ -82,19 +88,7 @@ const LeaveType = ({ onUpdateLeave, dashboardType}) => {
                 name='days_allowed'
                 value={formData.days_allowed}
                 onChange={handleChange}
-                className='border border-gray-400 rounded-md p-2 w-48'
-              />
-            </div>
-
-            <div className='m-1'>
-              <label className='block text-sm font-bold mb-1'>
-                Enter Staff ID
-              </label>
-              <input
-                name='staff_id'
-                value={formData.staff_id}
-                onChange={handleChange}
-                className='border border-gray-400 rounded-md p-2 w-48'
+                className='border border-gray-400 rounded-md p-2 w-full'
               />
             </div>
           </div>

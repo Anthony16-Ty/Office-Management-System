@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 // import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const LeaveForm = ({ onUpdateForm, dashboardType }) => {
+const LeaveForm = ({ onUpdateForm, dashboardType, staffs }) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    your_name: '',
     date_from: '',
     date_to: '',
     reason_for_leave: '',
-    leave_type: '',
-    staff_id: '',
+    leaving_type: '',
   });
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,11 +33,11 @@ const LeaveForm = ({ onUpdateForm, dashboardType }) => {
         onUpdateForm(data);
 
         setFormData({
+          your_name: '',
           date_from: '',
           date_to: '',
           reason_for_leave: '',
-          leave_type: '',
-          staff_id: '',
+          leaving_type: '',
         });
 
         if (dashboardType === 'admin') {
@@ -67,6 +66,26 @@ const LeaveForm = ({ onUpdateForm, dashboardType }) => {
             Request Leave
           </h5>
           <div className='ml-1'>
+
+          <div className="form-group mt-3">
+              <label htmlFor="your_name_details">Staff Name</label>
+                <select
+                  className="form-control"
+                  name="your_name"
+                  id="your_name"
+                  value={formData.your_name}
+                  onChange={handleChange}
+                  >
+                  <option value="">Select Your Name</option>
+                    {staffs &&
+                      Array.isArray(staffs) &&
+                      staffs.map((staff) => (
+                        <option key={staff.id} value={staff.staff_name}>
+                         ID: {staff.id} Name: {staff.staff_name}
+                        </option>
+                      ))}
+                  </select>
+            </div>
 
             <div className='m-1'>
               <label className='block text-sm font-bold mb-1'>
@@ -105,31 +124,25 @@ const LeaveForm = ({ onUpdateForm, dashboardType }) => {
                 className='border border-gray-400 rounded-md p-2 w-full'
               />
             </div>
-
-            <div className='m-1'>
-              <label className='block text-sm font-bold mb-1'>
-                Please Enter Type of Leave
-              </label>
-              <input
-                name='leave_type'
-                value={formData.leave_type}
-                onChange={handleChange}
-                className='border border-gray-400 rounded-md p-2 w-full'
-              />
-            </div>
-
-            <div className='m-2'>
-               <label className='block text-sm font-bold mb-1'>
-                Please Enter Staff Id
-              </label>
-              <input
-                name='staff_id'
-                value={formData.staff_id}
-                onChange={handleChange}
-                className='border border-gray-400 rounded-md p-2 w-full'
-              />
-             </div>
           </div>
+          <div className="form-group mt-3">
+                  <label htmlFor="tech_stack">Enter Leave Type</label>
+                  <select
+                    className="form-control"
+                    name="leaving_type"
+                    id="leaving_type"
+                    value={formData.leaving_type}
+                    onChange={handleChange}
+                  >
+                    <option value="">Select Leave Type</option>
+                    <option value="Type 1">Sick Leave</option>
+                    <option value="Type 2">Maternity Leave</option>
+                    <option value="Type 3">Off Leave</option>
+                    <option value="Type 4">Emergency Leave</option>
+                    <option value="Type 5">Travelling Leave</option>
+                    <option value="Type 5">Wedding Leave</option>
+                  </select>
+                </div>
 
           <div className='flex justify-center'>
             <button

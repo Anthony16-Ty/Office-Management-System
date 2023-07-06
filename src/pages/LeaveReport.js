@@ -6,7 +6,7 @@ function LeaveReport({ leave_types, deleteLeave, updateLeave }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  
 
   return (
     <div className="mx-auto bg-white rounded-lg shadow-lg ml-12 px-5 pb-8 pt-3">

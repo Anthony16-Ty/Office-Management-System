@@ -286,7 +286,7 @@ function StDashboard({staffs}) {
           />
           <Route
             path="/leave-form"
-            element={<LeaveForm onUpdateForm={handleUpdateForm} />}
+            element={<LeaveForm staffs={staffs} onUpdateForm={handleUpdateForm} />}
           />
           <Route
             path="/leave-request"
@@ -302,7 +302,7 @@ function StDashboard({staffs}) {
           />
           <Route
             path="/timesheets"
-            element={<TimeSheets timesheets={timesheets} updateSheet={updateSheet} deleteData={deleteData} onUpdateSheet={handleUpdateSheet} />}
+            element={<TimeSheets tasks={tasks} timesheets={timesheets} updateSheet={updateSheet} deleteData={deleteData} onUpdateSheet={handleUpdateSheet} />}
           />
           <Route path="/leave-type" element={<LeaveType />} />
         </Routes>
@@ -312,3 +312,4 @@ function StDashboard({staffs}) {
 }
 
 export default StDashboard;
+
