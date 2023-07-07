@@ -11,6 +11,7 @@ import TimeSheets from '../pages/TimeSheets';
 import Client from '../pages/Client';
 import Managers from '../pages/Managers';
 import AdminLayout from './AdminLayout';
+// import Logout from '../pages/Logout';
 import axios from 'axios';
 
 function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) {
@@ -355,16 +356,6 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) 
     }
   }
 
-  // Perform delete operation on forms
-  async function deleteForms(id) {
-    try {
-      await axios.delete(`https://oms-api-production-acab.up.railway.app/forms/${id}`);
-      setForms(forms.filter(form => form.id !== id));
-    } catch (error) {
-      console.error('Error Deleting data:', error);
-    }
-  }
-
   function handleUpdateForm(newForm) {
     setForms([...forms, newForm])
   }
@@ -401,7 +392,7 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) 
           />
           <Route
             path="/leave-request"
-            element={<LeaveRequest forms={forms} updateForm={updateForm} deleteForms={deleteForms} />}
+            element={<LeaveRequest forms={forms} setForms={setForms} updateForm={updateForm} />}
           />
           <Route
             path="/leave-type"
@@ -416,7 +407,7 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) 
             element={<TimeSheets timesheets={timesheets} tasks={tasks} updateSheet={updateSheet} deleteData={deleteData} onUpdateSheet={handleUpdateSheet} />}
           />
           <Route path="/leave-type" element={<LeaveType />} />
-
+          {/* <Route path="/" element={<Logout />} /> */}
         </Routes>
       </AdminLayout>
     </div>
@@ -424,4 +415,3 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) 
 }
 
 export default AdminDashboard;
-

@@ -68,7 +68,7 @@ const LeaveForm = ({ onUpdateForm, dashboardType, staffs }) => {
           <div className='ml-1'>
 
           <div className="form-group mt-3">
-              <label htmlFor="your_name_details">Staff Name</label>
+              <label htmlFor="your_name">Staff Name</label>
                 <select
                   className="form-control"
                   name="your_name"
@@ -126,7 +126,7 @@ const LeaveForm = ({ onUpdateForm, dashboardType, staffs }) => {
             </div>
           </div>
           <div className="form-group mt-3">
-                  <label htmlFor="tech_stack">Enter Leave Type</label>
+                  <label htmlFor="leaving_type">Enter Leave Type</label>
                   <select
                     className="form-control"
                     name="leaving_type"
@@ -135,12 +135,12 @@ const LeaveForm = ({ onUpdateForm, dashboardType, staffs }) => {
                     onChange={handleChange}
                   >
                     <option value="">Select Leave Type</option>
-                    <option value="Type 1">Sick Leave</option>
-                    <option value="Type 2">Maternity Leave</option>
-                    <option value="Type 3">Off Leave</option>
-                    <option value="Type 4">Emergency Leave</option>
-                    <option value="Type 5">Travelling Leave</option>
-                    <option value="Type 5">Wedding Leave</option>
+                    <option value="Sick Leave">Sick Leave</option>
+                    <option value="Maternity Leave">Maternity Leave</option>
+                    <option value="Off Leave">Off Leave</option>
+                    <option value="Emergency Leave">Emergency Leave</option>
+                    <option value="Travelling Leave">Travelling Leave</option>
+                    <option value="Wedding Leave">Wedding Leave</option>
                   </select>
                 </div>
 
