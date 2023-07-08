@@ -8,7 +8,7 @@ const useAuth = () => {
 
 const ProtectedRoutes = () => {
     const isAuth = useAuth();
-    return isAuth ? <Outlet /> : <Navigate to="/admindashboard/projects" />;
+    return isAuth ? <Outlet /> : <Navigate to="/admindashboard/*" />;
 };
 
 export default ProtectedRoutes;
