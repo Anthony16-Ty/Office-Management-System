@@ -19,7 +19,7 @@ import ProtectedRoutes from './pages/ProtectedRoutes';
 
 function App() {
   const [isloggedIn, setIsLoggedIn] = useState(false);
-  const [isadmin, setIsadmin] = useState(false);
+  const [isadmin, setIsAdmin] = useState(false);
   const [isStaff, setIsStaff] = useState(false);
   const [staffs, setStaffs] = useState([]);
   // const [user, setUser] = useState(null);
