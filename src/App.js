@@ -22,10 +22,12 @@ function App() {
   const [isadmin, setIsAdmin] = useState(false);
   const [isStaff, setIsStaff] = useState(false);
   const [staffs, setStaffs] = useState([]);
+  // const [user, setUser] = useState(null);
 
   useEffect(() => {
     fetchStaffs();
   }, []);
+
 
   // Fetch staffs
   useEffect(() => {
@@ -34,6 +36,7 @@ function App() {
       setStaffs(JSON.parse(storedStaffs));
     }
   }, []);
+
 
   useEffect(() => {
     localStorage.setItem('staffs', JSON.stringify(staffs));
@@ -49,6 +52,7 @@ function App() {
     }
   }
 
+  // Perform update operation on staffs
   async function updateStaff(id, newData) {
     try {
       await axios.put(`https://oms-api-production-acab.up.railway.app/staffs/${id}`, newData);
@@ -64,50 +68,65 @@ function App() {
     }
   }
 
+  // Perform delete operation on staffs
   async function deleteStaffs(id) {
     try {
       await axios.delete(`https://oms-api-production-acab.up.railway.app/staffs/${id}`);
-      setStaffs(staffs.filter((staff) => staff.id !== id));
+      setStaffs(staffs.filter(staff => staff.id !== id));
     } catch (error) {
       console.error('Error Deleting data:', error);
     }
   }
 
-  function handleUpdateStaff(newStaff) {
-    setStaffs([...staffs, newStaff]);
+  function handleUpdateStaff(newStaff){
+      setStaffs([...staffs, newStaff])
   }
 
+  //handle login states
   function handleLogin(user) {
     setIsLoggedIn(true);
     setIsAdmin(user.isadmin);
     setIsStaff(user.isStaff);
   }
 
+  // useEffect(() => {
+  //   fetch("/mi")
+  //   .then(resp => {
+  //     if (resp.ok){
+  //       resp.json().then((user) => setUser(user))
+  //     } else {
+  //       resp.json().then(console.log)
+  //     }
+  //   })
+  // }, [])
+
+  // console.log(user)
+
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Login onLogin={handleLogin} />} />
-        <ProtectedRoutes
+        <Route element={<ProtectedRoutes />}>
+        <Route
           path="/admindashboard/*"
           element={<AdminDashboard isloggedIn={isloggedIn} isAdmin={isadmin} isStaff={isStaff} staffs={staffs} handleUpdateStaff={handleUpdateStaff} deleteStaffs={deleteStaffs} updateStaff={updateStaff} />}
-          isAuthenticated={isloggedIn}
         />
-        <ProtectedRoutes
+        <Route
           path="/stdashboard/*"
           element={<StDashboard isloggedIn={isloggedIn} isAdmin={isadmin} isStaff={isStaff} staffs={staffs} handleUpdateStaff={handleUpdateStaff} deleteStaffs={deleteStaffs} updateStaff={updateStaff} />}
-          isAuthenticated={isloggedIn}
         />
         <Route path="/profile" element={<ProfilePage />} />
-        <ProtectedRoutes path="/tasks" element={<Tasks />} isAuthenticated={isloggedIn} />
-        <ProtectedRoutes path="/projects" element={<Projects />} isAuthenticated={isloggedIn} />
-        <ProtectedRoutes path="/manager" element={<Managers />} isAuthenticated={isloggedIn} />
-        <ProtectedRoutes path="/staff" element={<Staff />} isAuthenticated={isloggedIn} />
-        <ProtectedRoutes path="/timesheets" element={<TimeSheets />} isAuthenticated={isloggedIn} />
-        <ProtectedRoutes path="/client" element={<Client />} isAuthenticated={isloggedIn} />
-        <ProtectedRoutes path="/leave-form" element={<LeaveForm />} isAuthenticated={isloggedIn} />
-        <ProtectedRoutes path="/leave-request" element={<LeaveRequest />} isAuthenticated={isloggedIn} />
-        <ProtectedRoutes path="/leave-type" element={<LeaveType />} isAuthenticated={isloggedIn} />
-        <ProtectedRoutes path="/leave-report" element={<LeaveReport />} isAuthenticated={isloggedIn} />
+        <Route path="/tasks" element={<Tasks />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/manager" element={<Managers />} />
+        <Route path="/staff" element={<Staff />} />
+        <Route path="/timesheets" element={<TimeSheets />} />
+        <Route path="/client" element={<Client />} />
+        <Route path="/leave-form" element={<LeaveForm />} />
+        <Route path="/leave-request" element={<LeaveRequest />} />
+        <Route path="/leave-type" element={<LeaveType />} />
+        <Route path="/leave-report" element={<LeaveReport />} />
+        </Route>
       </Routes>
     </Router>
   );
