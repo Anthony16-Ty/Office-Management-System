@@ -1,20 +1,14 @@
-import React from 'react';
-import { Route, Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from "react-router-dom";
 
-const ProtectedRoutes = ({ component: Component, isLoggedIn, isAdmin, isStaff, ...rest }) => {
-  if (!isLoggedIn) {
-    return <Navigate to="/" />;
-  }
+const useAuth = ({isloggedIn}) => {
+    // Retrieve the user authentication status from a proper source
+    const user = { isloggedIn: false }; // Replace with the actual authentication check
+    return user && user.isloggedIn;
+};
 
-  if (isAdmin) {
-    return <Route {...rest} element={<Component />} />;
-  }
-
-  if (isStaff) {
-    return <Route {...rest} element={<Component />} />;
-  }
-
-  return <Navigate to="/" />;
+const ProtectedRoutes = () => {
+    const isAuth = useAuth();
+    return isAuth ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default ProtectedRoutes;
