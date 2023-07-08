@@ -1,13 +1,14 @@
 import { Navigate, Outlet } from "react-router-dom";
 
 const useAuth = () => {
-    const user ={loggedIn: false};
+    // Retrieve the user authentication status from a proper source
+    const user = { loggedIn: true }; // Replace with the actual authentication check
     return user && user.loggedIn;
 };
 
-const ProtectedRoutes =() => {
-    const isAuth =useAuth();
-    return isAuth ? <Outlet/> : <Navigate to ="/" />;
+const ProtectedRoutes = () => {
+    const isAuth = useAuth();
+    return isAuth ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default ProtectedRoutes;
