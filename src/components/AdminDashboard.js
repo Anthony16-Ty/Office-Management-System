@@ -11,10 +11,10 @@ import TimeSheets from '../pages/TimeSheets';
 import Client from '../pages/Client';
 import Managers from '../pages/Managers';
 import AdminLayout from './AdminLayout';
-// import Logout from '../pages/Logout';
+import ProtectedRoutes from '../pages/ProtectedRoutes';
 import axios from 'axios';
 
-function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) {
+function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff, isloggedIn}) {
   const [timesheets, setTimesheets] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [projects, setProjects] = useState([]);
@@ -365,6 +365,7 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) 
       <h2 className='text-center'>Welcome to Admin Dashboard</h2>
       <AdminLayout>
         <Routes>
+        <Route element={<ProtectedRoutes isloggedIn={isloggedIn} />}/>
           <Route path="/" element={<Navigate to="/admindashboard/projects" />} />
           <Route
             path="/tasks"
@@ -408,6 +409,7 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff}) 
           />
           <Route path="/leave-type" element={<LeaveType />} />
           {/* <Route path="/" element={<Logout />} /> */}
+          <Route/>
         </Routes>
       </AdminLayout>
     </div>

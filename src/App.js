@@ -15,7 +15,7 @@ import ProfilePage from './pages/ProfilePage';
 import AdminDashboard from './components/AdminDashboard';
 import StDashboard from './components/StDashboard';
 import axios from 'axios';
-import ProtectedRoutes from './pages/ProtectedRoutes';
+
 
 function App() {
   const [isloggedIn, setIsLoggedIn] = useState(false);
@@ -106,7 +106,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Login onLogin={handleLogin} />} />
-        <Route element={<ProtectedRoutes isloggedIn={isloggedIn} />}/>
+
         <Route
           path="/admindashboard/*"
           element={<AdminDashboard isloggedIn={isloggedIn} isAdmin={isadmin} isStaff={isStaff} staffs={staffs} handleUpdateStaff={handleUpdateStaff} deleteStaffs={deleteStaffs} updateStaff={updateStaff} />}
@@ -126,7 +126,7 @@ function App() {
         <Route path="/leave-request" element={<LeaveRequest />} />
         <Route path="/leave-type" element={<LeaveType />} />
         <Route path="/leave-report" element={<LeaveReport />} />
-        <Route/>
+
       </Routes>
     </Router>
   );
