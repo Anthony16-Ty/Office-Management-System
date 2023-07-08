@@ -106,27 +106,22 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Login onLogin={handleLogin} />} />
-        <Route element={<ProtectedRoutes />}>
-        <Route
-          path="/admindashboard/*"
-          element={<AdminDashboard isloggedIn={isloggedIn} isAdmin={isadmin} isStaff={isStaff} staffs={staffs} handleUpdateStaff={handleUpdateStaff} deleteStaffs={deleteStaffs} updateStaff={updateStaff} />}
-        />
-        <Route
-          path="/stdashboard/*"
-          element={<StDashboard isloggedIn={isloggedIn} isAdmin={isadmin} isStaff={isStaff} staffs={staffs} handleUpdateStaff={handleUpdateStaff} deleteStaffs={deleteStaffs} updateStaff={updateStaff} />}
-        />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/tasks" element={<Tasks />} />
-        <Route path="/projects" element={<Projects />} />
-        <Route path="/manager" element={<Managers />} />
-        <Route path="/staff" element={<Staff />} />
-        <Route path="/timesheets" element={<TimeSheets />} />
-        <Route path="/client" element={<Client />} />
-        <Route path="/leave-form" element={<LeaveForm />} />
-        <Route path="/leave-request" element={<LeaveRequest />} />
-        <Route path="/leave-type" element={<LeaveType />} />
-        <Route path="/leave-report" element={<LeaveReport />} />
-        </Route>
+        <Route element={<ProtectedRoutes isLoggedIn={isloggedIn} isAdmin={isadmin} isStaff={isStaff} />}>
+  <Route path="/admindashboard/*" element={<AdminDashboard staffs={staffs} handleUpdateStaff={handleUpdateStaff} deleteStaffs={deleteStaffs} updateStaff={updateStaff} />} />
+  <Route path="/stdashboard/*" element={<StDashboard staffs={staffs} handleUpdateStaff={handleUpdateStaff} deleteStaffs={deleteStaffs} updateStaff={updateStaff} />} />
+  <Route path="/profile" element={<ProfilePage />} />
+  <Route path="/tasks" element={<Tasks />} />
+  <Route path="/projects" element={<Projects />} />
+  <Route path="/manager" element={<Managers />} />
+  <Route path="/staff" element={<Staff />} />
+  <Route path="/timesheets" element={<TimeSheets />} />
+  <Route path="/client" element={<Client />} />
+  <Route path="/leave-form" element={<LeaveForm />} />
+  <Route path="/leave-request" element={<LeaveRequest />} />
+  <Route path="/leave-type" element={<LeaveType />} />
+  <Route path="/leave-report" element={<LeaveReport />} />
+</Route>
+
       </Routes>
     </Router>
   );
