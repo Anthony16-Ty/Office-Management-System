@@ -11,7 +11,7 @@ import TimeSheets from '../pages/TimeSheets';
 import Client from '../pages/Client';
 import Managers from '../pages/Managers';
 import AdminLayout from './AdminLayout';
-import LeaveCalculation from '../pages/StaffLeaveCalculation';
+import StaffLeaveCalculation from '../pages/StaffLeaveCalculation';
 import axios from 'axios';
 
 function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff, leave_calculations, handleUpdateCalculation, deleteCalculations, updateCalculation}) {
@@ -380,7 +380,7 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff, l
           />
           <Route
             path="/calculation"
-            element={<LeaveCalculation leave_calculations={leave_calculations} staffs={staffs} updateCalculation={updateCalculation} deleteCalculations={deleteCalculations} handleUpdateCalculation={handleUpdateCalculation} />}
+            element={<StaffLeaveCalculation leave_calculations={leave_calculations} staffs={staffs} updateCalculation={updateCalculation} deleteCalculations={deleteCalculations} handleUpdateCalculation={handleUpdateCalculation} />}
           />
            <Route
             path="/manager"

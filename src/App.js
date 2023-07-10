@@ -15,7 +15,7 @@ import Managers from './pages/Managers';
 import ProfilePage from './pages/ProfilePage';
 import AdminDashboard from './components/AdminDashboard';
 import StDashboard from './components/StDashboard';
-import LeaveCalculation from './pages/StaffLeaveCalculation';
+import StaffLeaveCalculation from './pages/StaffLeaveCalculation';
 import axios from 'axios';
 
 function App() {
@@ -232,7 +232,7 @@ function App() {
       <Route path="/projects" element={<Projects />} />
       <Route path="/manager" element={<Managers />} />
       <Route path="/staff" element={<Staff />} />
-      <Route path="/calculation" element={<LeaveCalculation />} />
+      <Route path="/calculation" element={<StaffLeaveCalculation />} />
       <Route path="/timesheets" element={<TimeSheets />} />
       <Route path="/client" element={<Client />} />
       <Route path="/leave-form" element={<LeaveForm />} />
