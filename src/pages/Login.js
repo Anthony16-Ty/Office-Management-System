@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 
 const Login = ({ onLogin, loggedIn }) => {
   const [email, setEmail] = useState("");
@@ -45,7 +45,7 @@ const Login = ({ onLogin, loggedIn }) => {
       className="flex justify-center items-center h-screen bg-cover bg-center bg-no-repeat"
       style={{
         backgroundImage:
-          'url("https://as1.ftcdn.net/v2/jpg/03/70/92/84/1000_F_370928450_R6g8c0j5cey86PUXE32W7KMiqIUe1fOI.jpg")',
+          'url("https://t3.ftcdn.net/jpg/05/06/79/02/240_F_506790264_N8BVZ9NLLRrTAShK6PADQmo0SZ4LUuJJ.jpg")',
       }}
     >
       <div className="p-8 bg-white/25 shadow-md rounded-md w-120">
@@ -74,9 +74,9 @@ const Login = ({ onLogin, loggedIn }) => {
           >
             Login
           </button>
-          <div className="border border-lightBlue rounded-md bg-transparent py-1 px-2 text-blue-500 text-center">
+          {/* <div className="border border-lightBlue rounded-md bg-transparent py-1 px-2 text-blue-500 text-center">
             <Link to="/signup">Sign Up</Link>
-          </div>
+          </div> */}
         </form>
       </div>
     </div>
