@@ -126,23 +126,23 @@ const LeaveForm = ({ onUpdateForm, dashboardType, staffs }) => {
             </div>
           </div>
           <div className="form-group mt-3">
-                  <label htmlFor="leaving_type">Enter Leave Type</label>
-                  <select
-                    className="form-control"
-                    name="leaving_type"
-                    id="leaving_type"
-                    value={formData.leaving_type}
-                    onChange={handleChange}
-                  >
-                    <option value="">Select Leave Type</option>
-                    <option value="Sick Leave">Sick Leave</option>
-                    <option value="Maternity Leave">Maternity Leave</option>
-                    <option value="Off Leave">Off Leave</option>
-                    <option value="Emergency Leave">Emergency Leave</option>
-                    <option value="Travelling Leave">Travelling Leave</option>
-                    <option value="Wedding Leave">Wedding Leave</option>
-                  </select>
-                </div>
+              <label htmlFor="leaving_type">Enter Leave Type</label>
+               <select
+                className="form-control"
+                name="leaving_type"
+                id="leaving_type"
+                value={formData.leaving_type}
+                onChange={handleChange}
+                >
+                <option value="">Select Leave Type</option>
+                <option value="Sick Leave">Sick Leave</option>
+                <option value="Maternity Leave">Maternity Leave</option>
+                <option value="Off Leave">Off Leave</option>
+                <option value="Emergency Leave">Emergency Leave</option>
+                <option value="Travelling Leave">Travelling Leave</option>
+                <option value="Wedding Leave">Wedding Leave</option>
+              </select>
+          </div>
 
           <div className='flex justify-center'>
             <button

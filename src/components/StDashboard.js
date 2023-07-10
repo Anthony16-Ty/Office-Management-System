@@ -8,10 +8,11 @@ import { LeaveType } from '../pages/LeaveType';
 import LeaveReport from '../pages/LeaveReport';
 import TimeSheets from '../pages/TimeSheets';
 import ProfilePage from '../pages/ProfilePage';
+import LeaveCalculation from '../pages/StaffLeaveCalculation';
 import Layout from './Layout';
 import axios from 'axios';
 
-function StDashboard({staffs}) {
+function StDashboard({staffs, leave_calculations, handleUpdateCalculation, deleteCalculations, updateCalculation}) {
   const [timesheets, setTimesheets] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [projects, setProjects] = useState([]);
@@ -283,6 +284,10 @@ function StDashboard({staffs}) {
           <Route
             path="/projects"
             element={<Projects projects={projects} updateData={updateProject} deleteProjects={deleteProjects} handleUpdateProject={handleUpdateProject} />}
+          />
+          <Route
+            path="/calculation"
+            element={<LeaveCalculation leave_calculations={leave_calculations} staffs={staffs} updateCalculation={updateCalculation} deleteCalculations={deleteCalculations} handleUpdateCalculation={handleUpdateCalculation} />}
           />
           <Route
             path="/leave-form"

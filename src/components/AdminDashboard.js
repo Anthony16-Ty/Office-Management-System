@@ -11,10 +11,10 @@ import TimeSheets from '../pages/TimeSheets';
 import Client from '../pages/Client';
 import Managers from '../pages/Managers';
 import AdminLayout from './AdminLayout';
-import ProtectedRoutes from '../pages/ProtectedRoutes';
+import LeaveCalculation from '../pages/StaffLeaveCalculation';
 import axios from 'axios';
 
-function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff, isloggedIn}) {
+function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff, leave_calculations, handleUpdateCalculation, deleteCalculations, updateCalculation}) {
   const [timesheets, setTimesheets] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [projects, setProjects] = useState([]);
@@ -365,7 +365,6 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff, i
       <h2 className='text-center'>Welcome to Admin Dashboard</h2>
       <AdminLayout>
         <Routes>
-        <Route element={<ProtectedRoutes isloggedIn={isloggedIn} />}/>
           <Route path="/" element={<Navigate to="/admindashboard/projects" />} />
           <Route
             path="/tasks"
@@ -378,6 +377,10 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff, i
           <Route
             path="/staff"
             element={<Staff staffs={staffs} managers={managers} updateStaff={updateStaff} deleteStaffs={deleteStaffs} handleUpdateStaff={handleUpdateStaff} />}
+          />
+          <Route
+            path="/calculation"
+            element={<LeaveCalculation leave_calculations={leave_calculations} staffs={staffs} updateCalculation={updateCalculation} deleteCalculations={deleteCalculations} handleUpdateCalculation={handleUpdateCalculation} />}
           />
            <Route
             path="/manager"
@@ -408,8 +411,7 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff, i
             element={<TimeSheets timesheets={timesheets} tasks={tasks} updateSheet={updateSheet} deleteData={deleteData} onUpdateSheet={handleUpdateSheet} />}
           />
           <Route path="/leave-type" element={<LeaveType />} />
-          {/* <Route path="/" element={<Logout />} /> */}
-          <Route/>
+
         </Routes>
       </AdminLayout>
     </div>
@@ -417,3 +419,4 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff, i
 }
 
 export default AdminDashboard;
+

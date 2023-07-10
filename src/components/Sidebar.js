@@ -6,10 +6,11 @@ import { FaTasks, FaUserFriends } from "react-icons/fa";
 import { AiOutlineFieldTime } from 'react-icons/ai';
 import { FaWpforms } from 'react-icons/fa';
 import { FaBriefcase } from 'react-icons/fa';
+// import { SiReacthookform } from 'react-icons/si';
 import Logo from '../assets/images/logo.svg';
 import HamburgerButton from './HamburgerMenuButton/HamburgerButton';
 
-const Sidebar = ({ dashboardType, handleLogout }) => {
+const Sidebar = ({ dashboardType }) => {
   const [open, setOpen] = useState(true);
   const [mobileMenu, setMobileMenu] = useState(false);
   const location = useLocation();
@@ -21,8 +22,10 @@ const Sidebar = ({ dashboardType, handleLogout }) => {
     { title: 'Managers', path: '/manager', src: <FaUserFriends /> },
     { title: 'Clients', path: '/client', src: <FaUserFriends /> },
     { title: 'TimeSheets', path: '/timesheets', src: <AiOutlineFieldTime /> },
+    { title: 'Leave Calculations', path: '/calculation', src: <AiOutlineFieldTime /> },
     { title: 'Leave Requests', path: '/leave-request', src: <FaWpforms /> },
     { title: 'Leave Types', path: '/leave-type', src: <FaBriefcase /> },
+    { title: 'Logout', path: '/logout', src: <FaBriefcase /> },
   ];
 
   return (
@@ -82,14 +85,14 @@ const Sidebar = ({ dashboardType, handleLogout }) => {
             </li>
           ))}
         </ul>
-        <div className="absolute bottom-5 w-full">
+        {/* <div className="absolute bottom-5 w-full">
           <button
             className="text-sm text-white bg-red-500 hover:bg-red-600 py-2 px-4 rounded-full"
             onClick={handleLogout}
           >
             Logout
           </button>
-        </div>
+        </div> */}
       </div>
       {/* Mobile Menu */}
       <div className="pt-3">
