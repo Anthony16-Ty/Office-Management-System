@@ -1,51 +1,77 @@
 import React, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal } from 'react-bootstrap';
-import axios from 'axios'
+import axios from 'axios';
 
-function Managers({handleUpdateManager, managers, deleteManagers}) {
+function Managers({ handleUpdateManager, managers, deleteManagers }) {
   const [show, setShow] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+  const [editManagerId, setEditManagerId] = useState(null);
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
     title: "",
   });
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setShow(false);
+    setEditMode(false);
+    setFormData({
+      first_name: "",
+      last_name: "",
+      title: "",
+    });
+  };
+
   const handleShow = () => setShow(true);
-
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post('https://oms-api-production-acab.up.railway.app/managers', formData)
-      .then(function (response) {
-        if (response.status === 201) {
-          // Assuming the respons
-        const data = response.data;
-          // Update the tasks state by adding the new task
-          handleUpdateManager(data);
-
-          // Reset the form data
-          setFormData({
-            first_name: "",
-            last_name: "",
-            title: "",
-          });
-
-          // Close the modal
-          // setShowModal(false);
-        } else {
-          throw new Error(`Network response was not ok. Response status: ${response.status}`);
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    if (editMode && editManagerId) {
+      // Update existing manager
+      axios
+        .put(`https://oms-api-production-acab.up.railway.app/managers/${editManagerId}`, formData)
+        .then(function (response) {
+          if (response.status === 200) {
+            const updatedManager = response.data;
+            handleUpdateManager(updatedManager);
+            handleClose();
+          } else {
+            throw new Error(`Network response was not ok. Response status: ${response.status}`);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      // Add new manager
+      axios
+        .post('https://oms-api-production-acab.up.railway.app/managers', formData)
+        .then(function (response) {
+          if (response.status === 201) {
+            const newManager = response.data;
+            handleUpdateManager(newManager);
+            handleClose();
+          } else {
+            throw new Error(`Network response was not ok. Response status: ${response.status}`);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
-
+  const handleEditManager = (manager) => {
+    setEditMode(true);
+    setEditManagerId(manager.id);
+    setFormData({
+      first_name: manager.first_name,
+      last_name: manager.last_name,
+      title: manager.title,
+    });
+    handleShow();
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -53,7 +79,6 @@ function Managers({handleUpdateManager, managers, deleteManagers}) {
       [e.target.name]: e.target.value,
     });
   };
-
 
   return (
     <div className="mx-auto bg-white rounded-lg shadow-lg ml-15 px-5 pb-8 pt-3">
@@ -90,10 +115,15 @@ function Managers({handleUpdateManager, managers, deleteManagers}) {
                   <tr key={manager.id}>
                     <td>{manager.first_name} {manager.last_name}</td>
                     <td>{manager.title}</td>
-                    <td>
-                      <Button variant="danger" onClick={() => deleteManagers(manager.id)}>
-                        Delete
-                      </Button>
+                    <td className="text-center">
+                      <div className="d-flex justify-content-center">
+                        <Button variant="info" className="mr-2" onClick={() => handleEditManager(manager)}>
+                          Edit
+                        </Button>
+                        <Button variant="danger" onClick={() => deleteManagers(manager.id)}>
+                          Delete
+                        </Button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -105,7 +135,7 @@ function Managers({handleUpdateManager, managers, deleteManagers}) {
         <div className="model_box">
           <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
             <Modal.Header closeButton>
-              <Modal.Title>Add</Modal.Title>
+              <Modal.Title>{editMode ? "Edit Manager" : "Add Manager"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <form onSubmit={handleSubmit}>
@@ -119,7 +149,7 @@ function Managers({handleUpdateManager, managers, deleteManagers}) {
                   <input type="text" className="form-control" name='title' placeholder="Enter Title" value={formData.title} onChange={handleChange} />
                 </div>
 
-                <button type="submit" className="btn btn-success mt-4">Add Manager</button>
+                <button type="submit" className="btn btn-success mt-4">{editMode ? "Update Manager" : "Add Manager"}</button>
               </form>
             </Modal.Body>
 
