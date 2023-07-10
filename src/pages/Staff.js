@@ -104,6 +104,9 @@ function Staff({ handleUpdateStaff, staffs, deleteStaffs, managers }) {
                       <td>{staff.reporting_to}</td>
                       <td>{staff.tech_stack}</td>
                       <td>
+                        <Button variant="info" className="mr-2">
+                          Edit
+                        </Button>
                         <Button variant="danger" onClick={() => deleteStaffs(staff.id)}>
                           Delete
                         </Button>
