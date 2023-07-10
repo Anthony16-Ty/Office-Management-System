@@ -99,13 +99,11 @@ function LeaveCalculation({ handleUpdateCalculation, leave_calculations, deleteC
               <b>Leave Calculations</b>
             </h3>
           </div>
-          {dashboardType === 'admin' ? (
             <div className="col-sm-3 offset-sm-1 mt-5 mb-4 text-gred">
               <Button variant="primary" onClick={handleShow}>
                 Add Calculation Countdown
               </Button>
             </div>
-          ) : null}
         </div>
         <div className="row">
           <div className="table-responsive">
@@ -117,7 +115,7 @@ function LeaveCalculation({ handleUpdateCalculation, leave_calculations, deleteC
                   <th>Total Days</th>
                   <th>Used Days</th>
                   <th>Available Days</th>
-                  {dashboardType === 'admin' && <th>Actions</th>}
+                  <th>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -130,13 +128,12 @@ function LeaveCalculation({ handleUpdateCalculation, leave_calculations, deleteC
                       <td>{leave_calculation.total_days}</td>
                       <td>{leave_calculation.used_days}</td>
                       <td>{leave_calculation.available_days}</td>
-                      {dashboardType === 'admin' && (
+
                         <td>
                           <Button variant="danger" onClick={() => deleteCalculations(leave_calculation.id)}>
                             Delete
                           </Button>
                         </td>
-                      )}
                     </tr>
                   ))}
               </tbody>
@@ -224,11 +221,10 @@ function LeaveCalculation({ handleUpdateCalculation, leave_calculations, deleteC
                     disabled
                   />
                 </div>
-                {dashboardType === 'admin' && (
+
                   <button type="submit" className="btn btn-success mt-4">
                     Generate Calculation
                   </button>
-                )}
               </form>
             </Modal.Body>
             <Modal.Footer>

@@ -8,7 +8,7 @@ import { LeaveType } from '../pages/LeaveType';
 import LeaveReport from '../pages/LeaveReport';
 import TimeSheets from '../pages/TimeSheets';
 import ProfilePage from '../pages/ProfilePage';
-import StaffLeaveCalculation from '../pages/StaffLeaveCalculation';
+import LeaveCalculation from '../pages/LeaveCalculation';
 import Layout from './Layout';
 import axios from 'axios';
 
@@ -287,7 +287,7 @@ function StDashboard({staffs, leave_calculations, handleUpdateCalculation, delet
           />
           <Route
             path="/calculation"
-            element={<StaffLeaveCalculation leave_calculations={leave_calculations} staffs={staffs} updateCalculation={updateCalculation} deleteCalculations={deleteCalculations} handleUpdateCalculation={handleUpdateCalculation} />}
+            element={<LeaveCalculation leave_calculations={leave_calculations} staffs={staffs} updateCalculation={updateCalculation} deleteCalculations={deleteCalculations} handleUpdateCalculation={handleUpdateCalculation} />}
           />
           <Route
             path="/leave-form"
