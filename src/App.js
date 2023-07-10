@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Tasks from './pages/Tasks';
 import Staff from './pages/Staff';
 import Projects from './pages/Projects';
@@ -10,79 +10,23 @@ import LeaveReport from './pages/LeaveReport';
 import Client from './pages/Client';
 import TimeSheets from './pages/TimeSheets';
 import Login from './pages/Login';
-import Signup from './pages/Signup';
 import Managers from './pages/Managers';
 import ProfilePage from './pages/ProfilePage';
 import AdminDashboard from './components/AdminDashboard';
 import StDashboard from './components/StDashboard';
-import LeaveCalculation from './pages/LeaveCalculation';
 import axios from 'axios';
+
 
 function App() {
   const [isloggedIn, setIsLoggedIn] = useState(false);
   const [isadmin, setIsAdmin] = useState(false);
   const [isStaff, setIsStaff] = useState(false);
   const [staffs, setStaffs] = useState([]);
-  const [leave_calculations, setLeave_calculations] = useState([]);
   // const [user, setUser] = useState(null);
 
   useEffect(() => {
     fetchStaffs();
-    fetchCalculations();
   }, []);
-
-  //Fetch Calculations
-  useEffect(() => {
-    const storedCalculations = localStorage.getItem('leave_calculations');
-    if (storedCalculations) {
-      setLeave_calculations(JSON.parse(storedCalculations));
-    }
-  }, []);
-
-
-  useEffect(() => {
-    localStorage.setItem('leave_calculations', JSON.stringify(leave_calculations));
-  }, [leave_calculations]);
-
-  async function fetchCalculations() {
-    try {
-      const response = await axios.get('https://oms-api-production-acab.up.railway.app/leave_calculations');
-      const data = response.data;
-      setLeave_calculations(data);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  // Perform update operation on staffs
-  async function updateCalculation(id, newData) {
-    try {
-      await axios.put(`https://oms-api-production-acab.up.railway.app/leave_calculations/${id}`, newData);
-      const updatedCalculations = leave_calculations.map((leave_calculation) => {
-        if (leave_calculation.id === id) {
-          return { ...leave_calculation, ...newData };
-        }
-        return leave_calculation;
-      });
-      setLeave_calculations(updatedCalculations);
-    } catch (error) {
-      console.error('Error updating data:', error);
-    }
-  }
-
-  // Perform delete operation on staffs
-  async function deleteCalculations(id) {
-    try {
-      await axios.delete(`https://oms-api-production-acab.up.railway.app/leave_calculations/${id}`);
-      setLeave_calculations(leave_calculations.filter(leave_calculation => leave_calculation.id !== id));
-    } catch (error) {
-      console.error('Error Deleting data:', error);
-    }
-  }
-
-  function handleUpdateCalculation(newCalculation){
-      setLeave_calculations([...leave_calculations, newCalculation])
-  }
 
 
   // Fetch staffs
@@ -145,97 +89,46 @@ function App() {
     setIsStaff(user.isStaff);
   }
 
+  // useEffect(() => {
+  //   fetch("/mi")
+  //   .then(resp => {
+  //     if (resp.ok){
+  //       resp.json().then((user) => setUser(user))
+  //     } else {
+  //       resp.json().then(console.log)
+  //     }
+  //   })
+  // }, [])
+
+  // console.log(user)
 
   return (
     <Router>
-    <Routes>
-      <Route
-        path="/"
-        element={
-          isloggedIn ? (
-            isadmin ? (
-              <Navigate to="/admindashboard/projects" replace />
-            ) : (
-              <Navigate to="/stdashboard/profile" replace />
-            )
-          ) : (
-            <Login onLogin={handleLogin} />
-          )
-        }
-      />
-      <Route
-        path="/signup"
-        element={
-          isloggedIn ? (
-            isadmin ? (
-            <Navigate to="/admindashboard/*" replace />
-          ) : (
-            <Navigate to="/stdashboard/*" replace />
-          )
-        ) : (
-            <Signup />
-          )
-        }
-      />
-      <Route
-        path="/admindashboard/*"
-        element={
-          isadmin ? (
-            <AdminDashboard
-              isLoggedIn={isloggedIn}
-              isAdmin={isadmin}
-              isStaff={isStaff}
-              staffs={staffs}
-              handleUpdateStaff={handleUpdateStaff}
-              deleteStaff={deleteStaffs}
-              updateStaff={updateStaff}
-              leave_calculations={leave_calculations}
-              handleUpdateCalculation={handleUpdateCalculation}
-              deleteCalculations={deleteCalculations}
-              updateCalculation={updateCalculation}
-            />
-          ) : (
-            <Navigate to="/" replace />
-          )
-        }
-      />
-      <Route
-        path="/stdashboard/*"
-        element={
-          isStaff ? (
-            <StDashboard
-              isLoggedIn={isloggedIn}
-              isAdmin={isadmin}
-              isStaff={isStaff}
-              staffs={staffs}
-              handleUpdateStaff={handleUpdateStaff}
-              deleteStaff={deleteStaffs}
-              updateStaff={updateStaff}
-              leave_calculations={leave_calculations}
-              handleUpdateCalculation={handleUpdateCalculation}
-              deleteCalculations={deleteCalculations}
-              updateCalculation={updateCalculation}
-            />
-          ) : (
-            <Navigate to="/" replace />
-          )
-        }
-      />
+      <Routes>
+        <Route path="/" element={<Login onLogin={handleLogin} />} />
 
-      <Route path="/profile" element={<ProfilePage />} />
-      <Route path="/tasks" element={<Tasks />} />
-      <Route path="/projects" element={<Projects />} />
-      <Route path="/manager" element={<Managers />} />
-      <Route path="/staff" element={<Staff />} />
-      <Route path="/calculation" element={<LeaveCalculation />} />
-      <Route path="/timesheets" element={<TimeSheets />} />
-      <Route path="/client" element={<Client />} />
-      <Route path="/leave-form" element={<LeaveForm />} />
-      <Route path="/leave-request" element={<LeaveRequest />} />
-      <Route path="/leave-type" element={<LeaveType />} />
-      <Route path="/leave-report" element={<LeaveReport />} />
-    </Routes>
-  </Router>
+        <Route
+          path="/admindashboard/*"
+          element={<AdminDashboard isloggedIn={isloggedIn} isAdmin={isadmin} isStaff={isStaff} staffs={staffs} handleUpdateStaff={handleUpdateStaff} deleteStaffs={deleteStaffs} updateStaff={updateStaff} />}
+        />
+        <Route
+          path="/stdashboard/*"
+          element={<StDashboard isloggedIn={isloggedIn} isAdmin={isadmin} isStaff={isStaff} staffs={staffs} handleUpdateStaff={handleUpdateStaff} deleteStaffs={deleteStaffs} updateStaff={updateStaff} />}
+        />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/tasks" element={<Tasks />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/manager" element={<Managers />} />
+        <Route path="/staff" element={<Staff />} />
+        <Route path="/timesheets" element={<TimeSheets />} />
+        <Route path="/client" element={<Client />} />
+        <Route path="/leave-form" element={<LeaveForm />} />
+        <Route path="/leave-request" element={<LeaveRequest />} />
+        <Route path="/leave-type" element={<LeaveType />} />
+        <Route path="/leave-report" element={<LeaveReport />} />
+
+      </Routes>
+    </Router>
   );
 }
 
