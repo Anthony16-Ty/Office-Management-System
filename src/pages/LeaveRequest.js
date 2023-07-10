@@ -81,72 +81,73 @@ function LeaveRequest({ forms, setForms }) {
       </style>
 
       <div className="requests">
-        <div className="row ">
-          <div className="col-sm-3 offset-sm-2 mt-3 mb-4 text-gred" style={{ color: "green" }}>
+        <div className="row">
+          <div className="col-md-8 offset-md-2 mt-3 mb-4 text-gred" style={{ color: "green" }}>
             <h5 className='text-center'><b>Leave Request Details</b></h5>
           </div>
-          <div className="col-sm-3 offset-sm-1  mt-5 mb-4 text-gred"></div>
         </div>
         <div className="row">
-          <div className="table-responsive ">
-            <table className="table table-striped table-hover table-bordered table-sm">
-              <thead>
-                <tr>
-                  <th>Staff Name</th>
-                  <th>Date From</th>
-                  <th>Date To</th>
-                  <th>Reason For Leave</th>
-                  <th>Leave Type</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {forms &&
-                  Array.isArray(forms) &&
-                  forms.map((form, index) => (
-                    <tr key={form.id}>
-                      <td>{form.your_name}</td>
-                      <td>{form.date_from}</td>
-                      <td>{form.date_to}</td>
-                      <td>{form.reason_for_leave}</td>
-                      <td>{form.leaving_type}</td>
-                      <td>
-                        <span
-                          className={`status-badge ${
-                            form.status === "Approved"
-                              ? "approved"
-                              : form.status === "Declined"
-                              ? "declined"
-                              : ""
-                          }`}
-                        >
-                          {form.status}
-                        </span>
-                      </td>
-                      <td>
-                        <div className="d-flex align-items-center m-1">
-                          <Button
-                            variant="success"
-                            className="mr-2"
-                            onClick={() => approveForm(index)}
-                            disabled={form.status === "Approved"}
+          <div className="col">
+            <div className="table-responsive">
+              <table className="table table-striped table-hover table-bordered table-sm">
+                <thead>
+                  <tr>
+                    <th className="text-center align-middle">Staff Name</th>
+                    <th className="text-center align-middle">Date From</th>
+                    <th className="text-center align-middle">Date To</th>
+                    <th className="text-center align-middle">Reason For Leave</th>
+                    <th className="text-center align-middle">Leave Type</th>
+                    <th className="text-center align-middle">Status</th>
+                    <th className="text-center">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {forms &&
+                    Array.isArray(forms) &&
+                    forms.map((form, index) => (
+                      <tr key={form.id}>
+                        <td className="text-center align-middle">{form.your_name}</td>
+                        <td className="text-center align-middle">{form.date_from}</td>
+                        <td className="text-center align-middle">{form.date_to}</td>
+                        <td className="text-center align-middle">{form.reason_for_leave}</td>
+                        <td className="text-center align-middle">{form.leaving_type}</td>
+                        <td className="text-center align-middle">
+                          <span
+                            className={`status-badge ${
+                              form.status === "Approved"
+                                ? "approved"
+                                : form.status === "Declined"
+                                ? "declined"
+                                : ""
+                            }`}
                           >
-                            Approve
-                          </Button>
-                          <Button
-                            variant="danger"
-                            onClick={() => declineForm(form.id)}
-                            disabled={form.status === "Declined"}
-                          >
-                            Decline
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
+                            {form.status}
+                          </span>
+                        </td>
+                        <td className="text-center">
+                          <div className="d-flex align-items-center m-1">
+                            <Button
+                              variant="success"
+                              className="mr-2"
+                              onClick={() => approveForm(index)}
+                              disabled={form.status === "Approved"}
+                            >
+                              Approve
+                            </Button>
+                            <Button
+                              variant="danger"
+                              onClick={() => declineForm(form.id)}
+                              disabled={form.status === "Declined"}
+                            >
+                              Decline
+                            </Button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
