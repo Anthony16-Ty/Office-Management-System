@@ -13,7 +13,6 @@ const Projects = ({ projects, deleteProjects, handleUpdateProject, handleUpdateP
     project_name: "",
     description: "",
     client_details: "",
-
   });
 
   const handleSearch = (e) => {
@@ -129,11 +128,11 @@ const Projects = ({ projects, deleteProjects, handleUpdateProject, handleUpdateP
                     <td>{project.description}</td>
                     <td>{project.client_details}</td>
                     <td>
-                      <Button variant="danger" className="mr-2" onClick={() => deleteProjects(project.id)}>
-                        Delete
-                      </Button>
                       <Button variant="info" onClick={() => updateData(project)}>
                         Edit
+                      </Button>
+                      <Button variant="danger" className="ml-2" onClick={() => deleteProjects(project.id)}>
+                        Delete
                       </Button>
                     </td>
                   </tr>
@@ -185,7 +184,7 @@ const Projects = ({ projects, deleteProjects, handleUpdateProject, handleUpdateP
                       Array.isArray(clients) &&
                       clients.map((client) => (
                         <option key={client.id} value={client.client_name}>
-                         ID: {client.id} Name: {client.client_name}
+                          ID: {client.id} Name: {client.client_name}
                         </option>
                       ))}
                   </select>
