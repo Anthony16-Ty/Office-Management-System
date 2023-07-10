@@ -13,32 +13,65 @@ function Staff({ handleUpdateStaff, staffs, deleteStaffs, managers }) {
     tech_stack: "",
   });
   const [searchQuery, setSearchQuery] = useState("");
+  const [editStaff, setEditStaff] = useState(null);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setEditStaff(null);
+    setShow(false);
+  };
   const handleShow = () => setShow(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post('https://oms-api-production-acab.up.railway.app/staffs', formData)
-      .then(function (response) {
-        if (response.status === 200) {
-          const data = response.data;
-          handleUpdateStaff(data);
-          setFormData({
-            staff_name: "",
-            joining_date: "",
-            reporting_to: "",
-            email: "",
-            tech_stack: "",
-          });
-        } else {
-          throw new Error(`Network response was not ok. Response status: ${response.status}`);
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+
+    if (editStaff) {
+      // Update existing staff member
+      axios
+        .put(`https://oms-api-production-acab.up.railway.app/staffs/${editStaff.id}`, formData)
+        .then(function (response) {
+          if (response.status === 200) {
+            const data = response.data;
+            handleUpdateStaff(data);
+            setFormData({
+              staff_name: "",
+              joining_date: "",
+              reporting_to: "",
+              email: "",
+              tech_stack: "",
+            });
+            setEditStaff(null);
+            handleClose();
+          } else {
+            throw new Error(`Network response was not ok. Response status: ${response.status}`);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      // Add new staff member
+      axios
+        .post('https://oms-api-production-acab.up.railway.app/staffs', formData)
+        .then(function (response) {
+          if (response.status === 200) {
+            const data = response.data;
+            handleUpdateStaff(data);
+            setFormData({
+              staff_name: "",
+              joining_date: "",
+              reporting_to: "",
+              email: "",
+              tech_stack: "",
+            });
+            handleClose();
+          } else {
+            throw new Error(`Network response was not ok. Response status: ${response.status}`);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   const handleChange = (e) => {
@@ -51,6 +84,11 @@ function Staff({ handleUpdateStaff, staffs, deleteStaffs, managers }) {
   const handleSearch = (e) => {
     setSearchQuery(e.target.value);
     // Perform search logic here
+  };
+
+  const handleEdit = (staff) => {
+    setEditStaff(staff);
+    handleShow();
   };
 
   return (
@@ -104,7 +142,7 @@ function Staff({ handleUpdateStaff, staffs, deleteStaffs, managers }) {
                       <td>{staff.reporting_to}</td>
                       <td>{staff.tech_stack}</td>
                       <td>
-                        <Button variant="info" className="mr-2">
+                        <Button variant="info" className="mr-2" onClick={() => handleEdit(staff)}>
                           Edit
                         </Button>
                         <Button variant="danger" onClick={() => deleteStaffs(staff.id)}>
@@ -121,7 +159,7 @@ function Staff({ handleUpdateStaff, staffs, deleteStaffs, managers }) {
         <div className="model_box">
           <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
             <Modal.Header closeButton>
-              <Modal.Title>Add New Staff</Modal.Title>
+              <Modal.Title>{editStaff ? 'Edit Staff' : 'Add New Staff'}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <form onSubmit={handleSubmit}>
@@ -187,7 +225,7 @@ function Staff({ handleUpdateStaff, staffs, deleteStaffs, managers }) {
                     name="tech_stack"
                     id="tech_stack"
                     value={formData.tech_stack}
-                    onChange={handleChange}
+                   onChange={handleChange}
                   >
                     <option value="">Select Tech Stack</option>
                     <option value="Stack 1">Full Stack Developer</option>
@@ -197,7 +235,7 @@ function Staff({ handleUpdateStaff, staffs, deleteStaffs, managers }) {
                   </select>
                 </div>
                 <button type="submit" className="btn btn-success mt-4">
-                  Add Staff
+                  {editStaff ? 'Save Changes' : 'Add Staff'}
                 </button>
               </form>
             </Modal.Body>

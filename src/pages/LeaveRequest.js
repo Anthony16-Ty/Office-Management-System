@@ -7,11 +7,11 @@ function LeaveRequest({ forms, setForms }) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  
+
 
   const updateForm = async (id, newData) => {
     try {
-      await axios.put(`https://web-production-e0ae6.up.railway.app/forms/${id}`, newData);
+      await axios.put(`https://oms-api-production-acab.up.railway.app/forms/${id}`, newData);
       // Handle success if necessary
     } catch (error) {
       // Handle error if necessary
@@ -46,7 +46,7 @@ function LeaveRequest({ forms, setForms }) {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`https://web-production-e0ae6.up.railway.app/forms/${id}`);
+      await axios.delete(`https://oms-api-production-acab.up.railway.app/forms/${id}`);
       setForms((prevForms) => prevForms.filter((form) => form.id !== id));
     } catch (error) {
       // Handle error if the delete request fails
