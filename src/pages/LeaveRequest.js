@@ -8,7 +8,6 @@ function LeaveRequest({ forms, setForms }) {
 
   const handleClose = () => setShow(false);
 
-
   const updateForm = async (id, newData) => {
     try {
       await axios.put(`https://oms-api-production-acab.up.railway.app/forms/${id}`, newData);
@@ -21,15 +20,7 @@ function LeaveRequest({ forms, setForms }) {
 
   const approveForm = async (index) => {
     const form = forms[index];
-    let updatedForm = {};
-
-    if (form.status === "pending") {
-      updatedForm = { ...form, status: "approved" };
-    } else if (form.status === "approved") {
-      updatedForm = { ...form, status: "declined" };
-    } else {
-      updatedForm = { ...form, status: "pending" };
-    }
+    const updatedForm = { ...form, status: "Approved" };
 
     try {
       await updateForm(form.id, updatedForm);
@@ -44,18 +35,51 @@ function LeaveRequest({ forms, setForms }) {
     }
   };
 
-  const handleDelete = async (id) => {
+  const declineForm = async (id) => {
+    const form = forms.find((f) => f.id === id);
+    const updatedForm = { ...form, status: "Declined" };
+
     try {
-      await axios.delete(`https://oms-api-production-acab.up.railway.app/forms/${id}`);
-      setForms((prevForms) => prevForms.filter((form) => form.id !== id));
+      await updateForm(id, updatedForm);
+      setForms((prevForms) => {
+        const updatedForms = prevForms.map((f) => {
+          if (f.id === id) {
+            return updatedForm;
+          }
+          return f;
+        });
+        return updatedForms;
+      });
     } catch (error) {
-      // Handle error if the delete request fails
-      console.error("Failed to delete form:", error);
+      console.error("Failed to decline form:", error);
     }
   };
 
   return (
     <div className="mx-auto bg-white rounded-lg shadow-lg ml-12 px-5 pb-8 pt-3">
+      <style>
+        {`
+        .status-badge {
+          display: inline-block;
+          padding: 4px 8px;
+          border-radius: 4px;
+          font-size: 12px;
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+
+        .status-badge.approved {
+          background-color: #4caf50;
+          color: #ffffff;
+        }
+
+        .status-badge.declined {
+          background-color: #f44336;
+          color: #ffffff;
+        }
+        `}
+      </style>
+
       <div className="requests">
         <div className="row ">
           <div className="col-sm-3 offset-sm-2 mt-3 mb-4 text-gred" style={{ color: "green" }}>
@@ -78,28 +102,49 @@ function LeaveRequest({ forms, setForms }) {
                 </tr>
               </thead>
               <tbody>
-                {forms && Array.isArray(forms) && forms.map((form, index) => (
-                  <tr key={form.id}>
-                    <td>{form.your_name}</td>
-                    <td>{form.date_from}</td>
-                    <td>{form.date_to}</td>
-                    <td>{form.reason_for_leave}</td>
-                    <td>{form.leaving_type}</td>
-                    <td>{form.status}</td>
-                    <td>
-                      <div className="d-flex align-items-center m-1">
-                          <Button variant="success" className="mr-2" onClick={() => approveForm(index)}>
+                {forms &&
+                  Array.isArray(forms) &&
+                  forms.map((form, index) => (
+                    <tr key={form.id}>
+                      <td>{form.your_name}</td>
+                      <td>{form.date_from}</td>
+                      <td>{form.date_to}</td>
+                      <td>{form.reason_for_leave}</td>
+                      <td>{form.leaving_type}</td>
+                      <td>
+                        <span
+                          className={`status-badge ${
+                            form.status === "Approved"
+                              ? "approved"
+                              : form.status === "Declined"
+                              ? "declined"
+                              : ""
+                          }`}
+                        >
+                          {form.status}
+                        </span>
+                      </td>
+                      <td>
+                        <div className="d-flex align-items-center m-1">
+                          <Button
+                            variant="success"
+                            className="mr-2"
+                            onClick={() => approveForm(index)}
+                            disabled={form.status === "Approved"}
+                          >
                             Approve
                           </Button>
-
-                          <Button variant="danger" onClick={() => handleDelete(form.id)}>
-                            Delete
+                          <Button
+                            variant="danger"
+                            onClick={() => declineForm(form.id)}
+                            disabled={form.status === "Declined"}
+                          >
+                            Decline
                           </Button>
-                      </div>
-
-                    </td>
-                  </tr>
-                ))}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
@@ -119,19 +164,44 @@ function LeaveRequest({ forms, setForms }) {
             <Modal.Body>
               <form>
                 <div className="form-group">
-                  <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name" />
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="exampleInputEmail1"
+                    aria-describedby="emailHelp"
+                    placeholder="Enter Name"
+                  />
                 </div>
                 <div className="form-group mt-3">
-                  <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Country" />
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="exampleInputEmail1"
+                    aria-describedby="emailHelp"
+                    placeholder="Enter Country"
+                  />
                 </div>
                 <div className="form-group mt-3">
-                  <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter City" />
+                  <input
+                    type="email"
+                    className="form-control"
+                    id="exampleInputEmail1"
+                    aria-describedby="emailHelp"
+                    placeholder="Enter City"
+                  />
                 </div>
                 <div className="form-group mt-3">
-                  <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Enter Country" />
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="exampleInputPassword1"
+                    placeholder="Enter Country"
+                  />
                 </div>
 
-                <button type="submit" className="btn btn-success mt-4">Add Record</button>
+                <button type="submit" className="btn btn-success mt-4">
+                  Add Record
+                </button>
               </form>
             </Modal.Body>
 
