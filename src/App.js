@@ -189,9 +189,9 @@ function App() {
               handleUpdateStaff={handleUpdateStaff}
               deleteStaff={deleteStaffs}
               updateStaff={updateStaff}
-              leaveCalculations={leave_calculations}
+              leave_calculations={leave_calculations}
               handleUpdateCalculation={handleUpdateCalculation}
-              deleteCalculation={deleteCalculations}
+              deleteCalculations={deleteCalculations}
               updateCalculation={updateCalculation}
             />
           ) : (
@@ -211,9 +211,9 @@ function App() {
               handleUpdateStaff={handleUpdateStaff}
               deleteStaff={deleteStaffs}
               updateStaff={updateStaff}
-              leaveCalculations={leave_calculations}
+              leave_calculations={leave_calculations}
               handleUpdateCalculation={handleUpdateCalculation}
-              deleteCalculation={deleteCalculations}
+              deleteCalculations={deleteCalculations}
               updateCalculation={updateCalculation}
             />
           ) : (
@@ -221,6 +221,7 @@ function App() {
           )
         }
       />
+
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/tasks" element={<Tasks />} />
       <Route path="/projects" element={<Projects />} />
