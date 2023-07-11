@@ -15,7 +15,7 @@ import LeaveCalculation from '../pages/LeaveCalculation';
 
 import axios from 'axios';
 
-function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff, leave_calculations, handleUpdateCalculation, deleteCalculations, updateCalculation}) {
+function AdminDashboard({staffs, handleUpdateStaff, updateLoggedIn, deleteStaffs, updateStaff, leave_calculations, handleUpdateCalculation, deleteCalculations, updateCalculation}) {
   const [timesheets, setTimesheets] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [projects, setProjects] = useState([]);
@@ -364,7 +364,7 @@ function AdminDashboard({staffs, handleUpdateStaff, deleteStaffs, updateStaff, l
   return (
     <div>
       <h2 className='text-center'>Welcome to Admin Dashboard</h2>
-      <AdminLayout>
+      <AdminLayout updateLoggedIn={updateLoggedIn}>
         <Routes>
           <Route path="/" element={<Navigate to="/admindashboard/projects" />} />
           <Route

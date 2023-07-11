@@ -48,12 +48,7 @@ const ProfilePage = ({ handleLogout }) => {
               </ul>
             </div>
           </div>
-          <button
-            className="text-sm text-white bg-red-500 hover:bg-red-600 py-2 px-4 mt-24 rounded-full"
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
+         
         </div>
       </div>
     </div>

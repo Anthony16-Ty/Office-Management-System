@@ -27,6 +27,11 @@ function App() {
   const [remainingTime, setRemainingTime] = useState(0);
   const countdownTimerRef = useRef(null);
 
+
+  function updateLoggedIn(flag) {
+    setIsLoggedIn(flag)
+  }
+
   useEffect(() => {
     fetchStaffs();
     fetchCalculations();
@@ -222,6 +227,7 @@ function App() {
         element={
           isadmin ? (
             <AdminDashboard
+            updateLoggedIn={updateLoggedIn}
               isLoggedIn={isloggedIn}
               isAdmin={isadmin}
               isStaff={isStaff}
@@ -244,6 +250,7 @@ function App() {
         element={
           isStaff ? (
             <StDashboard
+              updateLoggedIn={updateLoggedIn}
               isLoggedIn={isloggedIn}
               isAdmin={isadmin}
               isStaff={isStaff}

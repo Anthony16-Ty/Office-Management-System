@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BsArrowLeftCircle } from 'react-icons/bs';
 import { AiFillProject } from "react-icons/ai";
 import { FaTasks, FaUserFriends } from "react-icons/fa";
@@ -10,10 +10,21 @@ import { FaBriefcase } from 'react-icons/fa';
 import Logo from '../assets/images/logo.svg';
 import HamburgerButton from './HamburgerMenuButton/HamburgerButton';
 
-const Sidebar = ({ dashboardType }) => {
+const Sidebar = ({ dashboardType, updateLoggedIn }) => {
   const [open, setOpen] = useState(true);
   const [mobileMenu, setMobileMenu] = useState(false);
   const location = useLocation();
+
+  const navigate = useNavigate()
+
+
+  function handleLogout() {
+    fetch("http://localhost:4000/logout", {
+      method: "DELETE"
+    })
+    navigate("/")
+    updateLoggedIn(false)
+  }
 
   const Menus = [
     { title: 'Projects', path: '/projects', src: <AiFillProject /> },
@@ -25,7 +36,7 @@ const Sidebar = ({ dashboardType }) => {
     { title: 'Leave Calculations', path: '/calculation', src: <AiOutlineFieldTime /> },
     { title: 'Leave Requests', path: '/leave-request', src: <FaWpforms /> },
     { title: 'Leave Types', path: '/leave-type', src: <FaBriefcase /> },
-    { title: 'Logout', path: '/logout', src: <FaBriefcase /> },
+    // { title: 'Logout', path: '/logout', src: <FaBriefcase /> },
   ];
 
   return (
@@ -85,16 +96,16 @@ const Sidebar = ({ dashboardType }) => {
             </li>
           ))}
         </ul>
-        {/* <div className="absolute bottom-5 w-full">
+        <div className="absolute bottom-5 w-full">
           <button
             className="text-sm text-white bg-red-500 hover:bg-red-600 py-2 px-4 rounded-full"
             onClick={handleLogout}
           >
             Logout
           </button>
-        </div> */}
+        </div>
       </div>
-      {/* Mobile Menu */}
+      Mobile Menu
       <div className="pt-3">
         <HamburgerButton setMobileMenu={setMobileMenu} mobileMenu={mobileMenu} />
       </div>

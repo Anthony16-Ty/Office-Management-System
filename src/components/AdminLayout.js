@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Sidebar from './Sidebar';
 
-const AdminLayout = ({ children }) => {
+const AdminLayout = ({ children, updateLoggedIn }) => {
   const location = useLocation();
   const [dashboardType, setDashboardType] = useState('admin'); // Set the initial dashboard type
 
@@ -13,7 +13,7 @@ const AdminLayout = ({ children }) => {
     <div className="flex h-screen text-center">
       {isDashboard && (
         <div className="w-1/5 bg-gray-200">
-          <Sidebar dashboardType={dashboardType} />
+          <Sidebar updateLoggedIn={updateLoggedIn} dashboardType={dashboardType} />
         </div>
       )}
       <div className="w-4/5 flex-grow overflow-y-auto bg-gray-100">

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { BsArrowLeftCircle } from 'react-icons/bs';
 import { AiFillProject } from 'react-icons/ai';
 import { FaTasks } from 'react-icons/fa';
@@ -10,10 +10,18 @@ import { FaWpforms } from 'react-icons/fa';
 import Logo from '../assets/images/logo.svg';
 import HamburgerButton from './HamburgerMenuButton/HamburgerButton';
 
-const StaffSide = ({ dashboardType }) => {
+const StaffSide = ({ dashboardType, updateLoggedIn }) => {
   const [open, setOpen] = useState(true);
   const [mobileMenu, setMobileMenu] = useState(false);
   const location = useLocation();
+
+  const navigate = useNavigate()
+
+
+  function handlelogout() {
+    updateLoggedIn(false)
+    navigate("/")
+  }
 
   const Menus = [
     { title: "Profile", path: '/profile', src: <FaUserFriends />},
@@ -47,6 +55,12 @@ const StaffSide = ({ dashboardType }) => {
             )}
           </div>
         </Link>
+        <button
+            className="text-sm text-white bg-red-500 hover:bg-red-600 py-2 px-4 rounded-full"
+            onClick={handlelogout}
+          >
+            Logout
+          </button>
 
         <ul className="pt-6">
           {Menus.map((menu, index) => (
@@ -58,7 +72,7 @@ const StaffSide = ({ dashboardType }) => {
                 (dashboardType === 'staff'
                   ? `/stdashboard${menu.path}`
                   : `/admindashboard${menu.path}`)
-                  ? 'bg-black-200 dark:bg-gray-700'
+                  ? 'bg-black dark:bg-gray-700'
                   : ''
               }`}
             >
@@ -81,8 +95,11 @@ const StaffSide = ({ dashboardType }) => {
               </Link>
             </li>
           ))}
+
+
         </ul>
       </div>
+
       {/* Mobile Menu */}
       <div className="pt-3">
         <HamburgerButton
@@ -119,6 +136,7 @@ const StaffSide = ({ dashboardType }) => {
                 {menu.title}
               </span>
             </Link>
+
           ))}
         </div>
       </div>

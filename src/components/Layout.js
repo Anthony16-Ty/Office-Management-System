@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import StaffSide from './StaffSide'
 
-const Layout = ({ children }) => {
+const Layout = ({ children, updateLoggedIn }) => {
   const location = useLocation();
   const [dashboardType, setDashboardType] = useState('staff'); // Set the initial dashboard type
 
@@ -13,7 +13,7 @@ const Layout = ({ children }) => {
     <div className="flex h-screen text-center">
       {isDashboard && (
         <div className="w-1/5 bg-gray-200">
-          <StaffSide dashboardType={dashboardType} />
+        <StaffSide updateLoggedIn={updateLoggedIn} dashboardType={dashboardType} />
         </div>
       )}
       <div className="w-4/5 flex-grow overflow-y-auto bg-gray-100">

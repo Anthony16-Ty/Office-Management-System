@@ -12,7 +12,8 @@ import LeaveCalculation from '../pages/LeaveCalculation';
 import Layout from './Layout';
 import axios from 'axios';
 
-function StDashboard({staffs, leave_calculations, handleUpdateCalculation, deleteCalculations, updateCalculation}) {
+
+function StDashboard({staffs, leave_calculations, updateLoggedIn ,handleUpdateCalculation, deleteCalculations, updateCalculation}) {
   const [timesheets, setTimesheets] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [projects, setProjects] = useState([]);
@@ -270,7 +271,7 @@ function StDashboard({staffs, leave_calculations, handleUpdateCalculation, delet
   return (
     <div>
       <h2 className='text-center'>Welcome to Staff Dashboard</h2>
-      <Layout>
+      <Layout updateLoggedIn={updateLoggedIn}>
         <Routes>
           <Route path="/" element={<Navigate to="/stdashboard/profile" />} />
           <Route
