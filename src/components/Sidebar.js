@@ -26,6 +26,7 @@ const Sidebar = ({ dashboardType, updateLoggedIn }) => {
     updateLoggedIn(false)
   }
 
+  
   const Menus = [
     { title: 'Projects', path: '/projects', src: <AiFillProject /> },
     { title: 'Tasks', path: '/tasks', src: <FaTasks /> },
