@@ -19,7 +19,7 @@ const Sidebar = ({ dashboardType, updateLoggedIn }) => {
 
 
   function handleLogout() {
-    fetch("http://localhost:4000/logout", {
+    fetch("https://oms-api-production-acab.up.railway.app/logout", {
       method: "DELETE"
     })
     navigate("/")
