@@ -5,7 +5,7 @@ const LeaveType = ({ onUpdateLeave, dashboardType, staffs}) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     leave_reason: '',
-    Total_days_allowed: '',
+    days_allowed: '',
   });
 
   const handleSubmit = (e) => {
@@ -61,24 +61,23 @@ const LeaveType = ({ onUpdateLeave, dashboardType, staffs}) => {
           <div className='ml-1'>
 
           <div className="form-group mt-3">
-              <label htmlFor="client_details">Staff Name</label>
-                <select
-                  className="form-control"
-                  name="leave_reason"
-                  id="leave_reason"
-                  value={formData.leave_reason}
-                  onChange={handleChange}
-                  >
-                  <option value="">Select Staff Name</option>
-                    {staffs &&
-                      Array.isArray(staffs) &&
-                      staffs.map((staff) => (
-                        <option key={staff.id} value={staff.staff_name}>
-                         ID: {staff.id} Name: {staff.staff_name}
-                        </option>
-                      ))}
-                  </select>
-            </div>
+              <label htmlFor="leave_reason">Enter Leave Type</label>
+               <select
+                className="form-control"
+                name="leave_reason"
+                id="leave_reason"
+                value={formData.leave_reason}
+                onChange={handleChange}
+                >
+                <option value="">Select Leave Type</option>
+                <option value="Sick Leave">Sick Leave</option>
+                <option value="Maternity Leave">Maternity Leave</option>
+                <option value="Off Leave">Off Leave</option>
+                <option value="Emergency Leave">Emergency Leave</option>
+                <option value="Travelling Leave">Travelling Leave</option>
+                <option value="Wedding Leave">Wedding Leave</option>
+              </select>
+          </div>
 
             <div className='m-1'>
               <label className='block text-sm font-bold mb-1'>

@@ -9,7 +9,7 @@ function LeaveReport({leave_types, deleteLeave, updateLeave}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
-  
+  const handleShow = () => setShow(true);
     return (
        <div class="mx-auto bg-white rounded-lg shadow-lg ml-12 px-5 pb-8 pt-3">
           <div className="leave-types">
@@ -24,14 +24,14 @@ function LeaveReport({leave_types, deleteLeave, updateLeave}) {
                  <table class="table table-striped table-hover table-bordered table-sm">
                     <thead>
                         <tr>
-                            <th>Staff Name</th>
+                            <th>Leave Type</th>
                             <th>Days Allowed</th>
                         </tr>
                     </thead>
                     <tbody>
                      {leave_types && Array.isArray(leave_types) && leave_types.map((leave_type) => (
                      <tr key={leave_type.id}>
-                      <td>{leave_type.your_name}</td>
+                      <td>{leave_type.leave_reason}</td>
                       <td>{leave_type.days_allowed}</td>
                       <td>
                          <Button variant="danger" onClick={() => deleteLeave(leave_type.id)}>
@@ -84,6 +84,4 @@ function LeaveReport({leave_types, deleteLeave, updateLeave}) {
 }
 
 export default LeaveReport;
-
-
-
+ 

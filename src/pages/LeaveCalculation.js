@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
 
-function LeaveCalculation({ handleUpdateCalculation, leave_calculations, deleteCalculations, staffs, dashboardType }) {
+function LeaveCalculation({ handleUpdateCalculation, leave_types, leave_calculations, deleteCalculations, staffs, dashboardType }) {
   const [show, setShow] = useState(false);
   const [formData, setFormData] = useState({
     staff_details: "",
@@ -12,36 +12,6 @@ function LeaveCalculation({ handleUpdateCalculation, leave_calculations, deleteC
     used_days: 0,
     available_days: 0,
   });
-
-  useEffect(() => {
-    const fetchUpdatedData = async () => {
-      try {
-        const response = await axios.get('https://oms-api-production-acab.up.railway.app/leave_calculations');
-        if (response.status === 200) {
-          const data = response.data;
-          const latestCalculation = data[data.length - 1];
-          if (latestCalculation) {
-            const { used_days, available_days } = latestCalculation;
-            setFormData((prevState) => ({
-              ...prevState,
-              used_days,
-              available_days,
-            }));
-          }
-        } else {
-          throw new Error(`Network response was not ok. Response status: ${response.status}`);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const interval = setInterval(fetchUpdatedData, 24 * 60 * 60 * 1000); // Fetch data every 24 hours
-
-    return () => {
-      clearInterval(interval); // Clear the interval when the component unmounts
-    };
-  }, []);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -58,8 +28,8 @@ function LeaveCalculation({ handleUpdateCalculation, leave_calculations, deleteC
             staff_details: "",
             type_of_leave: "",
             total_days: "",
-            used_days: data.used_days,
-            available_days: data.available_days,
+            used_days: formData.used_days,
+            available_days: formData.available_days,
           });
         } else {
           throw new Error(`Network response was not ok. Response status: ${response.status}`);
@@ -168,7 +138,7 @@ function LeaveCalculation({ handleUpdateCalculation, leave_calculations, deleteC
                   </select>
                 </div>
                 <div className="form-group mt-3">
-                  <label htmlFor="type_of_leave">Enter Leave Type</label>
+                  <label htmlFor="type_of_leave">Leave Type</label>
                   <select
                     className="form-control"
                     name="type_of_leave"
@@ -177,25 +147,33 @@ function LeaveCalculation({ handleUpdateCalculation, leave_calculations, deleteC
                     onChange={handleChange}
                   >
                     <option value="">Select Leave Type</option>
-                    <option value="Sick Leave">Sick Leave</option>
-                    <option value="Maternity Leave">Maternity Leave</option>
-                    <option value="Off Leave">Off Leave</option>
-                    <option value="Emergency Leave">Emergency Leave</option>
-                    <option value="Travelling Leave">Travelling Leave</option>
-                    <option value="Wedding Leave">Wedding Leave</option>
+                    {leave_types &&
+                      Array.isArray(leave_types) &&
+                      leave_types.map((leave_type) => (
+                        <option key={leave_type.id} value={leave_type.leave_reason}>
+                          {leave_type.leave_reason}
+                        </option>
+                      ))}
                   </select>
                 </div>
                 <div className="form-group mt-3">
                   <label htmlFor="total_days">Total Days</label>
-                  <input
-                    type="total_days"
+                  <select
                     className="form-control"
                     name="total_days"
                     id="total_days"
-                    placeholder="Enter Total Days Allowed"
                     value={formData.total_days}
-                   onChange={handleChange}
-                  />
+                    onChange={handleChange}
+                  >
+                    <option value="">Select Total Days Allowed</option>
+                    {leave_types &&
+                      Array.isArray(leave_types) &&
+                      leave_types.map((leave_type) => (
+                        <option key={leave_type.id} value={leave_type.days_allowed}>
+                          {leave_type.days_allowed}
+                        </option>
+                      ))}
+                  </select>
                 </div>
                 <div className="form-group mt-3">
                   <label htmlFor="used_days">Used Days</label>
