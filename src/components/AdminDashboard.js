@@ -381,7 +381,7 @@ function AdminDashboard({staffs, handleUpdateStaff, updateLoggedIn, deleteStaffs
           />
           <Route
             path="/calculation"
-            element={<LeaveCalculation leave_calculations={leave_calculations} staffs={staffs} updateCalculation={updateCalculation} deleteCalculations={deleteCalculations} handleUpdateCalculation={handleUpdateCalculation} />}
+            element={<LeaveCalculation leave_calculations={leave_calculations} leave_types={leave_types} staffs={staffs} updateCalculation={updateCalculation} deleteCalculations={deleteCalculations} handleUpdateCalculation={handleUpdateCalculation} />}
           />
            <Route
             path="/manager"
