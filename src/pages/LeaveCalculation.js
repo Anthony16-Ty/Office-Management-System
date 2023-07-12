@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
@@ -9,10 +9,11 @@ function LeaveCalculation({ handleUpdateCalculation, leave_types, leave_calculat
     staff_details: "",
     type_of_leave: "",
     total_days: "",
-    used_days: 0,
+    used_days: "",
     available_days: 0,
   });
   const [editCalculation, setEditCalculation] = useState(null);
+  const [leaveTypeData, setLeaveTypeData] = useState([]);
 
   const handleClose = () => {
     setEditCalculation(null);
@@ -20,6 +21,24 @@ function LeaveCalculation({ handleUpdateCalculation, leave_types, leave_calculat
   };
 
   const handleShow = () => setShow(true);
+
+  useEffect(() => {
+    axios
+      .get("https://oms-api-production-acab.up.railway.app/leave_types")
+      .then((response) => {
+        if (response.status === 200) {
+          const data = response.data;
+          setLeaveTypeData(data);
+        } else {
+          throw new Error(
+            `Network response was not ok. Response status: ${response.status}`
+          );
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,7 +72,7 @@ function LeaveCalculation({ handleUpdateCalculation, leave_types, leave_calculat
               staff_details: "",
               type_of_leave: "",
               total_days: "",
-              used_days: formData.used_days,
+              used_days: "",
               available_days: formData.available_days,
             });
             handleClose();
@@ -69,20 +88,29 @@ function LeaveCalculation({ handleUpdateCalculation, leave_types, leave_calculat
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    if (name === "type_of_leave") {
+      const selectedLeaveType = leaveTypeData.find((type) => type.leave_reason === value);
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+        total_days: selectedLeaveType ? selectedLeaveType.days_allowed : "",
+      }));
+    } else {
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
 
-  const handleEdit = (calculation) => {
-    setEditCalculation(calculation);
+  const handleEdit = (staff) => {
+    setEditCalculation(staff);
     setFormData({
-      staff_details: calculation.staff_details,
-      type_of_leave: calculation.type_of_leave,
-      total_days: calculation.total_days,
-      used_days: calculation.used_days,
-      available_days: calculation.available_days,
+      staff_details: staff.staff_name,
+      type_of_leave: "",
+      total_days: "",
+      used_days: "",
+      available_days: 0,
     });
     handleShow();
   };
@@ -128,21 +156,50 @@ function LeaveCalculation({ handleUpdateCalculation, leave_types, leave_calculat
                 </tr>
               </thead>
               <tbody>
-                {leave_calculations &&
-                  Array.isArray(leave_calculations) &&
-                  leave_calculations.map((leave_calculation) => (
-                    <tr key={leave_calculation.id}>
-                      <td>{leave_calculation.staff_details}</td>
-                      <td>{leave_calculation.type_of_leave}</td>
-                      <td>{leave_calculation.total_days}</td>
-                      <td>{leave_calculation.used_days}</td>
-                      <td>{leave_calculation.available_days}</td>
+                {staffs &&
+                  Array.isArray(staffs) &&
+                  staffs.map((staff) => (
+                    <tr key={staff.id}>
+                      <td>{staff.staff_name}</td>
+                      <td colSpan={4}>
+                        <table className="table table-sm">
+                          <thead>
+                            <tr>
+                              <th>Leave Type</th>
+                              <th>Total Days</th>
+                              <th>Used Days</th>
+                              <th>Available Days</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {leave_types &&
+                              Array.isArray(leave_types) &&
+                              leave_types.map((leave_type) => {
+                                const leave_calculation = leave_calculations.find(
+                                  (calculation) =>
+                                    calculation.staff_details === staff.staff_name && calculation.type_of_leave === leave_type.leave_reason
+                                );
+                                const total_days = leave_type.days_allowed;
+                                const used_days = leave_calculation ? leave_calculation.used_days : 0;
+                                const available_days = total_days - used_days;
+                                return (
+                                  <tr key={leave_type.id}>
+                                    <td>{leave_type.leave_reason}</td>
+                                    <td>{total_days}</td>
+                                    <td>{used_days}</td>
+                                    <td>{available_days}</td>
+                                  </tr>
+                                );
+                              })}
+                          </tbody>
+                        </table>
+                      </td>
                       <td className="text-center">
                         <div className="d-flex justify-content-center">
-                          <Button variant="info" onClick={() => handleEdit(leave_calculation)} className="mr-2">
+                          <Button variant="info" onClick={() => handleEdit(staff)}>
                             Edit
                           </Button>
-                          <Button variant="danger" onClick={() => deleteCalculations(leave_calculation.id)}>
+                          <Button variant="danger" onClick={() => deleteCalculations(staff)}>
                             Delete
                           </Button>
                         </div>
@@ -175,7 +232,7 @@ function LeaveCalculation({ handleUpdateCalculation, leave_types, leave_calculat
                       Array.isArray(staffs) &&
                       staffs.map((staff) => (
                         <option key={staff.id} value={staff.staff_name}>
-                          ID: {staff.id} Name: {staff.staff_name}
+                          {staff.staff_name}
                         </option>
                       ))}
                   </select>
@@ -190,13 +247,11 @@ function LeaveCalculation({ handleUpdateCalculation, leave_types, leave_calculat
                     onChange={handleChange}
                   >
                     <option value="">Select Leave Type</option>
-                    {leave_types &&
-                      Array.isArray(leave_types) &&
-                      leave_types.map((leave_type) => (
-                        <option key={leave_type.id} value={leave_type.leave_reason}>
-                          {leave_type.leave_reason}
-                        </option>
-                      ))}
+                    {leaveTypeData.map((leaveType) => (
+                      <option key={leaveType.id} value={leaveType.leave_reason}>
+                        {leaveType.leave_reason}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="form-group mt-3">
@@ -209,13 +264,11 @@ function LeaveCalculation({ handleUpdateCalculation, leave_types, leave_calculat
                     onChange={handleChange}
                   >
                     <option value="">Select Total Days Allowed</option>
-                    {leave_types &&
-                      Array.isArray(leave_types) &&
-                      leave_types.map((leave_type) => (
-                        <option key={leave_type.id} value={leave_type.days_allowed}>
-                          {leave_type.days_allowed}
-                        </option>
-                      ))}
+                    {leaveTypeData.map((leaveType) => (
+                      <option key={leaveType.id} value={leaveType.days_allowed}>
+                        {leaveType.days_allowed}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div className="form-group mt-3">
@@ -227,7 +280,8 @@ function LeaveCalculation({ handleUpdateCalculation, leave_types, leave_calculat
                     id="used_days"
                     placeholder="Enter Used Days"
                     value={formData.used_days}
-                    disabled
+                    onChange={handleChange}
+
                   />
                 </div>
                 <div className="form-group mt-3">
