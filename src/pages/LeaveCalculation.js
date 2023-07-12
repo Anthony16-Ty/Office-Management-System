@@ -69,11 +69,11 @@ function LeaveCalculation({ handleUpdateCalculation, leave_types, leave_calculat
               <b>Leave Calculations</b>
             </h3>
           </div>
-            <div className="col-sm-3 offset-sm-1 mt-5 mb-4 text-gred">
-              <Button variant="primary" onClick={handleShow}>
-                Add Calculation Countdown
-              </Button>
-            </div>
+          <div className="col-sm-3 offset-sm-1 mt-5 mb-4 text-gred">
+            <Button variant="primary" onClick={handleShow}>
+              Add Calculation Countdown
+            </Button>
+          </div>
         </div>
         <div className="row">
           <div className="table-responsive">
@@ -98,12 +98,14 @@ function LeaveCalculation({ handleUpdateCalculation, leave_types, leave_calculat
                       <td>{leave_calculation.total_days}</td>
                       <td>{leave_calculation.used_days}</td>
                       <td>{leave_calculation.available_days}</td>
-
-                        <td>
-                          <Button variant="danger" onClick={() => deleteCalculations(leave_calculation.id)}>
-                            Delete
-                          </Button>
-                        </td>
+                      <td>
+                        <Button variant="primary" onClick={() => handleEditCalculation(leave_calculation)}>
+                          Edit
+                        </Button>
+                        <Button variant="danger" onClick={() => deleteCalculations(leave_calculation.id)}>
+                          Delete
+                        </Button>
+                      </td>
                     </tr>
                   ))}
               </tbody>
@@ -200,9 +202,9 @@ function LeaveCalculation({ handleUpdateCalculation, leave_types, leave_calculat
                   />
                 </div>
 
-                  <button type="submit" className="btn btn-success mt-4">
-                    Generate Calculation
-                  </button>
+                <button type="submit" className="btn btn-success mt-4">
+                  Generate Calculation
+                </button>
               </form>
             </Modal.Body>
             <Modal.Footer>
