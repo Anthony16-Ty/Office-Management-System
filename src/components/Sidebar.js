@@ -26,7 +26,7 @@ const Sidebar = ({ dashboardType, updateLoggedIn }) => {
     updateLoggedIn(false)
   }
 
-  
+
   const Menus = [
     { title: 'Projects', path: '/projects', src: <AiFillProject /> },
     { title: 'Tasks', path: '/tasks', src: <FaTasks /> },
@@ -99,7 +99,7 @@ const Sidebar = ({ dashboardType, updateLoggedIn }) => {
         </ul>
         <div className="absolute bottom-5 w-full">
           <button
-            className="text-sm text-white bg-red-500 hover:bg-red-600 py-2 px-4 rounded-full"
+            className="text-sm mb-6 mr-6 text-white bg-red-500 hover:bg-red-600 py-2 px-4 rounded-full"
             onClick={handleLogout}
           >
             Logout

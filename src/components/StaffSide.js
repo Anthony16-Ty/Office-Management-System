@@ -55,18 +55,12 @@ const StaffSide = ({ dashboardType, updateLoggedIn }) => {
             )}
           </div>
         </Link>
-        <button
-            className="text-sm text-white bg-red-500 hover:bg-red-600 py-2 px-4 rounded-full"
-            onClick={handlelogout}
-          >
-            Logout
-          </button>
 
         <ul className="pt-6">
           {Menus.map((menu, index) => (
             <li
               key={index}
-              className={`flex items-center gap-x-6 p-4 text-base font-normal rounded-lg cursor-pointer dark:text-white hover:bg-gray-700
+              className={`flex items-center gap-x-6 p-3 text-base font-normal rounded-lg cursor-pointer dark:text-white hover:bg-gray-700
               ${menu.gap ? 'mt-9' : 'mt-2'} ${
                 location.pathname ===
                 (dashboardType === 'staff'
@@ -95,9 +89,15 @@ const StaffSide = ({ dashboardType, updateLoggedIn }) => {
               </Link>
             </li>
           ))}
-
-
         </ul>
+        <div className="absolute bottom-3 w-full">
+          <button
+            className="text-sm mb-8 mr-7 text-white bg-red-500 hover:bg-red-600 py-2 px-4 rounded-full"
+            onClick={handlelogout}
+          >
+            Logout
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
