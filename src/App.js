@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Tasks from './pages/Tasks';
 import Staff from './pages/Staff';
@@ -11,6 +11,7 @@ import Client from './pages/Client';
 import TimeSheets from './pages/TimeSheets';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+// import Logout from './pages/Logout';
 import Managers from './pages/Managers';
 import ProfilePage from './pages/ProfilePage';
 import AdminDashboard from './components/AdminDashboard';
@@ -24,17 +25,11 @@ function App() {
   const [isStaff, setIsStaff] = useState(false);
   const [staffs, setStaffs] = useState([]);
   const [leave_calculations, setLeave_calculations] = useState([]);
-  const [remainingTime, setRemainingTime] = useState(0);
-  const countdownTimerRef = useRef(null);
-
-
-  function updateLoggedIn(flag) {
-    setIsLoggedIn(flag)
-  }
 
   useEffect(() => {
     fetchStaffs();
     fetchCalculations();
+    checkLoggedIn();
   }, []);
 
   // Fetch Calculations
@@ -49,55 +44,15 @@ function App() {
     localStorage.setItem('leave_calculations', JSON.stringify(leave_calculations));
   }, [leave_calculations]);
 
-  useEffect(() => {
-    if (remainingTime <= 0) {
-      // Take necessary actions when the countdown ends
-    }
-  }, [remainingTime]);
-
   async function fetchCalculations() {
     try {
       const response = await axios.get('https://oms-api-production-acab.up.railway.app/leave_calculations');
       const data = response.data;
       setLeave_calculations(data);
-
-      // Calculate remaining time
-      const targetEndTime = new Date('2023-07-11T00:00:00Z'); // Replace with your actual end time
-      const currentTime = new Date();
-      const remainingTime = Math.max(targetEndTime - currentTime, 0);
-      setRemainingTime(remainingTime);
-
-      // Start countdown timer
-      countdownTimerRef.current = setInterval(() => {
-        setRemainingTime(prevRemainingTime => {
-          if (prevRemainingTime <= 0) {
-            clearInterval(countdownTimerRef.current);
-            // Take necessary actions when the countdown ends
-          }
-          return prevRemainingTime - 1000; // Update remaining time every second
-        });
-      }, 1000);
     } catch (error) {
       console.log(error);
     }
   }
-
-  // ... Rest of your code
-
-  // Function to display the countdown on the frontend
-  function displayCountdown(remainingTime) {
-    const hours = Math.floor(remainingTime / (1000 * 60 * 60));
-    const minutes = Math.floor((remainingTime % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
-
-    console.log(`Countdown: ${hours}h ${minutes}m ${seconds}s`);
-  }
-
-  useEffect(() => {
-    displayCountdown(remainingTime);
-  }, [remainingTime]);
-
-  // ..
 
   // Perform update operation on staffs
   async function updateCalculation(id, newData) {
@@ -183,13 +138,34 @@ function App() {
       setStaffs([...staffs, newStaff])
   }
 
-  //handle login states
-  function handleLogin(user) {
-    setIsLoggedIn(true);
-    setIsAdmin(user.isadmin);
-    setIsStaff(user.isStaff);
-  }
+ // Handle login states
+ function handleLogin(user) {
+  setIsLoggedIn(true);
+  setIsAdmin(user.isadmin);
+  setIsStaff(user.isStaff);
+}
 
+function updateLoggedIn(flag) {
+  setIsLoggedIn(flag);
+}
+
+function checkLoggedIn() {
+  const storedIsLoggedIn = localStorage.getItem('isLoggedIn');
+  const storedIsAdmin = localStorage.getItem('isAdmin');
+  const storedIsStaff = localStorage.getItem('isStaff');
+
+  if (storedIsLoggedIn && storedIsAdmin && storedIsStaff) {
+    setIsLoggedIn(storedIsLoggedIn === 'true');
+    setIsAdmin(storedIsAdmin === 'true');
+    setIsStaff(storedIsStaff === 'true');
+  }
+}
+
+useEffect(() => {
+  localStorage.setItem('isLoggedIn', isloggedIn);
+  localStorage.setItem('isAdmin', isadmin);
+  localStorage.setItem('isStaff', isStaff);
+}, [isloggedIn, isadmin, isStaff]);
 
   return (
     <Router>
@@ -227,7 +203,7 @@ function App() {
         element={
           isadmin ? (
             <AdminDashboard
-            updateLoggedIn={updateLoggedIn}
+              updateLoggedIn={updateLoggedIn}
               isLoggedIn={isloggedIn}
               isAdmin={isadmin}
               isStaff={isStaff}
@@ -269,7 +245,11 @@ function App() {
           )
         }
       />
-
+      {/* <Route path="/logout"
+       element={<Logout setLoggedIn={setIsLoggedIn}
+        setIsAdmin={setIsAdmin}
+        setIsStaff={setIsStaff}
+      />} /> */}
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/tasks" element={<Tasks />} />
       <Route path="/projects" element={<Projects />} />

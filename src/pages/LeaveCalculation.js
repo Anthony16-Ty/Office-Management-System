@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Modal } from 'react-bootstrap';
 import axios from 'axios';
@@ -12,32 +12,59 @@ function LeaveCalculation({ handleUpdateCalculation, leave_types, leave_calculat
     used_days: 0,
     available_days: 0,
   });
+  const [editCalculation, setEditCalculation] = useState(null);
 
-  const handleClose = () => setShow(false);
+  const handleClose = () => {
+    setEditCalculation(null);
+    setShow(false);
+  };
+
   const handleShow = () => setShow(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post('https://oms-api-production-acab.up.railway.app/leave_calculations', formData)
-      .then(function (response) {
-        if (response.status === 201) {
-          const data = response.data;
-          handleUpdateCalculation(data);
-          setFormData({
-            staff_details: "",
-            type_of_leave: "",
-            total_days: "",
-            used_days: formData.used_days,
-            available_days: formData.available_days,
-          });
-        } else {
-          throw new Error(`Network response was not ok. Response status: ${response.status}`);
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+
+    if (editCalculation) {
+      // Perform update request
+      axios
+        .put(`https://oms-api-production-acab.up.railway.app/leave_calculations/${editCalculation.id}`, formData)
+        .then(function (response) {
+          if (response.status === 200) {
+            const data = response.data;
+            handleUpdateCalculation(data);
+            setEditCalculation(null);
+            handleClose();
+          } else {
+            throw new Error(`Network response was not ok. Response status: ${response.status}`);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      // Perform create request
+      axios
+        .post('https://oms-api-production-acab.up.railway.app/leave_calculations', formData)
+        .then(function (response) {
+          if (response.status === 201) {
+            const data = response.data;
+            handleUpdateCalculation(data);
+            setFormData({
+              staff_details: "",
+              type_of_leave: "",
+              total_days: "",
+              used_days: formData.used_days,
+              available_days: formData.available_days,
+            });
+            handleClose();
+          } else {
+            throw new Error(`Network response was not ok. Response status: ${response.status}`);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   };
 
   const handleChange = (e) => {
@@ -46,6 +73,18 @@ function LeaveCalculation({ handleUpdateCalculation, leave_types, leave_calculat
       ...prevState,
       [name]: value,
     }));
+  };
+
+  const handleEdit = (calculation) => {
+    setEditCalculation(calculation);
+    setFormData({
+      staff_details: calculation.staff_details,
+      type_of_leave: calculation.type_of_leave,
+      total_days: calculation.total_days,
+      used_days: calculation.used_days,
+      available_days: calculation.available_days,
+    });
+    handleShow();
   };
 
   return (
@@ -98,13 +137,15 @@ function LeaveCalculation({ handleUpdateCalculation, leave_types, leave_calculat
                       <td>{leave_calculation.total_days}</td>
                       <td>{leave_calculation.used_days}</td>
                       <td>{leave_calculation.available_days}</td>
-                      <td>
-                        <Button variant="primary" onClick={() => handleEditCalculation(leave_calculation)}>
-                          Edit
-                        </Button>
-                        <Button variant="danger" onClick={() => deleteCalculations(leave_calculation.id)}>
-                          Delete
-                        </Button>
+                      <td className="text-center">
+                        <div className="d-flex justify-content-center">
+                          <Button variant="info" onClick={() => handleEdit(leave_calculation)} className="mr-2">
+                            Edit
+                          </Button>
+                          <Button variant="danger" onClick={() => deleteCalculations(leave_calculation.id)}>
+                            Delete
+                          </Button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -116,7 +157,7 @@ function LeaveCalculation({ handleUpdateCalculation, leave_types, leave_calculat
         <div className="model_box">
           <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false}>
             <Modal.Header closeButton>
-              <Modal.Title>Add Calculation</Modal.Title>
+              <Modal.Title>{editCalculation ? "Edit Calculation" : "Add Calculation"}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <form onSubmit={handleSubmit}>
@@ -203,7 +244,7 @@ function LeaveCalculation({ handleUpdateCalculation, leave_types, leave_calculat
                 </div>
 
                 <button type="submit" className="btn btn-success mt-4">
-                  Generate Calculation
+                  {editCalculation ? "Update Calculation" : "Generate Calculation"}
                 </button>
               </form>
             </Modal.Body>
