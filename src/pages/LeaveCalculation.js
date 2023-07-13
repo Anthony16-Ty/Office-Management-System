@@ -94,6 +94,27 @@ function LeaveCalculation({ handleUpdateCalculation, leave_types, leave_calculat
         ...prevState,
         [name]: value,
         total_days: selectedLeaveType ? selectedLeaveType.days_allowed : "",
+        available_days: selectedLeaveType ? selectedLeaveType.days_allowed - prevState.used_days : 0,
+      }));
+    } else if (name === "total_days") {
+      const totalDays = parseFloat(value);
+      const usedDays = parseFloat(formData.used_days);
+      const availableDays = totalDays - usedDays;
+
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+        available_days: isNaN(availableDays) ? "" : availableDays.toString(),
+      }));
+    } else if (name === "used_days") {
+      const totalDays = parseFloat(formData.total_days);
+      const usedDays = parseFloat(value);
+      const availableDays = totalDays - usedDays;
+
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+        available_days: isNaN(availableDays) ? "" : availableDays.toString(),
       }));
     } else {
       setFormData((prevState) => ({
