@@ -6,18 +6,17 @@ import Projects from './pages/Projects';
 import LeaveRequest from './pages/LeaveRequest';
 import LeaveForm from './pages/LeaveForm';
 import { LeaveType } from './pages/LeaveType';
-import LeaveReport from './pages/LeaveReport';
 import Client from './pages/Client';
 import TimeSheets from './pages/TimeSheets';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-// import Logout from './pages/Logout';
 import Managers from './pages/Managers';
 import ProfilePage from './pages/ProfilePage';
 import AdminDashboard from './components/AdminDashboard';
 import StDashboard from './components/StDashboard';
 import LeaveCalculation from './pages/LeaveCalculation';
 import axios from 'axios';
+import LeaveHistory from './pages/LeaveHistory';
 
 function App() {
   const [isloggedIn, setIsLoggedIn] = useState(false);
@@ -261,7 +260,7 @@ useEffect(() => {
       <Route path="/leave-form" element={<LeaveForm />} />
       <Route path="/leave-request" element={<LeaveRequest />} />
       <Route path="/leave-type" element={<LeaveType />} />
-      <Route path="/leave-report" element={<LeaveReport />} />
+      <Route path="/leave-history" element={<LeaveHistory />} />
     </Routes>
   </Router>
   );

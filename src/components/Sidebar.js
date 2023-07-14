@@ -37,7 +37,6 @@ const Sidebar = ({ dashboardType, updateLoggedIn }) => {
     { title: 'Leave Calculations', path: '/calculation', src: <AiOutlineFieldTime /> },
     { title: 'Leave Requests', path: '/leave-request', src: <FaWpforms /> },
     { title: 'Leave Types', path: '/leave-type', src: <FaBriefcase /> },
-    // { title: 'Logout', path: '/logout', src: <FaBriefcase /> },
   ];
 
   return (

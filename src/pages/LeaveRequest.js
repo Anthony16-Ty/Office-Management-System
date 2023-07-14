@@ -5,6 +5,8 @@ import axios from 'axios';
 
 function LeaveRequest({ forms, setForms }) {
   const [show, setShow] = useState(false);
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
 
   const handleClose = () => setShow(false);
 
@@ -55,6 +57,22 @@ function LeaveRequest({ forms, setForms }) {
     }
   };
 
+  const filterForms = () => {
+    const filteredForms = forms.filter((form) => {
+      const formDateFrom = new Date(form.date_from);
+      const formDateTo = new Date(form.date_to);
+      const selectedDateFrom = new Date(dateFrom);
+      const selectedDateTo = new Date(dateTo);
+
+      return (
+        (!dateFrom || formDateFrom >= selectedDateFrom) &&
+        (!dateTo || formDateTo <= selectedDateTo)
+      );
+    });
+
+    return filteredForms;
+  };
+
   return (
     <div className="mx-auto bg-white rounded-lg shadow-lg ml-12 px-5 pb-8 pt-3">
       <style>
@@ -89,6 +107,28 @@ function LeaveRequest({ forms, setForms }) {
         <div className="row">
           <div className="col">
             <div className="table-responsive">
+              <div className="d-flex mb-3">
+                <input
+                  type="date"
+                  className="form-control mr-2"
+                  placeholder="Date From"
+                  value={dateFrom}
+                  onChange={(e) => setDateFrom(e.target.value)}
+                />
+                <input
+                  type="date"
+                  className="form-control mr-2"
+                  placeholder="Date To"
+                  value={dateTo}
+                  onChange={(e) => setDateTo(e.target.value)}
+                />
+                <button
+                  className="btn btn-primary"
+                  onClick={filterForms}
+                >
+                  Filter
+                </button>
+              </div>
               <table className="table table-striped table-hover table-bordered table-sm">
                 <thead>
                   <tr>
@@ -102,49 +142,47 @@ function LeaveRequest({ forms, setForms }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {forms &&
-                    Array.isArray(forms) &&
-                    forms.map((form, index) => (
-                      <tr key={form.id}>
-                        <td className="text-center align-middle">{form.your_name}</td>
-                        <td className="text-center align-middle">{form.date_from}</td>
-                        <td className="text-center align-middle">{form.date_to}</td>
-                        <td className="text-center align-middle">{form.reason_for_leave}</td>
-                        <td className="text-center align-middle">{form.leaving_type}</td>
-                        <td className="text-center align-middle">
-                          <span
-                            className={`status-badge ${
-                              form.status === "Approved"
-                                ? "approved"
-                                : form.status === "Declined"
-                                ? "declined"
-                                : ""
-                            }`}
+                  {filterForms().map((form, index) => (
+                    <tr key={form.id}>
+                      <td className="text-center align-middle">{form.your_name}</td>
+                      <td className="text-center align-middle">{form.date_from}</td>
+                      <td className="text-center align-middle">{form.date_to}</td>
+                      <td className="text-center align-middle">{form.reason_for_leave}</td>
+                      <td className="text-center align-middle">{form.leaving_type}</td>
+                      <td className="text-center align-middle">
+                        <span
+                          className={`status-badge ${
+                            form.status === "Approved"
+                              ? "approved"
+                              : form.status === "Declined"
+                              ? "declined"
+                              : ""
+                          }`}
+                        >
+                          {form.status}
+                        </span>
+                      </td>
+                      <td className="text-center">
+                        <div className="d-flex align-items-center m-1">
+                          <Button
+                            variant="success"
+                            className="mr-2"
+                            onClick={() => approveForm(index)}
+                            disabled={form.status === "Approved"}
                           >
-                            {form.status}
-                          </span>
-                        </td>
-                        <td className="text-center">
-                          <div className="d-flex align-items-center m-1">
-                            <Button
-                              variant="success"
-                              className="mr-2"
-                              onClick={() => approveForm(index)}
-                              disabled={form.status === "Approved"}
-                            >
-                              Approve
-                            </Button>
-                            <Button
-                              variant="danger"
-                              onClick={() => declineForm(form.id)}
-                              disabled={form.status === "Declined"}
-                            >
-                              Decline
-                            </Button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                            Approve
+                          </Button>
+                          <Button
+                            variant="danger"
+                            onClick={() => declineForm(form.id)}
+                            disabled={form.status === "Declined"}
+                          >
+                            Decline
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Tasks from '../pages/Tasks';
 import Staff from '../pages/Staff';
 import Projects from '../pages/Projects';
 import LeaveRequest from '../pages/LeaveRequest';
 import LeaveForm from '../pages/LeaveForm';
 import { LeaveType } from '../pages/LeaveType';
-import LeaveReport from '../pages/LeaveReport';
 import TimeSheets from '../pages/TimeSheets';
 import Client from '../pages/Client';
 import Managers from '../pages/Managers';
@@ -23,6 +22,8 @@ function AdminDashboard({staffs, handleUpdateStaff, updateLoggedIn, deleteStaffs
   const [clients, setClients] = useState([]);
   const [leave_types, setLeave_types] = useState([]);
   const [managers, setManagers] = useState([]);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchTimesheets();
@@ -110,23 +111,26 @@ function AdminDashboard({staffs, handleUpdateStaff, updateLoggedIn, deleteStaffs
       console.log(error);
     }
   }
-  async function updateLeave(id, newData) {
-    try {
-      const response = await axios.put(`https://oms-api-production-acab.up.railway.app/leave_types/${id}`, newData);
-      const data = response.data;
-      setLeave_types(data);
-    } catch (error) {
-      console.error('Error updating data:', error);
-    }
-  }
+  const updateLeave = (updatedLeave) => {
+    const updatedLeaves = leave_types.map((leave_type) => {
+      if (leave_type.id === updatedLeave.id) {
+        return updatedLeave;
+      }
+      return leave_type;
+    });
+    setLeave_types(updatedLeaves);
+  };
+
+  // Perform delete operation on projects
   async function deleteLeave(id) {
     try {
       await axios.delete(`https://oms-api-production-acab.up.railway.app/leave_types/${id}`);
       setLeave_types(leave_types.filter(leave_type => leave_type.id !== id));
     } catch (error) {
-      console.error('Error deleting data:', error);
+      console.error('Error Deleting data:', error);
     }
   }
+
   function handleUpdateLeave(newReport) {
     setLeave_types([...leave_types, newReport]);
   }
@@ -361,6 +365,20 @@ function AdminDashboard({staffs, handleUpdateStaff, updateLoggedIn, deleteStaffs
     setForms([...forms, newForm])
   }
 
+
+  // Fetch the stored route from localStorage on page load
+  useEffect(() => {
+    const storedRoute = localStorage.getItem('currentRoute');
+    if (storedRoute) {
+      navigate(storedRoute); // Navigate to the stored route
+    }
+  }, []);
+
+  // Store the current route in localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('currentRoute', location.pathname);
+  }, [location.pathname]);
+
   return (
     <div>
       <h2 className='text-center'>Welcome to Admin Dashboard</h2>
@@ -381,7 +399,7 @@ function AdminDashboard({staffs, handleUpdateStaff, updateLoggedIn, deleteStaffs
           />
           <Route
             path="/calculation"
-            element={<LeaveCalculation leave_calculations={leave_calculations} leave_types={leave_types} staffs={staffs} updateCalculation={updateCalculation} deleteCalculations={deleteCalculations} handleUpdateCalculation={handleUpdateCalculation} />}
+            element={<LeaveCalculation leave_types={leave_types} leave_calculations={leave_calculations} staffs={staffs} updateCalculation={updateCalculation} deleteCalculations={deleteCalculations} handleUpdateCalculation={handleUpdateCalculation} />}
           />
            <Route
             path="/manager"
@@ -401,17 +419,12 @@ function AdminDashboard({staffs, handleUpdateStaff, updateLoggedIn, deleteStaffs
           />
           <Route
             path="/leave-type"
-            element={<LeaveType staffs={staffs} onUpdateLeave={handleUpdateLeave} />}
-          />
-          <Route
-            path="/leave-report"
-            element={<LeaveReport leave_types={leave_types} updateLeave={updateLeave} deleteLeave={deleteLeave} />}
+            element={<LeaveType staffs={staffs} leave_types={leave_types} updateLeave={updateLeave} onUpdateLeave={handleUpdateLeave} deleteLeave={deleteLeave} />}
           />
           <Route
             path="/timesheets"
             element={<TimeSheets timesheets={timesheets} tasks={tasks} updateSheet={updateSheet} deleteData={deleteData} onUpdateSheet={handleUpdateSheet} />}
           />
-          <Route path="/leave-type" element={<LeaveType />} />
 
         </Routes>
       </AdminLayout>

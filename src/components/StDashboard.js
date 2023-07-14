@@ -1,24 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route,  Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import Tasks from '../pages/Tasks';
 import Projects from '../pages/Projects';
 import LeaveRequest from '../pages/LeaveRequest';
 import LeaveForm from '../pages/LeaveForm';
 import { LeaveType } from '../pages/LeaveType';
-import LeaveReport from '../pages/LeaveReport';
 import TimeSheets from '../pages/TimeSheets';
 import ProfilePage from '../pages/ProfilePage';
 import LeaveCalculation from '../pages/LeaveCalculation';
 import Layout from './Layout';
 import axios from 'axios';
+import LeaveHistory from '../pages/LeaveHistory';
 
-
-function StDashboard({staffs, leave_calculations, updateLoggedIn ,handleUpdateCalculation, deleteCalculations, updateCalculation}) {
+function StDashboard({staffs, leave_calculations, Leave_history,  updateLoggedIn, handleUpdateCalculation, deleteCalculations, updateCalculation}) {
   const [timesheets, setTimesheets] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [projects, setProjects] = useState([]);
   const [forms, setForms] = useState([]);
   const [leave_types, setLeave_types] = useState([]);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     fetchTimesheets();
@@ -51,6 +52,7 @@ function StDashboard({staffs, leave_calculations, updateLoggedIn ,handleUpdateCa
       console.log(error);
     }
   }
+
   async function updateLeave(id, newData) {
     try {
       const response = await axios.put(`https://oms-api-production-acab.up.railway.app/leave_types/${id}`, newData);
@@ -268,6 +270,19 @@ function StDashboard({staffs, leave_calculations, updateLoggedIn ,handleUpdateCa
     setForms([...forms, newForm])
   }
 
+   // Fetch the stored route from localStorage on page load
+   useEffect(() => {
+    const storedRoute = localStorage.getItem('currentRoute');
+    if (storedRoute) {
+      navigate(storedRoute); // Navigate to the stored route
+    }
+  }, []);
+
+  // Store the current route in localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('currentRoute', location.pathname);
+  }, [location.pathname]);
+
   return (
     <div>
       <h2 className='text-center'>Welcome to Staff Dashboard</h2>
@@ -298,19 +313,16 @@ function StDashboard({staffs, leave_calculations, updateLoggedIn ,handleUpdateCa
             path="/leave-request"
             element={<LeaveRequest forms={forms} updateForm={updateForm} deleteForms={deleteForms} />}
           />
-          <Route
+           <Route
             path="/leave-type"
-            element={<LeaveType onUpdateLeave={handleUpdateLeave} />}
-          />
-          <Route
-            path="/leave-report"
-            element={<LeaveReport leave_types={leave_types} updateLeave={updateLeave} deleteLeave={deleteLeave} />}
+            element={<LeaveType staffs={staffs} updateLeave={updateLeave} onUpdateLeave={handleUpdateLeave} deleteLeave={deleteLeave} />}
           />
           <Route
             path="/timesheets"
             element={<TimeSheets tasks={tasks} timesheets={timesheets} updateSheet={updateSheet} deleteData={deleteData} onUpdateSheet={handleUpdateSheet} />}
           />
           <Route path="/leave-type" element={<LeaveType />} />
+          <Route path="/leave-history" element={<LeaveHistory />} />
         </Routes>
       </Layout>
     </div>
@@ -318,4 +330,3 @@ function StDashboard({staffs, leave_calculations, updateLoggedIn ,handleUpdateCa
 }
 
 export default StDashboard;
-
